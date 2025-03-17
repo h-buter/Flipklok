@@ -11231,52 +11231,7 @@
 			(fill
 				(type none)
 			)
-			(uuid 4e9bede2-b018-4333-8dfe-6cd6eecf7000)
-		)
-	)
-	(rule_area
-		(polyline
-			(pts
-				(xy 163.83 233.68) (xy 130.81 233.68) (xy 130.81 273.05) (xy 163.83 273.05)
-			)
-			(stroke
-				(width 0)
-				(type dash)
-			)
-			(fill
-				(type none)
-			)
-			(uuid 92c8322c-b81d-4507-8662-93a68c8b5296)
-		)
-	)
-	(rule_area
-		(polyline
-			(pts
-				(xy 196.85 13.97) (xy 237.49 13.97) (xy 237.49 38.1) (xy 196.85 38.1)
-			)
-			(stroke
-				(width 0)
-				(type dash)
-			)
-			(fill
-				(type none)
-			)
-			(uuid bb7c1afc-ad4f-480c-bdef-a93ed60d4000)
-		)
-	)
-	(rule_area
-		(polyline
-			(pts
-				(xy 13.97 13.97) (xy 62.23 13.97) (xy 62.23 71.12) (xy 13.97 71.12) (xy 13.97 15.24)
-			)
-			(stroke
-				(width 0)
-				(type dash)
-			)
-			(fill
-				(type none)
-			)
-			(uuid c65b44bd-df79-4879-b3d6-8496fed605d1)
+			(uuid 12267c11-9516-42aa-8b4f-f37f36e917eb)
 		)
 	)
 	(rule_area
@@ -11291,7 +11246,52 @@
 			(fill
 				(type none)
 			)
-			(uuid d9ccc604-b28e-446a-a563-cd5c871124d8)
+			(uuid 97cdd09e-4f60-407f-9611-fc7e4a2dc3b1)
+		)
+	)
+	(rule_area
+		(polyline
+			(pts
+				(xy 13.97 13.97) (xy 62.23 13.97) (xy 62.23 71.12) (xy 13.97 71.12) (xy 13.97 15.24)
+			)
+			(stroke
+				(width 0)
+				(type dash)
+			)
+			(fill
+				(type none)
+			)
+			(uuid a40a1b72-8a24-4209-b73d-536c089f40ec)
+		)
+	)
+	(rule_area
+		(polyline
+			(pts
+				(xy 163.83 233.68) (xy 130.81 233.68) (xy 130.81 273.05) (xy 163.83 273.05)
+			)
+			(stroke
+				(width 0)
+				(type dash)
+			)
+			(fill
+				(type none)
+			)
+			(uuid a60ae01b-e29d-4771-98f1-f84ecd949ade)
+		)
+	)
+	(rule_area
+		(polyline
+			(pts
+				(xy 196.85 13.97) (xy 237.49 13.97) (xy 237.49 38.1) (xy 196.85 38.1)
+			)
+			(stroke
+				(width 0)
+				(type dash)
+			)
+			(fill
+				(type none)
+			)
+			(uuid ddde79af-6cb0-480a-9312-5695a83afd09)
 		)
 	)
 	(netclass_flag ""
