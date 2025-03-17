@@ -1,5 +1,6 @@
 DCF77 stability test/include/secrets.h
 PCB/Flipklok/Flipklok-backups/*
+PCB/Flipklok/production/backups/*
 *.000
 *.bak
 *.bck
