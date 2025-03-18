@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Flipklok-costum")(type "KiCad")(uri "${KIPRJMOD}/Flipklok-costum.kicad_sym")(options "")(descr ""))
+)
