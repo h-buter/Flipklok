@@ -1,3 +1,9 @@
+![Alt text](./ErrorAndSuccessfulMessagesPlot.svg)
+<img src="./ErrorAndSuccessfulMessagesPlot.svg">
+
+![Alt text](./ErrorRatePlot.svg)
+<img src="./ErrorRatePlot.svg">
+
 Error rate is the percentage off the succesfull received DCF time messages which differ less then 2 minutes from NTP compared to the total DCF messages the receiver should have received. 
 
 Total messages is calculated based on the passed time since starting receiving times the DCF messages per minute (1 message)
