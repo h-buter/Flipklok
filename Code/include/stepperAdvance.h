@@ -9,8 +9,12 @@
 #define STEPPERADVANCE_H_
 #include <msp430.h>
 #include <pins.h>
+#include <stdbool.h>
 
-#define stepperTimeOffset 0x600
+#define stepperTimeOffsetSlow 0x600;
+#define stepperTimeOffsetFast 0x200;
+
+bool timerOffsetToggle;
 
 void setupTimer0();
 void stepperAdvance();

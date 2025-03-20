@@ -6,6 +6,7 @@
 
 #include "clock.h"
 
+/// Setup clocks of system, all to LFXTAL input
 void setupClocks()
 {
     // Clock System Setup

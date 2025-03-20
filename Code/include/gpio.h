@@ -11,6 +11,4 @@
 
 void setupGpio();
 
-
-
 #endif /* GPIO_H_ */
