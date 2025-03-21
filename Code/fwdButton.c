@@ -16,7 +16,7 @@ __interrupt void fwdButtonISR(void)
         case 0x00: break; // None
         case 0x02: break; // Pin 0
         case 0x04:
-            P4OUT ^= BIT6;
+            P1OUT ^= BIT0;
             if (timerOffsetToggle == 0) // Toggle edge interrupt If rising edge was set, switch to falling & vice versa
             {
                 P1IES &= ~BIT1;

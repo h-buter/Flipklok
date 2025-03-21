@@ -12,7 +12,6 @@ void setupGpio()
 
     P1OUT &= ~(STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4); // Clear stepper pins output latch for a defined power-on state
     P1DIR |= STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4; // Set stepper pins to output direction
-    P1DIR |= BIT0;                          // Set P1.0 to output direction
     PJSEL0 |= BIT4 | BIT5;                  // Set PJSEL0 BIT4 to high = LFXIN Crystal mode,  and BIT5 to high = IO on this pin disabled
 
     //fwdButton
@@ -21,9 +20,12 @@ void setupGpio()
     P1IE |= BIT1;                               // Enable interrupt
     P1IES |= BIT1;                              // Edge select low to high
     P1IFG &= ~BIT1;                             // Clear flag
+    P1OUT &= ~BIT0;                             //Turn off LED0
+    P1DIR |= BIT0;                              //LED0 as output
 
-    P4OUT &= ~BIT6;                             //Turn off LED1
-    P4DIR |= BIT6;                              //LED1 as output
+    //led for lightning the clock
+    P4OUT &= ~BIT6;                             //Turn off LED0
+    P4DIR |= BIT6;                              //LED0 as output
 
 
 

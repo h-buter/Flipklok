@@ -3,15 +3,16 @@
 #include "gpio.h"
 #include "clock.h"
 #include "timer.h"
+#include "adc.h"
 #include "stepperAdvance.h"
 #include "fwdButton.h"
-
-
+#include "led.h"
 
 void main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;		// stop watchdog timer
 	setupGpio();
+	setupAdc();
 	setupClocks();
     setupTimer0();
 
