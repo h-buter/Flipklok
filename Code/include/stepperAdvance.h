@@ -8,7 +8,7 @@
 #ifndef STEPPERADVANCE_H_
 #define STEPPERADVANCE_H_
 #include <msp430.h>
-#include <pins.h>
+#include "pins.h"
 #include <stdbool.h>
 
 #define stepperTimeOffsetSlow 0x600;

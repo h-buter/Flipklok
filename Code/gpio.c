@@ -16,16 +16,29 @@ void setupGpio()
 
     //fwdButton
     P1DIR &= ~BIT1;                             // Input
-    P1REN |= BIT1;                              // Enable pull up
-    P1IE |= BIT1;                               // Enable interrupt
-    P1IES |= BIT1;                              // Edge select low to high
+    P1REN |= BIT1;                              // Enable pull
+    P1OUT |= BIT1;                              // Enable pull up
+    P1IES |= BIT1;                              // High to low
     P1IFG &= ~BIT1;                             // Clear flag
+    P1IE |= BIT1;                               // Enable interrupt
+
     P1OUT &= ~BIT0;                             //Turn off LED0
     P1DIR |= BIT0;                              //LED0 as output
 
     //led for lightning the clock
     P4OUT &= ~BIT6;                             //Turn off LED0
     P4DIR |= BIT6;                              //LED0 as output
+
+
+    //dcf button for testing
+    P4DIR &= ~BIT5;                             // Input
+    P4REN |= BIT5;                              // Enable pull
+    P4OUT |= BIT5;                              // Enable pull up
+    P4IES |= BIT5;                              // High to low
+    P4IFG &= ~BIT5;                             // Clear flag
+    P4IE |= BIT5;                               // Enable interrupt
+
+
 
 
 

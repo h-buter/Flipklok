@@ -16,7 +16,8 @@
 #define timerLength_ms (capacityTimer / timerLength_cycles * 1000)
 #define pwmPeriod_cycles 32 //(about 1 ms)
 
-void setupTimer0();
 
+void setupTimer0();
+void setupTimer1();
 
 #endif /* TIMER_H_ */
