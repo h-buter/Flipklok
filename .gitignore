@@ -1,3 +1,4 @@
+DCF77 transmitterSimulator/include/secrets.h
 DCF77 stability test/include/secrets.h
 PCB/Flipklok/Flipklok-backups/*
 PCB/Flipklok/production/backups/*
