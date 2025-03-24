@@ -21,11 +21,14 @@ __interrupt void fwdButtonISR(void)
             {
                 P1IES &= ~BIT1;
                 timerOffsetToggle = 1;
+                TA0CCTL2 |= CCIE;                // TACCR2 interrupt enable
             }
             else
             {
                 P1IES |= BIT1;
                 timerOffsetToggle = 0;
+
+//                TA0CCTL2 &= ~CCIE;   not needed stepperAdvance enables calculatetime function automaticly when remaining steps are 0             // TACCR2 interrupt disable control back to calculateTimeDifference function
             }
             P1IFG &= ~BIT0;  // Clear interrupt flag
             break; // Pin 1

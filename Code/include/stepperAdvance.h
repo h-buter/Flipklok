@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 #define stepperTimeOffsetSlow 0x600;
-#define stepperTimeOffsetFast 0x200;
+#define stepperTimeOffsetFast 0x100;
 
 bool timerOffsetToggle;
 

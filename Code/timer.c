@@ -23,7 +23,7 @@ void setupTimer0()
     //Timer setup
     TA0CTL = TASSEL__ACLK | MC__CONTINUOUS| TACLR | TAIE | ID__1;    // Set to counter to ACLK, Continuous clock, clear counter of clock, Enable TAIFG interrupt, Divider set to 1
     TA0CCTL1 = CCIE;                // TACCR1 interrupt enabled
-    TA0CCTL2 = CCIE;              // TACCR2 interrupt enabled
+    TA0CCTL2 &= ~CCIE;                // TACCR2 interrupt disable
     TA0CCR2 = stepperTimeOffsetSlow;             // compare at stepperOffset
     TA0CCR1 = pwmPeriod_cycles;
 }
@@ -58,22 +58,21 @@ __interrupt void ISR_TA0(void)
                 P4OUT &= ~BIT6; //turn off
                 togglePwm = 0;
             }
-            break; // CCR1 IFG
+            break; // CCR1 IFG used for PWM LED
         case 0x04:
-                stepperAdvance(); // Call stepper function
-                if (timerOffsetToggle == 0)
+                if (timerOffsetToggle == 0)     //calculate new normal timer capture
                 {
                     TA0CCR2 = TA0R + stepperTimeOffsetSlow;
                 }
-                else
+                else                            //calculate new fast timer capture
                 {
                     TA0CCR2 = TA0R + stepperTimeOffsetFast;
                 }
-
-            break; // CCR2 IFG
+                stepperAdvance(); // Call stepper function
+            break; // CCR2 IFG stepper
         case 0x0E:
             startAdcConv();
-            if (toggleCalculateTimeDifference == 1)
+            if (toggleCalculateTimeDifference == 1 && timerOffsetToggle == 0)
             {
                 calculateTimeDifference();
             }
@@ -93,11 +92,11 @@ __interrupt void ISR_TA0(void)
 void setupTimer1()
 {
     //Timer setup
-    TA1CTL = TASSEL__ACLK | MC__UPDOWN | TACLR | ID__1;    // Set to counter to ACLK, Continuous clock, clear counter of clock, Enable TAIFG interrupt, Divider set to 1
-    TA1CCR0 = capacityTimer - 1;
-    TA1CCTL0 = CCIE;                // TACCR0 interrupt enabled
-//    TA1CCTL1 = CCIE;                // TACCR1 interrupt enabled
-//    TA1CCTL2 = CCIE;              // TACCR2 interrupt enabled
+    TA1CTL = TASSEL__ACLK | MC__UPDOWN | TACLR | ID__1;     // Set to counter to ACLK, Continuous clock, clear counter of clock, Enable TAIFG interrupt, Divider set to 1
+    TA1CCR0 = capacityTimer - 1;                            // Every 4 seconds
+    TA1CCTL0 = CCIE;                                        // TACCR0 interrupt enabled
+//    TA1CCTL1 = CCIE;                                      // TACCR1 interrupt enabled
+//    TA1CCTL2 = CCIE;                                      // TACCR2 interrupt enabled
     timeSinceLastCompleteDcfMessage = 0;
 }
 
@@ -108,13 +107,12 @@ void setupTimer1()
 #pragma vector=TIMER1_A0_VECTOR
 __interrupt void ISR_TA1_CCR0(void)
 {
-    TA1CCTL0 &= ~CCIFG; // Clear CCR0 interrupt flag
-    timeSinceLastCompleteDcfMessage++; // Increment timer count
+    TA1CCTL0 &= ~CCIFG; // Clear own CCR0 interrupt flag
+    timeSinceLastCompleteDcfMessage += 4; //Increment counter by 4 seconds
     if (timeSinceLastCompleteDcfMessage >= timerCountsInDay)
     {
         timeSinceLastCompleteDcfMessage = 0;
     }
-
 }
 
 /// Interrupt vector of timer1 CCR1 till CCR2 and TA0IFG

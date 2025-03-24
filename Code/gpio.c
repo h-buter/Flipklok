@@ -35,7 +35,9 @@ void setupGpio()
     P4REN |= BIT5;                              // Enable pull
     P4OUT |= BIT5;                              // Enable pull up
     P4IES |= BIT5;                              // High to low
-    P4IFG &= ~BIT5;                             // Clear flag
+    P4IFG &= ~BIT5;                             // Clear interrupt flag
+    __delay_cycles(1000);                       // Small delay for stabilization otherwise a trigger is registered on boot up of dev board
+    P4IFG &= ~BIT5;                             // Clear it again
     P4IE |= BIT5;                               // Enable interrupt
 
 

@@ -10,18 +10,26 @@
 void stepperAdvance()
 {
     static unsigned int coil;
-    static unsigned int stepsTillOneSecond;
-
-    P1OUT &= ~(STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4);
-    P1OUT |= (1 << (coil + 2));
-    coil++;
-    if (coil == 5)
+    if (stepsRemaining > 0 || timerOffsetToggle == 1)
     {
-        coil = 1;
+        P1OUT &= ~(STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4);
+        P1OUT |= (1 << (coil + 2));
+        coil++;
+        if (coil == 5)
+        {
+            coil = 1;
+        }
+        if (timerOffsetToggle == 0)
+        {
+            stepsRemaining--;
+            int test = timePerStep;
+            timeMechanical = timeMechanical + timePerStep; //Increment mechanical time keeping counter with 1 step time
+            __no_operation();
+        }
     }
-
-    stepsTillOneSecond++;
-    if (stepsTillOneSecond >= 2048.0 * 1.6)
-    timeMechanical ;
-
+    else
+    {
+        TA0CCTL2 &= ~CCIE;                          // TACCR2 interrupt stepperAdvance disable
+        toggleCalculateTimeDifference = 1;          // enable triggering time difference function in timer interrupt.
+    }
 }

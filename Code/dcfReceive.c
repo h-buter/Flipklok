@@ -23,8 +23,21 @@ __interrupt void dcFButtonISR(void)
         case 0x0C:
             P4IE &= ~BIT5;                              // Disable interrupt
             P4IFG &= ~BIT5;                             // Clear flag
-            timeOfLastDcfMessage = timeOfLastDcfMessage + 3600;
+//            timeOfLastDcfMessage = timeOfLastDcfMessage + 60;
 
+            if (interruptEdgeToggleDcf == 0) // Toggle edge interrupt If rising edge was set, switch to falling & vice versa
+            {
+                startTime = TA1R;
+                P4IES &= ~BIT5;
+                interruptEdgeToggleDcf = 1;
+            }
+            else
+            {
+                endTime = TA1R;
+                currentBit = bitValue(calculateBitTransmitTime(startTime, endTime));
+                P4IES |= BIT5;
+                interruptEdgeToggleDcf = 0;
+            }
             __no_operation();
             P4IFG &= ~BIT5;                             // Clear flag
             P4IE |= BIT5;                               // Enable interrupt
@@ -33,4 +46,23 @@ __interrupt void dcFButtonISR(void)
         case 0x10: break; // Pin 7
         default: _never_executed();
     }
+}
+
+unsigned int calculateBitTransmitTime(unsigned int start, unsigned int stop)
+{
+    return stop - start;
+}
+
+bool bitValue(unsigned int bitTime)
+{
+    if (bitTime > bitTimeCycles1Lower && bitTime < bitTimeCycles1Upper)
+    {
+        return 1;
+    }
+    else if (bitTime > bitTimeCycles0Lower && bitTime < bitTimeCycles0Upper)
+    {
+        return 0;
+    }
+    return 0;
+
 }

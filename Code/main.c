@@ -7,6 +7,7 @@
 #include "stepperAdvance.h"
 #include "fwdButton.h"
 #include "led.h"
+#include "timeKeeping.h"
 
 #warning "project > properties > buid > MSP430 compiler > optimization > optimization level"
 #warning "(set to 1 for default, 0 for acces to non global variables while in debug mode)"
@@ -19,6 +20,7 @@ void main(void)
 	setupClocks();
     setupTimer0();
     setupTimer1();
+    resetTimeKeeping();
 
     // Interrupt setup
     __bis_SR_register(LPM3_bits | GIE);
