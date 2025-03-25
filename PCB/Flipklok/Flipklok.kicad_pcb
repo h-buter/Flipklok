@@ -7677,7 +7677,7 @@
 		(path "/be26f96d-2cde-4883-9c33-701600776f80")
 		(sheetname "/")
 		(sheetfile "Flipklok.kicad_sch")
-		(attr smd dnp)
+		(attr smd exclude_from_bom dnp)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -7883,7 +7883,7 @@
 		(path "/c0608d19-984d-473d-af01-4b8cc09912db")
 		(sheetname "/")
 		(sheetfile "Flipklok.kicad_sch")
-		(attr smd dnp)
+		(attr smd exclude_from_bom dnp)
 		(fp_line
 			(start -0.261252 -0.735)
 			(end 0.261252 -0.735)
@@ -14182,7 +14182,7 @@
 		(path "/c752fa5a-793f-498f-b1d4-fe9a181ed0dd")
 		(sheetname "/")
 		(sheetfile "Flipklok.kicad_sch")
-		(attr smd dnp)
+		(attr smd exclude_from_bom dnp)
 		(fp_line
 			(start -0.261252 -0.735)
 			(end 0.261252 -0.735)
@@ -14963,7 +14963,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "470"
 			(at 0 -1.65 0)
 			(layer "B.Fab")
 			(uuid "4e1ee8cc-e114-4a7b-96bf-a477dcce6f08")
