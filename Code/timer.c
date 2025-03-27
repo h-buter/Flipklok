@@ -21,7 +21,7 @@
 void setupTimer0()
 {
     //Timer setup
-    TA0CTL = TASSEL__ACLK | MC__CONTINUOUS| TACLR | TAIE | ID__1;    // Set to counter to ACLK, Continuous clock, clear counter of clock, Enable TAIFG interrupt, Divider set to 1
+    TA0CTL = TASSEL_1 | MC_2| TACLR | TAIE | ID_0;    // Set to counter to ACLK, Continuous clock, clear counter of clock, Enable TAIFG interrupt, Divider set to 1
     TA0CCTL1 = CCIE;                // TACCR1 interrupt enabled
     TA0CCTL2 &= ~CCIE;                // TACCR2 interrupt disable
     TA0CCR2 = stepperTimeOffsetSlow;             // compare at stepperOffset
@@ -49,13 +49,13 @@ __interrupt void ISR_TA0(void)
             if (togglePwm == 0)
             {
                 TA0CCR1 = TA0R + pwmOnCycles;
-                P4OUT |= BIT6; //turn on
+                P1OUT |= BIT6; //turn on
                 togglePwm = 1;
             }
             else
             {
                 TA0CCR1 = TA0R + pwmPeriod_cycles;
-                P4OUT &= ~BIT6; //turn off
+                P1OUT &= ~BIT6; //turn off
                 togglePwm = 0;
             }
             break; // CCR1 IFG used for PWM LED
@@ -92,13 +92,20 @@ __interrupt void ISR_TA0(void)
 void setupTimer1()
 {
     //Timer setup
-    TA1CTL = TASSEL__ACLK | MC__UPDOWN | TACLR | ID__1;     // Set to counter to ACLK, Continuous clock, clear counter of clock, Enable TAIFG interrupt, Divider set to 1
-    TA1CCR0 = capacityTimer - 1;                            // Every 4 seconds
-    TA1CCTL0 = CCIE;                                        // TACCR0 interrupt enabled
+    TA1CTL |= MC_0;         // stop timer
+    TA1CTL |= TASSEL_1;     // Set to counter to ACLK
+    TA1CTL |= TACLR;        // Set to counter to ACLK, clear counter of clock
+    #warning "When using PCB divide by 1. When using MSP-EXP430G2ET devboard  pins on devboard are not connected to LFXTAL internal clock should be used"
+    TA1CTL |= ID_0;         // Divider set to 1
+
+    TA1CCR0 |= (capacityTimer - 1);                         // Every 4 seconds
+    TA1CCTL0 |= CCIE;                                       // TACCR0 interrupt enabled
 //    TA1CCTL1 = CCIE;                                      // TACCR1 interrupt enabled
 //    TA1CCTL2 = CCIE;                                      // TACCR2 interrupt enabled
     timeSinceLastCompleteDcfMessage = 0;
+    TA1CTL |= MC_3;                                         // up/down
 }
+
 
 
 
@@ -107,12 +114,15 @@ void setupTimer1()
 #pragma vector=TIMER1_A0_VECTOR
 __interrupt void ISR_TA1_CCR0(void)
 {
+
+    P1OUT ^= BIT7;
+
     TA1CCTL0 &= ~CCIFG; // Clear own CCR0 interrupt flag
     timeSinceLastCompleteDcfMessage += 4; //Increment counter by 4 seconds
-    if (timeSinceLastCompleteDcfMessage >= timerCountsInDay)
-    {
-        timeSinceLastCompleteDcfMessage = 0;
-    }
+//    if (timeSinceLastCompleteDcfMessage >= timerCountsInDay)
+//    {
+//        timeSinceLastCompleteDcfMessage = 0;
+//    }
 }
 
 /// Interrupt vector of timer1 CCR1 till CCR2 and TA0IFG

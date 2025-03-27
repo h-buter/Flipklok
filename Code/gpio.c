@@ -9,41 +9,44 @@
 /// Setup of all GPIO's on startup
 void setupGpio()
 {
+    //Enable pull-up on PCB
+    P1DIR |= BIT3;
+    P1OUT |= BIT3;
 
-    P1OUT &= ~(STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4); // Clear stepper pins output latch for a defined power-on state
-    P1DIR |= STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4; // Set stepper pins to output direction
-    PJSEL0 |= BIT4 | BIT5;                  // Set PJSEL0 BIT4 to high = LFXIN Crystal mode,  and BIT5 to high = IO on this pin disabled
+    P2OUT &= ~(STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4); // Clear stepper pins output latch for a defined power-on state
+    P2DIR |= STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4; // Set stepper pins to output direction
+
+    P2SEL  |= BIT6 | BIT7;   // Select XIN and XOUT functionality
+    P2SEL2 &= ~(BIT6 | BIT7); // Ensure secondary function is not selected
 
     //fwdButton
-    P1DIR &= ~BIT1;                             // Input
-    P1REN |= BIT1;                              // Enable pull
-    P1OUT |= BIT1;                              // Enable pull up
-    P1IES |= BIT1;                              // High to low
-    P1IFG &= ~BIT1;                             // Clear flag
-    P1IE |= BIT1;                               // Enable interrupt
-
-    P1OUT &= ~BIT0;                             //Turn off LED0
-    P1DIR |= BIT0;                              //LED0 as output
+    P2DIR &= ~BIT1;                             // Input
+//    P1REN |= BIT1;                              // Enable pull
+//    P1OUT |= BIT1;                              // Enable pull up
+    P2IES &= ~BIT1;                              // low to high
+    P2IFG &= ~BIT1;                             // Clear flag
+    P2IE |= BIT1;                               // Enable interrupt
 
     //led for lightning the clock
-    P4OUT &= ~BIT6;                             //Turn off LED0
-    P4DIR |= BIT6;                              //LED0 as output
+    P1OUT &= ~BIT6;                             //Turn off LED0
+    P1DIR |= BIT6;                              //LED0 as output
+
+    //Indicator L
+    P1DIR |= BIT7;
 
 
-    //dcf button for testing
-    P4DIR &= ~BIT5;                             // Input
-    P4REN |= BIT5;                              // Enable pull
-    P4OUT |= BIT5;                              // Enable pull up
-    P4IES |= BIT5;                              // High to low
-    P4IFG &= ~BIT5;                             // Clear interrupt flag
+    //EX-btn, dcf button for testing
+    P2DIR &= ~BIT2;                             // Input
+//    P2REN |= BIT2;                              // Enable pull
+//    P2OUT |= BIT2;                              // Enable pull up
+    P2IES |= BIT2;                              // High to low
+    P2IFG &= ~BIT2;                             // Clear interrupt flag
     __delay_cycles(1000);                       // Small delay for stabilization otherwise a trigger is registered on boot up of dev board
-    P4IFG &= ~BIT5;                             // Clear it again
-    P4IE |= BIT5;                               // Enable interrupt
+    P2IFG &= ~BIT2;                             // Clear it again
+    P2IE |= BIT2;                               // Enable interrupt
 
 
 
 
-
-    // Disable the GPIO power-on default high-impedance mode to activate previously configured port settings
-    PM5CTL0 &= ~LOCKLPM5;
+    __enable_interrupt();  // Enable global interrupts
 }

@@ -9,18 +9,29 @@
 /// Setup clocks of system, all to LFXTAL input
 void setupClocks()
 {
-    // Clock System Setup
-    CSCTL0_H = CSKEY >> 8;                                  // Unlock CS to be able to write to CSCTLx registers
-    CSCTL1 = DCOFSEL_6;                                     // Set DCO to 8MHz
-    CSCTL2 = SELA__LFXTCLK | SELS__LFXTCLK | SELM__DCOCLK;   // set ACLK = XT1; SMCLK = XT1; MCLK = XT1
-    CSCTL3 = DIVA__1 | DIVS__1| DIVM__1;                    // Set all dividers to 1
-    CSCTL4 &= ~LFXTOFF;                                     // Enable crystal
 
-    do // Wait until crystal becomes stable
-    {
-        CSCTL5 &= ~LFXTOFFG;                    // Clear flag
-        SFRIFG1 &= ~OFIFG;
-    } while(SFRIFG1 & OFIFG);
 
-    CSCTL0_H = 0;                             // Lock CS to lock write access to CSCTLx registers
+    BCSCTL1 |= XT2OFF;              // Disable XT2
+    BCSCTL1 &= ~XTS;                //LFXT1
+    BCSCTL1 |= DIVA_0;              // ACLK Divider 0: /1
+
+//    BCSCTL2 |= SELM_3;                    // LFXT1CLK,
+//    BCSCTL2 |= DIVM_0;                    // MCLK Divider 0: /1, LFXT1CLK,  SMCLK Divider 0: /1
+    BCSCTL2 |= SELS;                        // LFXT1CLK,  SMCLK Divider 0: /1
+    BCSCTL2 |= DIVS_0;                      // SMCLK Divider 0: /1
+    BCSCTL3 |=  LFXT1S_0;                   // Mode 0 for LFXT1
+    BCSCTL3 |=  XCAP_2;                     // Approximately 10 pF
+
+    //Enable when running cpu on 1 MHz instead of LFXTAL
+    BCSCTL1 |= CALBC1_1MHZ;  // Load calibrated DCO setting for 1 MHz
+    DCOCTL |= CALDCO_1MHZ;   // Load fine-tuned DCO setting
+    BCSCTL2 |= SELM_0;  // MCLK = DCO
+    BCSCTL2 |= DIVM_0;  // No division
+
+
+    // 3. Wait for the crystal to stabilize
+    while (IFG1 & OFIFG) {       // Check oscillator fault flag
+        IFG1 &= ~OFIFG;          // Clear oscillator fault flag
+        __delay_cycles(1000);   // Wait for the crystal to stabilize
+    }
 }
