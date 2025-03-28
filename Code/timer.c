@@ -93,8 +93,9 @@ void setupTimer1()
 {
     //Timer setup
     TA1CTL |= MC_0;         // stop timer
+    TA1CTL |= TAIE;         // setup end of cycle interrupt (up/down mode, so it get triggered when reaching 0)
     TA1CTL |= TASSEL_1;     // Set to counter to ACLK
-    TA1CTL |= TACLR;        // Set to counter to ACLK, clear counter of clock
+    TA1CTL |= TACLR;        // Clear counter of clock
     #warning "When using PCB divide by 1. When using MSP-EXP430G2ET devboard  pins on devboard are not connected to LFXTAL internal clock should be used"
     TA1CTL |= ID_0;         // Divider set to 1
 
@@ -103,7 +104,9 @@ void setupTimer1()
 //    TA1CCTL1 = CCIE;                                      // TACCR1 interrupt enabled
 //    TA1CCTL2 = CCIE;                                      // TACCR2 interrupt enabled
     timeSinceLastCompleteDcfMessage = 0;
+    toggleTimer1Direction = 1; // Counting up
     TA1CTL |= MC_3;                                         // up/down
+
 }
 
 
@@ -114,11 +117,10 @@ void setupTimer1()
 #pragma vector=TIMER1_A0_VECTOR
 __interrupt void ISR_TA1_CCR0(void)
 {
-
-    P1OUT ^= BIT7;
-
     TA1CCTL0 &= ~CCIFG; // Clear own CCR0 interrupt flag
+    toggleTimer1Direction = 0; // counting down
     timeSinceLastCompleteDcfMessage += 4; //Increment counter by 4 seconds
+
 //    if (timeSinceLastCompleteDcfMessage >= timerCountsInDay)
 //    {
 //        timeSinceLastCompleteDcfMessage = 0;
@@ -134,7 +136,9 @@ __interrupt void ISR_TA1(void)
         case 0x00: break; // None
         case 0x02: break; // CCR1 IFG
         case 0x04: break; // CCR2 IFG
-        case 0x0E: break; // TA0IFG will never be reached in up/down mode
+        case 0x0E:
+            toggleTimer1Direction = 1; // counting up
+            break; // TA0IFG will be reached when counting down and reaching 0 in up/down mode
         default: _never_executed();
     }
 }

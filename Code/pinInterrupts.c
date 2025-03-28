@@ -6,6 +6,10 @@
 
 #include "pinInterrupts.h"
 #include "dcfReceive.h"
+#include "timeKeeping.h"
+
+unsigned int timeDiv;
+volatile unsigned int lastDirection = 0; // 0 = counting up, 1 = counting down
 
 /// Interrupt vector of port2
 #pragma vector=PORT1_VECTOR
@@ -19,30 +23,10 @@ __interrupt void dcFButtonISR(void)
 //    {
 //        P1IFG &= ~BIT1;  // Clear interrupt flag
 //    }
-    if (P1IFG & BIT2)  // P1.2 // Temporary used for simulating DCF messages
-    {
-        P1IE &= ~BIT2;                              // Disable interrupt
-        P1IFG &= ~BIT2;                             // Clear flag
-        //            timeOfLastDcfMessage = timeOfLastDcfMessage + 60;
-
-        if (interruptEdgeToggleDcf == 0) // Toggle edge interrupt If rising edge was set, switch to falling & vice versa
-        {
-            startTime = TA1R;
-            P1IES &= ~BIT2;
-            interruptEdgeToggleDcf = 1;
-        }
-        else
-        {
-            endTime = TA1R;
-            currentBit = bitValue(calculateBitTransmitTime(startTime, endTime));
-            P1IES |= BIT2;
-            interruptEdgeToggleDcf = 0;
-        }
-
-        __no_operation();
-        P1IFG &= ~BIT2;                             // Clear flag
-        P1IE |= BIT2;                               // Enable interrupt
-    }
+//    if (P1IFG & BIT2)  // P1.2 // start bit time measurement for DCF77 signals
+//    {
+//        P1IFG &= ~BIT2;                             // Clear flag
+//    }
 //    if (P1IFG & BIT3)  // P1.3
 //    {
 //        P1IFG &= ~BIT3;  // Clear interrupt flag
@@ -51,10 +35,73 @@ __interrupt void dcFButtonISR(void)
 //    {
 //        P1IFG &= ~BIT4;  // Clear interrupt flag
 //    }
-//    if (P1IFG & BIT5)  // P1.5
-//    {
-//        P1IFG &= ~BIT5;  // Clear interrupt flag
-//    }
+    if (P1IFG & BIT5)  // P1.5
+    {
+        static unsigned int count;
+        static bool syncingStatus;
+        P1IE &= ~BIT5;                              // Disable interrupt
+        P1IFG &= ~BIT5;                             // Clear flag
+        __no_operation();
+
+        if (1 == syncingStatus)
+        {
+            if (interruptEdgeToggleDcf == 0) // Triggered on rising edge, toggle edge interrupt
+            {
+                startTime = TA1R;
+                countingDirectionStart = toggleTimer1Direction; // store counting direction when start time is taken
+
+                P1IES |= BIT5;                 //Toggle edge interrupt high to low
+                interruptEdgeToggleDcf = 1;
+                P1OUT |= BIT4; //test pin
+            }
+            else // Triggered on falling edge, toggle edge interrupt and time can be calculated
+            {
+                endTime = TA1R; // Store current time
+                countingDirectionEnd = toggleTimer1Direction; // store counting direction when end time is taken
+
+                P1IES &= ~BIT5;                  //Toggle edge interrupt low to high
+                interruptEdgeToggleDcf = 0;
+                P1OUT &= ~BIT4; //test pin
+            }
+            timeDiv = calculateBitTransmitTime(1, startTime, countingDirectionStart, endTime, countingDirectionEnd);
+        }
+        else //Sync is detected so readout data bits
+        {
+            if (interruptEdgeToggleDcf == 0) // Triggered on rising edge, toggle edge interrupt
+            {
+               startTime = TA1R;
+               countingDirectionStart = toggleTimer1Direction; // store counting direction when start time is taken
+
+               P1IES |= BIT5;                 //Toggle edge interrupt high to low
+               interruptEdgeToggleDcf = 1;
+               P1OUT |= BIT4; //test pin
+            }
+            else // Triggered on falling edge, toggle edge interrupt and time can be calculated
+            {
+               endTime = TA1R; // Store current time
+               countingDirectionEnd = toggleTimer1Direction; // store counting direction when end time is taken
+
+               P1IES &= ~BIT5;                  //Toggle edge interrupt low to high
+               interruptEdgeToggleDcf = 0;
+               P1OUT &= ~BIT4; //test pin
+               timeDiv = calculateBitTransmitTime(0, startTime, countingDirectionStart, endTime, countingDirectionEnd);
+               currentBit = bitValue(timeDiv); // Determine current bit value
+               storeBit(currentBit, count);
+               __no_operation();
+               count++;
+               if (bitArrayLength <= count) // Reset count if all bits of a message are received
+               {
+                   count = 0;
+                   syncingStatus = 0; // Start looking for sync again
+                   decodeBitStream();
+               }
+            }
+        }
+
+        __no_operation();
+        P1IFG &= ~BIT5;  // Clear interrupt flag
+        P1IE |= BIT5;                               // Enable interrupt
+    }
 //    if (P1IFG & BIT6)  // P1.6
 //    {
 //        P1IFG &= ~BIT6;  // Clear interrupt flag

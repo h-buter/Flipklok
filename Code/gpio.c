@@ -33,17 +33,34 @@ void setupGpio()
 
     //Indicator L
     P1DIR |= BIT7;
+    P1OUT &= ~BIT7;                             //Turn off
 
 
     //EX-btn, dcf button for testing
-    P2DIR &= ~BIT2;                             // Input
+//    P2DIR &= ~BIT2;                             // Input
+////    P2REN |= BIT2;                              // Enable pull
+////    P2OUT |= BIT2;                              // Enable pull up
+//    P2IES &= ~BIT2;                              // low to high
+//    P2IFG &= ~BIT2;                             // Clear interrupt flag
+//    __delay_cycles(1000);                       // Small delay for stabilization otherwise a trigger is registered on boot up of dev board
+//    P2IFG &= ~BIT2;                             // Clear it again
+//    P2IE |= BIT2;                               // Enable interrupt
+
+
+    //DCF77 input
+    P1DIR &= ~BIT5;                             // Input
 //    P2REN |= BIT2;                              // Enable pull
 //    P2OUT |= BIT2;                              // Enable pull up
-    P2IES |= BIT2;                              // High to low
-    P2IFG &= ~BIT2;                             // Clear interrupt flag
+    P1IES &= ~BIT5;                              // low to high
+    P1IFG &= ~BIT5;                             // Clear interrupt flag
     __delay_cycles(1000);                       // Small delay for stabilization otherwise a trigger is registered on boot up of dev board
-    P2IFG &= ~BIT2;                             // Clear it again
-    P2IE |= BIT2;                               // Enable interrupt
+    P1IFG &= ~BIT5;                             // Clear it again
+    P1IE |= BIT5;                               // Enable interrupt
+
+
+    //Test pin LDR as output test pin
+    P1DIR |= BIT4;
+    P1OUT &= ~BIT4;                             //Turn off
 
 
 

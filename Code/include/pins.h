@@ -10,9 +10,9 @@
 #include <msp430.h>  // Include MSP430 definitions
 
 // Define stepper motor pins
-#define STEPPER1  BIT0  // P2.5 //blue
-#define STEPPER2  BIT3  // P2.4 //pink
-#define STEPPER3  BIT4  // P2.3 //yellow
-#define STEPPER4  BIT5  // P2.0 //orange
+#define STEPPER1  BIT0  // P2.0 //blue
+#define STEPPER2  BIT3  // P2.3 //pink
+#define STEPPER3  BIT4  // P2.4 //yellow
+#define STEPPER4  BIT5  // P2.5 //orange
 
 #endif /* PINS_H_ */

@@ -37,4 +37,7 @@ double timeMechanical; //time of mechanical clock mechanism
 unsigned int stepsRemaining;
 
 
+volatile bool toggleTimer1Direction; // 1 is up 0 is down
+
+
 #endif /* CALCULATETIMEDIFFERENCE_H_ */
