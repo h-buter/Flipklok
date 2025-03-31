@@ -17,13 +17,13 @@ bool countingDirectionStart;
 unsigned int endTime;
 bool countingDirectionEnd;
 bool currentBit;
-#define bitArrayLength 10
+#define bitArrayLength 58 // needs to be 58, but 10 for testing
 bool bitArray[60];
 
 
 #define bitTime0Sec 0.1
 #define bitTime1Sec 0.2
-#define bitTimeStartSec 1.8
+#define bitTimeSyncSec 1.8
 #define  bitTimeCyclesTresh 0.01
 
 //Correct casting
@@ -36,10 +36,9 @@ bool bitArray[60];
 #define  bitTimeCycles1Upper ((int)((bitTimeCycles1) + ((clockFreq) * (bitTimeCyclesTresh))))
 #define  bitTimeCycles1Lower ((int)((bitTimeCycles1) - ((clockFreq) * (bitTimeCyclesTresh))))
 //start of DCF77 message
-#define  bitTimeCyclesStart ((clockFreq) * (bitTimeStartSec))
-#define  bitTimeCyclesStartUpper ((int)((bitTimeCyclesStart) + ((clockFreq) * (bitTimeCyclesTresh))))
-#define  bitTimeCyclesStartLower ((int)((bitTimeCyclesStart) - ((clockFreq) * (bitTimeCyclesTresh))))
-
+#define  bitTimeCyclesSync ((unsigned int)(clockFreq * bitTimeSyncSec))
+#define  bitTimeCyclesSyncUpper ((unsigned int)(bitTimeCyclesSync + (clockFreq * bitTimeCyclesTresh)))
+#define  bitTimeCyclesSyncLower ((unsigned int)(bitTimeCyclesSync - (clockFreq * bitTimeCyclesTresh)))
 
 //bitTimeCycles0 = 3276.8
 //bitTimeCycles0Upper = 3604.5
@@ -53,5 +52,7 @@ unsigned int calculateBitTransmitTime(bool checkSyncStatus, unsigned int start, 
 bool bitValue(unsigned int bitTime);
 void storeBit(bool bit, unsigned int location);
 void decodeBitStream();
+bool checkBitStream();
+void interruptDcf();
 
 #endif /* DCFRECEIVE_H_ */
