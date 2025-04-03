@@ -8,6 +8,7 @@
 
 volatile unsigned int ADCvar;
 
+/// Interrupt routine for ADC
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector = ADC10_VECTOR
 __interrupt void ADC10_ISR(void)
@@ -25,6 +26,8 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
     }
 }
 
+/// Setup ADC
+/// Shortest samling rate, with 2.5V reference, no prdivider, setup channels and enable conversion interrupts
 void setupAdc()
 {
     while (ADC10CTL1 & ADC10BUSY);  // Wait if ADC is busy
@@ -41,6 +44,7 @@ void setupAdc()
     while ((ADC10CTL1 & ADC10BUSY));  // Wait if ADC is busy
 }
 
+/// Start a ADC conversion
 void startAdcConv()
 {
     ADC10CTL0 |= ADC10SC;                   // Start conversion-software trigger

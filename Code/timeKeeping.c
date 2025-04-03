@@ -11,14 +11,12 @@
 
 bool toggleCalculateTimeDifference = 1;
 
-
-uint32_t timeDiff;
-
 /// Calculates the difference between the current time or received time from DCF77 and the time the mechanical clock displays.
 /// It then calculates the amount of steps that are needed to advance the clock to display the current time.
 /// The function take in to account which way it is the fastest to fully wrap the clock or to wait until the time synchronizes
 void calculateTimeDifference()
 {
+    uint32_t timeDiff;
     __no_operation();
     toggleInterruptDcf = 1; // Enable dcfReceive interrupt
     unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
