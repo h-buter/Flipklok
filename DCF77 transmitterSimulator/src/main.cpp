@@ -27,7 +27,25 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000);
 const int DCF77_PIN = 4; //D4
 const int selectPin = 19; //D2
 
+bool fastTiming = false;
+
+unsigned int onTimeOne;
+unsigned int onTimeZero;
+unsigned int period;
+
 void setup() {
+    if(fastTiming == true)
+    {
+        onTimeOne = 100;
+        onTimeZero = 50;
+        period = 500;
+    }
+    else
+    {
+        onTimeOne = 200;
+        onTimeZero = 100;
+        period = 1000;
+    }
     Serial.begin(115200);
     Serial.println("DCF77 emulator");
     pinMode(DCF77_PIN, OUTPUT);
@@ -54,15 +72,32 @@ void setup() {
 void loop() 
 {
     unsigned long start = millis();
-    timeClient.update();
-    time_t rawTime = timeClient.getEpochTime();
-    struct tm *timeInfo = gmtime(&rawTime);
-    
-    int minute = timeInfo->tm_min;
+    int year = 0;
+    time_t rawTime;
+    struct tm *timeInfo;
+    while(year == 0)
+    {
+        timeClient.update();
+        rawTime = timeClient.getEpochTime();
+        timeInfo = gmtime(&rawTime);
+        if ((timeInfo->tm_year + 1900) < 2025)
+        {
+            year = 0;
+        }
+        else
+        {
+            year = timeInfo->tm_year + 1900;
+        }
+    }
+    int minute = timeInfo->tm_min + 1;
+    if (minute >= 60)
+    {
+        minute = 0;
+    }
     int hour = timeInfo->tm_hour + 2;
     int day = timeInfo->tm_mday;
     int month = timeInfo->tm_mon + 1;
-    int year = timeInfo->tm_year + 1900;
+
     
     Serial.printf("\n Time: %02d:%02d:%02d %02d-%02d-%04d\n", hour, minute, timeInfo->tm_sec, day, month, year);
     
@@ -83,8 +118,8 @@ void loop()
     
     Serial.println("Transmitting DCF77 Signal...");
     unsigned long waitSync = 1800 - (millis() - start);
-    // Serial.print("waitSync: ");
-    // Serial.println(waitSync);
+    Serial.print("waitSync: ");
+    Serial.println(waitSync);
     //startup
     if (1 == dcfBits[58]) //59 is always 0 but 58 not and this needs to be taken in to account for the sync time
     {
@@ -109,16 +144,16 @@ void loop()
         if (1 == dcfBits[i]) //1 200ms high
         {
             digitalWrite(DCF77_PIN, HIGH);
-            delay(200);
+            delay(onTimeOne);
             digitalWrite(DCF77_PIN, LOW);
-            delay(800);
+            delay(period-onTimeOne);
         }
         else //0 100 ms high
         {
             digitalWrite(DCF77_PIN, HIGH);
-            delay(100);
+            delay(onTimeZero);
             digitalWrite(DCF77_PIN, LOW);
-            delay(900);
+            delay(period - onTimeZero);
         }
     }
 }
@@ -246,9 +281,6 @@ void encodeDCF77(uint8_t *dcfBits, int minute, int hour, int day, int month, int
     {
         dcfBits[58] = 1; //parity over bits 36-57
     }
-
-    Serial.print("bit 58 is: ");
-    Serial.println(dcfBits[58]);
     
     dcfBits[59] = 0; //minute mark
 
