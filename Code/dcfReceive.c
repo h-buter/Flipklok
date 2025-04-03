@@ -6,6 +6,7 @@
 
 #include "dcfReceive.h"
 #include "timeKeeping.h"
+#include "uart.h"
 
 unsigned int testbitTimeCyclesStart = bitTimeCyclesSync;
 unsigned int testbitTimeCyclesStartUpper = bitTimeCyclesSyncUpper;
@@ -18,6 +19,7 @@ void interruptDcf()
     unsigned int timeDiv;
     if (1 == syncingStatus)
     {
+       P1OUT |= BIT7; //indicator
        if (interruptEdgeToggleDcf == 0) // Triggered on falling edge, change edge interrupt
        {
            startTime = TA1R;
@@ -25,7 +27,6 @@ void interruptDcf()
 
            P1IES &= ~BIT5;                 //Toggle edge interrupt low to high
            interruptEdgeToggleDcf = 1;
-           P1OUT |= BIT7; //test pin
        }
        else // Triggered on falling edge, change edge interrupt and time can be calculated
        {
@@ -34,7 +35,6 @@ void interruptDcf()
 
            P1IES |= BIT5;                  //Toggle edge interrupt high to low
            interruptEdgeToggleDcf = 0;
-           P1OUT &= ~BIT7; //test pin
            timeDiv = calculateBitTransmitTime(1, startTime, countingDirectionStart, endTime, countingDirectionEnd);
 
 
@@ -51,6 +51,7 @@ void interruptDcf()
     }
     else //Sync is detected so readout data bits
     {
+       P1OUT &= ~BIT7; //indicator
        if (interruptEdgeToggleDcf == 0) // Triggered on rising edge, change edge interrupt
        {
           startTime = TA1R;
@@ -58,7 +59,7 @@ void interruptDcf()
 
           P1IES |= BIT5;                 //Toggle edge interrupt high to low
           interruptEdgeToggleDcf = 1;
-          P1OUT |= BIT7; //test pin
+//          P1OUT |= BIT7; //test pin
        }
        else // Triggered on falling edge, change edge interrupt and time can be calculated
        {
@@ -67,7 +68,7 @@ void interruptDcf()
 
           P1IES &= ~BIT5;                  //Toggle edge interrupt low to high
           interruptEdgeToggleDcf = 0;
-          P1OUT &= ~BIT7; //test pin
+//          P1OUT &= ~BIT7; //test pin
           timeDiv = calculateBitTransmitTime(0, startTime, countingDirectionStart, endTime, countingDirectionEnd);
           currentBit = bitValue(timeDiv); // Determine current bit value
           storeBit(currentBit, count);
@@ -80,7 +81,7 @@ void interruptDcf()
               if (0 == errors)
               {
                   __no_operation();
-                  decodeBitStream();
+                  decodeBitStream2Seconds();
               }
               __no_operation();
               P1IES |= BIT5;                 //Sync timing starts form high to low edge so change edge interrupt high to low
@@ -123,13 +124,11 @@ bool bitValue(unsigned int bitTime)
     if (bitTime > bitTimeCycles1Lower && bitTime < bitTimeCycles1Upper)
     {
         __no_operation();
-        P1OUT |= BIT7; //test
         return 1;
     }
     else if (bitTime > bitTimeCycles0Lower && bitTime < bitTimeCycles0Upper)
     {
         __no_operation();
-        P1OUT &= ~BIT7; //test
         return 0;
     }
 
@@ -151,6 +150,7 @@ bool checkBitStream()
     if (1 == bitArray[0] || 0 == bitArray[20] || 1 == bitArray[59])
     {
         __no_operation();
+        UART_SendString("RX bit fault\r\n");
         return 1; //transmission fault,
     }
 
@@ -172,6 +172,7 @@ bool checkBitStream()
     if (onesMinute % 2) // if odd then transmission fault
     {
         __no_operation();
+        UART_SendString("RX fault no parity minute\r\n");
         return 1; //transmission fault no even parity minute
     }
 
@@ -193,6 +194,7 @@ bool checkBitStream()
     if (onesHour % 2) // if odd then transmission fault
     {
         __no_operation();
+        UART_SendString("RX fault no parity hour\r\n");
         return 1; //transmission fault no even parity hour
     }
 
@@ -202,21 +204,62 @@ bool checkBitStream()
 
 }
 
-void decodeBitStream()
+void decodeBitStream2Seconds()
 {
+    static const unsigned int bcdValues[] = {1, 2, 4, 8, 10, 20, 40, 80};
+    __no_operation();
+
+    volatile unsigned int minuteTemp = 0;
+    volatile unsigned int hourTemp = 0;
+
+    bool error = 0;
+
+    unsigned int i;
+
+    //minute
+    for(i = 21; i <= 27; i++) //convert to if else instead of multiply probaly faster
+    {
+        minuteTemp = minuteTemp + (bcdValues[i-21] * bitArray[i]); // Convert from 7 bit BCD to a integer
+    }
+
+    __no_operation();
+    if (minuteTemp > 60) // there can't be more than 60 minutes in a hour
+    {
+        __no_operation();
+        UART_SendString("More than 60 minutes fault\r\n");
+        error = 1;
+    }
+
+    //hour
+    for(i = 29; i <= 34; i++)
+    {
+        hourTemp = hourTemp + (bcdValues[i-29] * bitArray[i]); // Convert from 6 bit BCD to a integer
+    }
+
+    __no_operation();
+    if (hourTemp > 24) // there can't be more than 24 hours in a day
+    {
+        __no_operation();
+        UART_SendString("More than 24 hours fault\r\n");
+        error = 1;
+    }
+
+    if (0 == error) // No errors
+    {
+        minuteDcfLast = minuteTemp;
+        hourDcfLast = hourTemp;
+        // Convert to seconds passed midnight
+        timeOfLastDcfMessage = minuteDcfLast * 60 + hourDcfLast * 3600;
 
 
+        countDcf77Messages++; // Increment counter, used for checking if there was ever a message received, also for statistics
+        timeSinceLastCompleteDcfMessage = 0; // Reset time since last message received, current DCF message syncs the clock
 
-
-
-
-
-
-
-
-
-//    for(i = 0; i <= bitArrayLength; i++)
-//    {
-//
-//    }
+        UART_SendString("DCF: ");
+        UART_SendInt(hourDcfLast);
+        UART_SendString(":");
+        UART_SendInt(minuteDcfLast);
+        UART_SendString("\r\n");
+    }
+    __no_operation();
 }

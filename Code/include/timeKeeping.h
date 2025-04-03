@@ -9,32 +9,36 @@
 #define CALCULATETIMEDIFFERENCE_H_
 #include <msp430.h>
 #include <stdbool.h>
+#include <stdint.h>  // Include to define uint32_t
 
 extern bool toggleCalculateTimeDifference;
 
 void calculateTimeDifference();
-int calculateStepsToTake();
+uint32_t calculateStepsToTake();
 void storeTimeLastCompleteDcfMessage();
 void resetTimeKeeping();
 
-unsigned int timeOfLastDcfMessage;
-unsigned int timeSinceLastCompleteDcfMessage;
+uint32_t timeOfLastDcfMessage;
+uint32_t timeSinceLastCompleteDcfMessage;
 #define timerCountsInDay 60 * 60 * 24 / (capacityTimer / clockFreq)
 
 #define toothGearStepper 15.0
 #define toothGearClock 24.0
-#define gearRatio toothGearClock / toothGearStepper
+#define gearRatio (toothGearClock / toothGearStepper)
 #define stepsFullRotationStepper 2048.0
-#define stepsClockHour stepsFullRotationStepper * gearRatio
-#define stepsClockMinute stepsClockHour / 60.0
-#define stepsClockSecond stepsClockMinute / 60.0
-#define timePerStep 3600.0 / (stepsFullRotationStepper * gearRatio)
-#define stepsToggleThreshold 10
+#define stepsClockHour (stepsFullRotationStepper * gearRatio)
+#define stepsClockMinute (stepsClockHour / 60.0)
+#define stepsClockSecond (stepsClockMinute / 60.0)
+#define timePerStep (3600.0 / (stepsFullRotationStepper * gearRatio))
+#define stepsToggleThreshold 20
+#define clockWraparoundThresholdSec (10 * 60)
+#define stepsWrap (stepsClockHour * 24)
 
 //Needs to be stored in non volatile storage (FRAM), to be persistent across boot
-double timeMechanical; //time of mechanical clock mechanism
+double mechanicalTimeFloat; //time of mechanical clock mechanism should be in double/floating point
+uint32_t mechanicalTimeInt; //Integer display of floatingpoint timeMechanical
 
-unsigned int stepsRemaining;
+uint32_t stepsRemaining;
 
 
 volatile bool toggleTimer1Direction; // 1 is up 0 is down

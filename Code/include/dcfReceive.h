@@ -9,6 +9,7 @@
 
 #include <msp430.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "timer.h"
 
 bool interruptEdgeToggleDcf;
@@ -20,9 +21,11 @@ bool currentBit;
 #define bitArrayLength 58 // needs to be 58, but 10 for testing
 bool bitArray[60];
 
+bool toggleInterruptDcf;
 
-#define bitTime0Sec 0.1
-#define bitTime1Sec 0.2
+
+#define bitTime0Sec 0.1 //normal 0.1 for testing 0.05
+#define bitTime1Sec 0.2 //normal 0.2 for testing 0.1
 #define bitTimeSyncSec 1.8
 #define  bitTimeCyclesTresh 0.01
 
@@ -40,18 +43,16 @@ bool bitArray[60];
 #define  bitTimeCyclesSyncUpper ((unsigned int)(bitTimeCyclesSync + (clockFreq * bitTimeCyclesTresh)))
 #define  bitTimeCyclesSyncLower ((unsigned int)(bitTimeCyclesSync - (clockFreq * bitTimeCyclesTresh)))
 
-//bitTimeCycles0 = 3276.8
-//bitTimeCycles0Upper = 3604.5
-//bitTimeCycles0Lower = 2949.1
-//bitTimeCycles1 = 6553.6
-//bitTimeCycles1Upper = 6881.3
-//bitTimeCycles1Lower = 6225.9
+volatile unsigned int minuteDcfLast;
+volatile unsigned int hourDcfLast;
+
+uint32_t countDcf77Messages;
 
 
 unsigned int calculateBitTransmitTime(bool checkSyncStatus, unsigned int start, bool startDir, unsigned int stop, bool stopDir);
 bool bitValue(unsigned int bitTime);
 void storeBit(bool bit, unsigned int location);
-void decodeBitStream();
+void decodeBitStream2Seconds();
 bool checkBitStream();
 void interruptDcf();
 

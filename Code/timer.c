@@ -60,19 +60,19 @@ __interrupt void ISR_TA0(void)
             }
             break; // CCR1 IFG used for PWM LED
         case 0x04:
-                if (timerOffsetToggle == 0)     //calculate new normal timer capture
+                if (timerCompareStepperSpeedToggle == 0)     //calculate next normal timer capture
                 {
                     TA0CCR2 = TA0R + stepperTimeOffsetSlow;
                 }
-                else                            //calculate new fast timer capture
+                else                            //calculate next fast timer capture
                 {
                     TA0CCR2 = TA0R + stepperTimeOffsetFast;
                 }
                 stepperAdvance(); // Call stepper function
             break; // CCR2 IFG stepper
         case 0x0E:
-            startAdcConv();
-            if (toggleCalculateTimeDifference == 1 && timerOffsetToggle == 0)
+//            startAdcConv();
+            if (toggleCalculateTimeDifference == 1 && timerCompareStepperSpeedToggle == 0) // When the fwdButton is not pressed and there are no more steps to take to get to the previous calculated time calculate new time difference.
             {
                 calculateTimeDifference();
             }

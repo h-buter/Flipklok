@@ -11,10 +11,10 @@
 #include "pins.h"
 #include <stdbool.h>
 
-#define stepperTimeOffsetSlow 0x600;
+#define stepperTimeOffsetSlow 0x100; //0x600 for testing setting faster
 #define stepperTimeOffsetFast 0x100;
 
-bool timerOffsetToggle;
+bool timerCompareStepperSpeedToggle;
 
 void setupTimer0();
 void stepperAdvance();
