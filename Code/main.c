@@ -44,17 +44,16 @@ void main(void)
     resetTimeKeeping();
 
     //For testing, setting time of mechanical clock
-    uint32_t setMinute = 30;
-    uint32_t setHour = 16;
+    uint32_t setMinute = 9;
+    uint32_t setHour = 17;
     setTime = setHour * 3600 + setMinute * 60;
     storeTime(setTime);
 
     //wait time otherwise to quick between writing and reading from flash
     __delay_cycles(5000);
 
-    mechanicalTimeInt = loadTime(); // Get the last stored time of the display
-    timeOfLastDcfMessage = mechanicalTimeInt; // Set the time of DCF before any message received the same as mechanical time so the clock does not stand still at startup
-    mechanicalTimeFloat = mechanicalTimeInt;
+    mechanicalTimeFloat = loadTime(); // Get the last stored time of the display
+    timeOfLastDcfMessage = mechanicalTimeFloat; // Set the time of DCF before any message received the same as mechanical time so the clock does not stand still at startup
     UART_SendString("\r\n------Starting------\r\n");
     UART_SendString("mechanicalTime: ");
     UART_SendTime(mechanicalTimeFloat);

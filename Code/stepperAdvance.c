@@ -21,8 +21,6 @@ void stepperAdvance()
         UART_SendUint32(stepsRemaining);
         UART_SendString(", MTC: ");
         UART_SendTime(mechanicalTimeFloat);
-        UART_SendString(", MTCF: ");
-        UART_SendUint32(mechanicalTimeFloat);
         UART_SendString("\r\n");
     }
 
