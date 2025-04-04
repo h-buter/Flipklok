@@ -5,6 +5,7 @@
  */
 
 #include "adc.h"
+#include "led.h"
 
 volatile unsigned int ADCvar;
 
@@ -18,12 +19,9 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
 #error Compiler not supported!
 #endif
 {
-    if (ADC10CTL0 & ADC10IFG)  // Check if ADC10 interrupt flag is set
-    {
-        ADC10CTL0 &= ~ADC10IFG; // Clear the interrupt flag
-        ADCvar = ADC10MEM & 0xFF; // Read conversion result (masking to 8 bits)
-        changeLedBrightness(ADCvar);
-    }
+    ADC10CTL0 &= ~ADC10IFG; // Clear the interrupt flag
+    ADCvar = ADC10MEM; // Read conversion result
+    changeLedBrightness(ADCvar);
 }
 
 /// Setup ADC
@@ -32,13 +30,18 @@ void setupAdc()
 {
     while (ADC10CTL1 & ADC10BUSY);  // Wait if ADC is busy
 
+#warning ("TO-DO let ADC trigger by clock directly see SHSx on page 601 of manual");
     // Configure ADC10
-    ADC10CTL0 = ADC10ON | ADC10SHT_0 | REFON | REF2_5V;              // Turn on ADC10, set sampling time  4 ADC10CLK cycles, Reference generator on, Reference-generator voltage 2.5V
+    P1DIR &= ~BIT4;  // Set P1.4 as input
+    ADC10CTL0 &= ~ENC;                          // Disable conversions to be able to setup ADC registers
+    ADC10CTL0 = SREF_1 | ADC10SHT_0 | REF2_5V | REFON | ADC10ON;              // Reference: VR+ = VREF+ and VR- = AVSS, set sampling time  4 ADC10CLK cycles, reference-generator voltage 2.5V, reference generator on, turn on ADC10.
+    ADC10CTL1 |= INCH_4 | ADC10DF;                    // Channel 4,
+    ADC10AE0 |= INCH_4;
+    ADC10CTL1 &= ~ADC10DF;  //Straight binary
+    ADC10CTL1 |= ADC10DIV_0;                      // Predivider 00b = Predivide by 1
     ADC10CTL1 |= ADC10SSEL1;              // Use sampling timer and set clock source to ACLK
-    ADC10CTL1 |= ADC10DIV_0;                      // Predivider. This bit predivides the selected ADC10_B clock source. 00b = Predivide by 1
-    ADC10CTL1 |= INCH_4 | SREF_1;                   // Channel 4, reference: VR+ = VREF+ and VR- = AVSS
 
-    ADC10CTL0 |= ENC;                          // Enable conversions
+//    ADC10CTL0 |= ENC;                          // Enable conversions
     ADC10CTL0 |= ADC10IE;                          // Enable ADC conv complete interrupt
 
     while ((ADC10CTL1 & ADC10BUSY));  // Wait if ADC is busy
@@ -47,5 +50,6 @@ void setupAdc()
 /// Start a ADC conversion
 void startAdcConv()
 {
+    ADC10CTL0 |= ENC;
     ADC10CTL0 |= ADC10SC;                   // Start conversion-software trigger
 }

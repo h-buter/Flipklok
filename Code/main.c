@@ -44,10 +44,10 @@ void main(void)
     resetTimeKeeping();
 
     //For testing, setting time of mechanical clock
-    uint32_t setMinute = 9;
-    uint32_t setHour = 17;
-    setTime = setHour * 3600 + setMinute * 60;
-    storeTime(setTime);
+//    uint32_t setMinute = 59;
+//    uint32_t setHour = 23;
+//    setTime = setHour * 3600 + setMinute * 60;
+//    storeTime(setTime);
 
     //wait time otherwise to quick between writing and reading from flash
     __delay_cycles(5000);

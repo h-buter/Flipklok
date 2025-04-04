@@ -73,20 +73,24 @@ __interrupt void port2ISR(void)
     }
     if (P2IFG & BIT1)  // P2.1 fwdButton
     {
-        __no_operation();
-        if (timerCompareStepperSpeedToggle == 0) // Toggle edge interrupt If rising edge was set, switch to falling & vice versa
+        if(1 == toggleFwdInterrupt)
         {
-            P2IES |= BIT1;
-            timerCompareStepperSpeedToggle = 1;
-            TA0CCTL2 |= CCIE;                // TACCR2 interrupt enable
-        }
-        else
-        {
-            P2IES &= ~BIT1;
-            timerCompareStepperSpeedToggle = 0;
+            __no_operation();
+            if (timerCompareStepperSpeedToggle == 0) // Toggle edge interrupt If rising edge was set, switch to falling & vice versa
+            {
+                P2IES |= BIT1;
+                timerCompareStepperSpeedToggle = 1;
+                TA0CCTL2 |= CCIE;                // TACCR2 interrupt enable
+            }
+            else
+            {
+                P2IES &= ~BIT1;
+                timerCompareStepperSpeedToggle = 0;
 
-        //                TA0CCTL2 &= ~CCIE;   not needed stepperAdvance enables calculateTime function automaticly when remaining steps are 0             // TACCR2 interrupt disable control back to calculateTimeDifference function
+            //                TA0CCTL2 &= ~CCIE;   not needed stepperAdvance enables calculateTime function automaticly when remaining steps are 0             // TACCR2 interrupt disable control back to calculateTimeDifference function
+            }
         }
+
         P2IFG &= ~BIT1;  // Clear interrupt flag
     }
 //    if (P2IFG & BIT2)  // P2.2

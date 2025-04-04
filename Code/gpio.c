@@ -32,7 +32,7 @@ void setupGpio()
     P1DIR |= BIT6;                              //LED0 as output
 
     //Indicator L
-    P1DIR |= BIT7;
+    P1DIR |= BIT7;                              // Output
     P1OUT &= ~BIT7;                             //Turn off
 
 

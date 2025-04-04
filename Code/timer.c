@@ -41,25 +41,29 @@ __interrupt void ISR_TA0_CCR0(void)
 #pragma vector=TIMER0_A1_VECTOR
 __interrupt void ISR_TA0(void)
 {
+    static unsigned int indicatorCount;
     static unsigned int togglePwm;
     switch(__even_in_range(TA0IV, 0x14 ))
     {
         case 0x00: break; // None
-        case 0x02:
-            if (togglePwm == 0)
+        case 0x02: // CCR1 IFG used for PWM LED
+            if (0 == togglePwm)
             {
                 TA0CCR1 = TA0R + pwmOnCycles;
                 P1OUT |= BIT6; //turn on
+                P1OUT |= BIT7;
                 togglePwm = 1;
             }
             else
             {
                 TA0CCR1 = TA0R + pwmPeriod_cycles;
                 P1OUT &= ~BIT6; //turn off
+                P1OUT &= ~BIT7;
                 togglePwm = 0;
+
             }
-            break; // CCR1 IFG used for PWM LED
-        case 0x04:
+            break;
+        case 0x04: // CCR2 IFG stepper
                 if (timerCompareStepperSpeedToggle == 0)     //calculate next normal timer capture
                 {
                     TA0CCR2 = TA0R + stepperTimeOffsetSlow;
@@ -69,9 +73,9 @@ __interrupt void ISR_TA0(void)
                     TA0CCR2 = TA0R + stepperTimeOffsetFast;
                 }
                 stepperAdvance(); // Call stepper function
-            break; // CCR2 IFG stepper
+            break;
         case 0x0E:
-//            startAdcConv();
+            startAdcConv();
             if (toggleCalculateTimeDifference == 1 && timerCompareStepperSpeedToggle == 0) // When the fwdButton is not pressed and there are no more steps to take to get to the previous calculated time calculate new time difference.
             {
                 calculateTimeDifference();

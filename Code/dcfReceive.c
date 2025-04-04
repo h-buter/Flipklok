@@ -23,7 +23,6 @@ void interruptDcf()
     unsigned int timeDiv;
     if (1 == syncingStatus)
     {
-       P1OUT |= BIT7; //indicator
        if (interruptEdgeToggleDcf == 0) // Triggered on falling edge, change edge interrupt
        {
            startTime = TA1R;
@@ -55,7 +54,6 @@ void interruptDcf()
     }
     else //Sync is detected so readout data bits
     {
-       P1OUT &= ~BIT7; //indicator
        if (interruptEdgeToggleDcf == 0) // Triggered on rising edge, change edge interrupt
        {
           startTime = TA1R;

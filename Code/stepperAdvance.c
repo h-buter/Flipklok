@@ -2,6 +2,7 @@
 #include "timeKeeping.h"
 #include "uart.h"
 #include "storeLoadMechanicalTime.h"
+#include "pinInterrupts.h"
 
 /// Advances the stepper each time it gets called by one full step gets triggered by ISR_TA0().
 /// Step sequence:
@@ -64,5 +65,6 @@ void stepperAdvance()
         TA0CCTL2 &= ~CCIE;                          // TACCR2 interrupt stepperAdvance disable
         storeTime((uint32_t)mechanicalTimeFloat); // Store the current state of the clock in non volatile flash
         toggleCalculateTimeDifference = 1;          // enable triggering time difference function in timer interrupt.
+        toggleFwdInterrupt = 1;                     // Enable fwdButton interrupt again (disabled in timekeeping function)
     }
 }

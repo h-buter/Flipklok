@@ -8,6 +8,7 @@
 #include "timeKeeping.h"
 #include "dcfReceive.h"
 #include "uart.h"
+#include "pinInterrupts.h"
 
 bool toggleCalculateTimeDifference = 1;
 
@@ -19,11 +20,13 @@ void calculateTimeDifference()
     uint32_t timeDiff;
     __no_operation();
     toggleInterruptDcf = 1; // Enable dcfReceive interrupt
+    toggleFwdInterrupt = 0; // Disable fwdButton when calculating time and adjusting the clock (enabled again in stepperAdvance function)
     unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
 
     if(0 == countDcf77Messages) // When no DCF77 message has been received work only on internal clock
     {
         timeDiff = timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage - mechanicalTimeFloat;
+        P1DIR |= BIT7;                              // set as output enables indicator LED, indicating clock is off time
     }
     else if(countDcf77Messages > 0) // One or more DCF77 messages has been received use the time of DCF to set clock
     {
@@ -67,10 +70,22 @@ void calculateTimeDifference()
         if (timeDiff > 60) // If the time difference is large enough stop receiving dcf messages to prevent crosstalk between stepper and receiver, is enabled again at start of this function
         {
             toggleInterruptDcf = 0; // Disable dcfReceive interrupt until clock is done syncing
+            P1DIR |= BIT7;                              // set as output enables indicator LED, indicating clock is off time
+        }
+        else
+        {
+            if (0 < countDcf77Messages)
+            {
+                P1DIR &= ~BIT7;                              // set as input disables indicator LED, indicating clock runs on time
+            }
         }
         stepsRemaining = calculateStepsToTake(timeDiff);
-        toggleCalculateTimeDifference = 0;  // Disable triggering time difference function in timer interrupt (this function), will be enabled again in stepperAdvance function
-        TA0CCTL2 |= CCIE;                   // TACCR2 interrupt stepperAdvance enable
+
+        if (stepsRemaining >= stepsToggleThreshold) //Check if the needed steps to take is larger than the movement threshold, this prevents excessive use of the motor
+        {
+            toggleCalculateTimeDifference = 0;  // Disable triggering time difference function in timer interrupt (this function), will be enabled again in stepperAdvance function
+            TA0CCTL2 |= CCIE;                   // TACCR2 interrupt stepperAdvance enable
+        }
     }
 
 

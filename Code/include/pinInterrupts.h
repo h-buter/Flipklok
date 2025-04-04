@@ -7,6 +7,8 @@
 #ifndef INCLUDE_PININTERRUPTS_H_
 #define INCLUDE_PININTERRUPTS_H_
 #include <msp430.h>
+#include <stdbool.h>
 
+bool toggleFwdInterrupt;
 
 #endif /* INCLUDE_PININTERRUPTS_H_ */
