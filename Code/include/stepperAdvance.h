@@ -11,7 +11,7 @@
 #include "pins.h"
 #include <stdbool.h>
 
-#define stepperTimeOffsetSlow 0x100; //0x600 for testing setting faster
+#define stepperTimeOffsetSlow 0x800; //0x600 for testing setting faster
 #define stepperTimeOffsetFast 0x100;
 
 bool timerCompareStepperSpeedToggle;

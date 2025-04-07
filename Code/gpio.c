@@ -5,6 +5,7 @@
  */
 
 #include "gpio.h"
+#include "pinInterrupts.h"
 
 /// Setup of all GPIO's on startup
 void setupGpio()
@@ -26,6 +27,7 @@ void setupGpio()
     P2IES &= ~BIT1;                              // low to high
     P2IFG &= ~BIT1;                             // Clear flag
     P2IE |= BIT1;                               // Enable interrupt
+    toggleFwdInterruptISR = 1;                     // Enable the ISR
 
     //led for lightning the clock
     P1OUT &= ~BIT6;                             //Turn off LED0
@@ -37,20 +39,18 @@ void setupGpio()
 
 
     //EX-btn, dcf button for testing
-//    P2DIR &= ~BIT2;                             // Input
-////    P2REN |= BIT2;                              // Enable pull
-////    P2OUT |= BIT2;                              // Enable pull up
-//    P2IES &= ~BIT2;                              // low to high
-//    P2IFG &= ~BIT2;                             // Clear interrupt flag
+    P2DIR &= ~BIT2;                             // Input
+//    P2REN |= BIT2;                              // Enable pull
+//    P2OUT |= BIT2;                              // Enable pull up
+    P2IES &= ~BIT2;                              // low to high
+    P2IFG &= ~BIT2;                             // Clear interrupt flag
 //    __delay_cycles(1000);                       // Small delay for stabilization otherwise a trigger is registered on boot up of dev board
 //    P2IFG &= ~BIT2;                             // Clear it again
-//    P2IE |= BIT2;                               // Enable interrupt
+    P2IE |= BIT2;                               // Enable interrupt
 
 
     //DCF77 input
     P1DIR &= ~BIT5;                             // Input
-//    P2REN |= BIT2;                              // Enable pull
-//    P2OUT |= BIT2;                              // Enable pull up
 //    P1IES &= ~BIT5;                              // low to high
     P1IES |= BIT5;                              // high to low, first trigger on a low going pulse to detect 1800 ms sync pulse after bit 58
 
@@ -60,9 +60,14 @@ void setupGpio()
     P1IE |= BIT5;                               // Enable interrupt
 
 
-    //Test pin LDR as output test pin
-    P1DIR |= BIT4;
-    P1OUT &= ~BIT4;                             //Turn off
+//    //Test pin LDR as output test pin
+//    P1DIR |= BIT4;
+//    P1OUT &= ~BIT4;                             //Turn off
+
+    //5V converter
+    P1DIR |= BIT0; // Output
+    P1OUT |= BIT0;//Turn on
+
 
 
 

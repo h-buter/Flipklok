@@ -9,6 +9,7 @@
 #include <msp430.h>
 #include <stdbool.h>
 
+bool toggleFwdInterruptISR;
 bool toggleFwdInterrupt;
 
 #endif /* INCLUDE_PININTERRUPTS_H_ */

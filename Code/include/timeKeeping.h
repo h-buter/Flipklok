@@ -34,6 +34,7 @@ uint32_t timeSinceLastCompleteDcfMessage;
 #define clockWraparoundThresholdSec (10 * 60)
 #define stepsWrap (stepsClockHour * 24)
 #define secondsInDay 86400
+#define stepsInDay (stepsClockSecond * secondsInDay)
 
 //Needs to be stored in non volatile storage (FRAM), to be persistent across boot
 double mechanicalTimeFloat; //time of mechanical clock mechanism should be in double/floating point

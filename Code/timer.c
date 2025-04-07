@@ -8,6 +8,7 @@
 #include "timer.h"
 #include "adc.h"
 #include "timeKeeping.h"
+#include "pinInterrupts.h"
 
 
 //------------------------------------------Timer0---------------------------------------------------
@@ -76,7 +77,7 @@ __interrupt void ISR_TA0(void)
             break;
         case 0x0E:
             startAdcConv();
-            if (toggleCalculateTimeDifference == 1 && timerCompareStepperSpeedToggle == 0) // When the fwdButton is not pressed and there are no more steps to take to get to the previous calculated time calculate new time difference.
+            if (toggleCalculateTimeDifference == 1 && toggleFwdInterrupt == 0) // When the fwdButton is not pressed and there are no more steps to take to get to the previous calculated time calculate new time difference.
             {
                 calculateTimeDifference();
             }

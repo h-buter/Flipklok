@@ -17,33 +17,43 @@ bool toggleCalculateTimeDifference = 1;
 /// The function take in to account which way it is the fastest to fully wrap the clock or to wait until the time synchronizes
 void calculateTimeDifference()
 {
+    if(countDcf77Messages > 0)
+    {
+        __no_operation();
+        volatile int testing = 0;
+    }
     uint32_t timeDiff;
     __no_operation();
     toggleInterruptDcf = 1; // Enable dcfReceive interrupt
-    toggleFwdInterrupt = 0; // Disable fwdButton when calculating time and adjusting the clock (enabled again in stepperAdvance function)
     unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
-
-    if(0 == countDcf77Messages) // When no DCF77 message has been received work only on internal clock
+    if (0 == toggleFwdInterrupt) //fwdButton is not pressed otherwise skip time keeping
     {
-        timeDiff = timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage - mechanicalTimeFloat;
-        P1DIR |= BIT7;                              // set as output enables indicator LED, indicating clock is off time
-    }
-    else if(countDcf77Messages > 0) // One or more DCF77 messages has been received use the time of DCF to set clock
-    {
-        __no_operation();
-        if((timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) > mechanicalTimeFloat) // Clock runs behind need to be advanced to current time
+        if(0 == countDcf77Messages) // When no DCF77 message has been received work only on internal clock
         {
-            timeDiff = (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) - mechanicalTimeFloat; // Calculate how much the clock runs behind
+            timeDiff = timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage - mechanicalTimeFloat;
+            P1DIR |= BIT7;                              // set as output enables indicator LED, indicating clock is off time
         }
-        else if((timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) < mechanicalTimeFloat) //Clock runs ahead
+        else if(countDcf77Messages > 0) // One or more DCF77 messages has been received use the time of DCF to set clock
         {
-            if((mechanicalTimeFloat - (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage)) > clockWraparoundThresholdSec) // When the time that the clock runs ahead is greater than the threshold than rotate to 00:00 so it can sync from there
+            __no_operation();
+            if((timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) > mechanicalTimeFloat) // Clock runs behind need to be advanced to current time
             {
-                timeDiff = secondsInDay + 60 - mechanicalTimeFloat; // Calculate the amount of time between clock current state and the time until 00:01
+                timeDiff = (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) - mechanicalTimeFloat; // Calculate how much the clock runs behind
             }
-            else if((mechanicalTimeFloat - (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage)) <= clockWraparoundThresholdSec) // If the time that the clock runs ahead is less or equal to the threshold it is faster to just wait until the clock is on time
+            else if((timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) < mechanicalTimeFloat) //Clock runs ahead
             {
-                timeDiff = 0;
+                if((mechanicalTimeFloat - (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage)) > clockWraparoundThresholdSec) // When the time that the clock runs ahead is greater than the threshold than rotate to 00:00 so it can sync from there
+                {
+                    timeDiff = secondsInDay + 60 - mechanicalTimeFloat; // Calculate the amount of time between clock current state and the time until 00:01
+                }
+                else if((mechanicalTimeFloat - (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage)) <= clockWraparoundThresholdSec) // If the time that the clock runs ahead is less or equal to the threshold it is faster to just wait until the clock is on time
+                {
+                    timeDiff = 0;
+                }
+                else
+                {
+                    __no_operation(); //?
+                }
             }
             else
             {
@@ -54,40 +64,38 @@ void calculateTimeDifference()
         {
             __no_operation(); //?
         }
-    }
-    else
-    {
-        __no_operation(); //?
-    }
 
-    //Checking if calculated time is plausible
-    if (timeDiff > secondsInDay)
-    {
-        __no_operation(); //Clock will rotate more than a full turn, disable stepper and recalculate
-    }
-    else // Calculated time is plausible convert to needed steps
-    {
-        if (timeDiff > 60) // If the time difference is large enough stop receiving dcf messages to prevent crosstalk between stepper and receiver, is enabled again at start of this function
+        //Checking if calculated time is plausible
+        if (timeDiff > secondsInDay)
         {
-            toggleInterruptDcf = 0; // Disable dcfReceive interrupt until clock is done syncing
-            P1DIR |= BIT7;                              // set as output enables indicator LED, indicating clock is off time
+            __no_operation(); //Clock will rotate more than a full turn, disable stepper and recalculate
         }
-        else
+        else // Calculated time is plausible convert to needed steps
         {
-            if (0 < countDcf77Messages)
+            if (timeDiff > 60) // If the time difference is large enough stop receiving dcf messages to prevent crosstalk between stepper and receiver, is enabled again at start of this function
             {
-                P1DIR &= ~BIT7;                              // set as input disables indicator LED, indicating clock runs on time
+                toggleInterruptDcf = 0; // Disable dcfReceive interrupt until clock is done syncing
+                P1DIR |= BIT7;                              // set as output enables indicator LED, indicating clock is off time
+                toggleFwdInterruptISR = 0; // Disable fwdButton when calculating time and adjusting the clock (enabled again in stepperAdvance function)
+                timerCompareStepperSpeedToggle = 1; //set stepper speed to fast
+            }
+            else
+            {
+                timerCompareStepperSpeedToggle = 0; //set stepper speed to slow
+                if (0 < countDcf77Messages)
+                {
+                    P1DIR &= ~BIT7;                              // set as input disables indicator LED, indicating clock runs on time
+                }
+            }
+            stepsRemaining = calculateStepsToTake(timeDiff);
+
+            if (stepsRemaining >= stepsToggleThreshold && stepsRemaining < stepsInDay) //Check if the needed steps to take is larger than the movement threshold, this prevents excessive use of the motor
+            {
+                toggleCalculateTimeDifference = 0;  // Disable triggering time difference function in timer interrupt (this function), will be enabled again in stepperAdvance function
+                TA0CCTL2 |= CCIE;                   // TACCR2 interrupt stepperAdvance enable
             }
         }
-        stepsRemaining = calculateStepsToTake(timeDiff);
-
-        if (stepsRemaining >= stepsToggleThreshold) //Check if the needed steps to take is larger than the movement threshold, this prevents excessive use of the motor
-        {
-            toggleCalculateTimeDifference = 0;  // Disable triggering time difference function in timer interrupt (this function), will be enabled again in stepperAdvance function
-            TA0CCTL2 |= CCIE;                   // TACCR2 interrupt stepperAdvance enable
-        }
     }
-
 
     if (state) __enable_interrupt(); // Restore previous interrupt state
 }

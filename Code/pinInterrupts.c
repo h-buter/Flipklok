@@ -73,30 +73,40 @@ __interrupt void port2ISR(void)
     }
     if (P2IFG & BIT1)  // P2.1 fwdButton
     {
-        if(1 == toggleFwdInterrupt)
+        P2IE &= ~BIT1;                               // disable interrupt
+        if(1 == toggleFwdInterruptISR)
         {
             __no_operation();
             if (timerCompareStepperSpeedToggle == 0) // Toggle edge interrupt If rising edge was set, switch to falling & vice versa
             {
                 P2IES |= BIT1;
                 timerCompareStepperSpeedToggle = 1;
+                toggleFwdInterrupt = 1;
                 TA0CCTL2 |= CCIE;                // TACCR2 interrupt enable
             }
             else
             {
                 P2IES &= ~BIT1;
                 timerCompareStepperSpeedToggle = 0;
+                toggleFwdInterrupt = 0;
 
             //                TA0CCTL2 &= ~CCIE;   not needed stepperAdvance enables calculateTime function automaticly when remaining steps are 0             // TACCR2 interrupt disable control back to calculateTimeDifference function
             }
         }
+        else //turn speed toggle off when function is disabled
+        {
+            timerCompareStepperSpeedToggle = 0;
+        }
 
         P2IFG &= ~BIT1;  // Clear interrupt flag
+        P2IE |= BIT1;                               // enable interrupt
     }
-//    if (P2IFG & BIT2)  // P2.2
-//    {
-//        P2IFG &= ~BIT2;  // Clear interrupt flag
-//    }
+    if (P2IFG & BIT2)  // P2.2
+    {
+        __no_operation();
+        P1OUT ^= BIT0;  //toggle 5v power
+        P2IFG &= ~BIT2;  // Clear interrupt flag
+    }
 //    if (P2IFG & BIT3)  // P2.3
 //    {
 //        P2IFG &= ~BIT3;  // Clear interrupt flag
