@@ -10,6 +10,14 @@
 
 void setupAdc();
 void startAdcConv();
+double convertAdc2Voltage(int R1, int R2, int adcReading);
+
+#define NUM_CHANNELS 3
+#define referenceVoltage 2.5
+#define adcMax 1023
+
+volatile unsigned int adcResults[NUM_CHANNELS];
+
 
 
 #endif /* ADC_H_ */

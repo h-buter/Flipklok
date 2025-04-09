@@ -10,5 +10,9 @@
 #include <pins.h>
 
 void setupGpio();
+void setupClockIO();
+void wakeUp();
+void sleep();
+
 
 #endif /* GPIO_H_ */

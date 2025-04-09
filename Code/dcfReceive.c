@@ -156,7 +156,9 @@ bool checkBitStream()
     if (1 == bitArray[0] || 0 == bitArray[20] || 1 == bitArray[59])
     {
         __no_operation();
-        UART_SendString("RX bit fault\r\n");
+        #ifdef UART_ENABLED
+            UART_SendString("RX bit fault\r\n");
+        #endif
         return 1; //transmission fault,
     }
 
@@ -178,7 +180,9 @@ bool checkBitStream()
     if (onesMinute % 2) // if odd then transmission fault
     {
         __no_operation();
-        UART_SendString("RX fault no parity minute\r\n");
+        #ifdef UART_ENABLED
+            UART_SendString("RX fault no parity minute\r\n");
+        #endif
         return 1; //transmission fault no even parity minute
     }
 
@@ -199,8 +203,10 @@ bool checkBitStream()
     __no_operation();
     if (onesHour % 2) // if odd then transmission fault
     {
-        __no_operation();
-        UART_SendString("RX fault no parity hour\r\n");
+
+        #ifdef UART_ENABLED
+            UART_SendString("RX fault no parity hour\r\n");
+        #endif
         return 1; //transmission fault no even parity hour
     }
 
@@ -215,7 +221,6 @@ bool checkBitStream()
 void decodeBitStream2Seconds()
 {
     static const unsigned int bcdValues[] = {1, 2, 4, 8, 10, 20, 40, 80};
-    __no_operation();
 
     volatile unsigned int minuteTemp = 0;
     volatile unsigned int hourTemp = 0;
@@ -234,7 +239,9 @@ void decodeBitStream2Seconds()
     if (minuteTemp > 60) // there can't be more than 60 minutes in a hour
     {
         __no_operation();
-        UART_SendString("More than 60 minutes fault\r\n");
+        #ifdef UART_ENABLED
+            UART_SendString("More than 60 minutes fault\r\n");
+        #endif
         error = 1;
     }
 
@@ -248,7 +255,9 @@ void decodeBitStream2Seconds()
     if (hourTemp > 24) // there can't be more than 24 hours in a day
     {
         __no_operation();
-        UART_SendString("More than 24 hours fault\r\n");
+        #ifdef UART_ENABLED
+            UART_SendString("More than 24 hours fault\r\n");
+        #endif
         error = 1;
     }
 
@@ -262,12 +271,15 @@ void decodeBitStream2Seconds()
 
         countDcf77Messages++; // Increment counter, used for checking if there was ever a message received, also for statistics
         timeSinceLastCompleteDcfMessage = 0; // Reset time since last message received, current DCF message syncs the clock
-
-        UART_SendString("DCF: ");
-        UART_SendInt(hourDcfLast);
-        UART_SendString(":");
-        UART_SendInt(minuteDcfLast);
-        UART_SendString("\r\n");
+        #ifdef UART_ENABLED
+            UART_SendString("DCF: ");
+            UART_SendInt(hourDcfLast);
+            UART_SendString(":");
+            UART_SendInt(minuteDcfLast);
+            UART_SendString(", Mech:");
+            UART_SendTime(mechanicalTimeFloat);
+            UART_SendString("\r\n");
+        #endif
     }
     __no_operation();
 }

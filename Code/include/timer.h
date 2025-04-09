@@ -20,4 +20,6 @@
 void setupTimer0();
 void setupTimer1();
 
+void wakeUpTimer0();
+void sleepTimer0();
 #endif /* TIMER_H_ */

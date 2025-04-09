@@ -29,6 +29,19 @@ void setupTimer0()
     TA0CCR1 = pwmPeriod_cycles;
 }
 
+void sleepTimer0()
+{
+    TA0CTL = TASSEL_1 | MC_2 | TAIE | ID_3;    // Set to counter to ACLK, Continuous clock, Enable TAIFG interrupt, Divider set to 8
+    TA0CCTL1 &= ~CCIE;                // TACCR1 interrupt disable
+    TA0CCTL2 &= ~CCIE;                // TACCR2 interrupt disable
+}
+
+void wakeUpTimer0()
+{
+    TA0CTL = TASSEL_1 | MC_2 | TAIE | ID_0;    // Set to counter to ACLK, Continuous clock, Enable TAIFG interrupt, Divider set to 1
+    TA0CCTL1 |= CCIE;                // TACCR1 interrupt enable
+}
+
 /// Interrupt vector of timer0 CCR0
 // CCR0 uses TIMER0_A0_VECTOR rest of capture registers uses TIMER0_A1_VECTOR
 #pragma vector=TIMER0_A0_VECTOR
@@ -126,10 +139,10 @@ __interrupt void ISR_TA1_CCR0(void)
     toggleTimer1Direction = 0; // counting down
     timeSinceLastCompleteDcfMessage += 4; //Increment counter by 4 seconds
 
-//    if (timeSinceLastCompleteDcfMessage >= timerCountsInDay)
-//    {
-//        timeSinceLastCompleteDcfMessage = 0;
-//    }
+    if (timeSinceLastCompleteDcfMessage >= timerCountsInDay)
+    {
+        timeSinceLastCompleteDcfMessage = 0;
+    }
 }
 
 /// Interrupt vector of timer1 CCR1 till CCR2 and TA0IFG

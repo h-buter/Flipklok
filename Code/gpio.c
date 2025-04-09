@@ -6,6 +6,7 @@
 
 #include "gpio.h"
 #include "pinInterrupts.h"
+#include "timer.h"
 
 /// Setup of all GPIO's on startup
 void setupGpio()
@@ -14,11 +15,11 @@ void setupGpio()
     P1DIR |= BIT3;
     P1OUT |= BIT3;
 
+    //Stepper pins
     P2OUT &= ~(STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4); // Clear stepper pins output latch for a defined power-on state
     P2DIR |= STEPPER1 + STEPPER2 + STEPPER3 + STEPPER4; // Set stepper pins to output direction
 
-    P2SEL  |= BIT6 | BIT7;   // Select XIN and XOUT functionality
-    P2SEL2 &= ~(BIT6 | BIT7); // Ensure secondary function is not selected
+    setupClockIO();
 
     //fwdButton
     P2DIR &= ~BIT1;                             // Input
@@ -29,16 +30,15 @@ void setupGpio()
     P2IE |= BIT1;                               // Enable interrupt
     toggleFwdInterruptISR = 1;                     // Enable the ISR
 
-    //led for lightning the clock
-    P1OUT &= ~BIT6;                             //Turn off LED0
+    //LED for lightning the clock
     P1DIR |= BIT6;                              //LED0 as output
+    P1OUT &= ~BIT6;                             //Turn off LED0
 
     //Indicator L
     P1DIR |= BIT7;                              // Output
     P1OUT &= ~BIT7;                             //Turn off
 
-
-    //EX-btn, dcf button for testing
+    //EX-btn
     P2DIR &= ~BIT2;                             // Input
 //    P2REN |= BIT2;                              // Enable pull
 //    P2OUT |= BIT2;                              // Enable pull up
@@ -48,29 +48,59 @@ void setupGpio()
 //    P2IFG &= ~BIT2;                             // Clear it again
     P2IE |= BIT2;                               // Enable interrupt
 
-
     //DCF77 input
     P1DIR &= ~BIT5;                             // Input
-//    P1IES &= ~BIT5;                              // low to high
     P1IES |= BIT5;                              // high to low, first trigger on a low going pulse to detect 1800 ms sync pulse after bit 58
-
     P1IFG &= ~BIT5;                             // Clear interrupt flag
     __delay_cycles(1000);                       // Small delay for stabilization otherwise a trigger is registered on boot up of dev board
     P1IFG &= ~BIT5;                             // Clear it again
     P1IE |= BIT5;                               // Enable interrupt
 
-
-//    //Test pin LDR as output test pin
-//    P1DIR |= BIT4;
-//    P1OUT &= ~BIT4;                             //Turn off
-
     //5V converter
-    P1DIR |= BIT0; // Output
-    P1OUT |= BIT0;//Turn on
+    P1DIR |= BIT0;      // Output
+    P1OUT &= ~BIT0;      //Turn off
 
-
-
-
+    //See for ADC pin setup adc.c
 
     __enable_interrupt();  // Enable global interrupts
+}
+
+void wakeUp()
+{
+    setupGpio();
+    P1OUT |= BIT0;      //Turn on 5v supply so stepper can spin
+    wakeUpTimer0();
+}
+
+void sleep()
+{
+    // Configure GPIOs to it's lowest power state
+    sleepTimer0();
+    P2IE &= ~BIT1;                               // Disable interrupt fwdButton
+    P2IE &= ~BIT2;                               // Disable interrupt exButton
+    P1IE &= ~BIT5;                               // Disable interrupt DCF77
+
+    P1OUT = 0;                                // All P1.x reset
+    P1DIR = 0xFF;                             // All P1.x outputs
+    P2OUT = 0;                                // All P2.x reset
+    P2DIR = 0xFF;                             // All P2.x outputs
+    P3OUT = 0;                                // All P3.x reset
+    P3DIR = 0xFF;                             // All P3.x outputs
+
+    P2DIR &= ~BIT1;                             // Input fwdButton
+    P2DIR &= ~BIT2;                             // Input exButton
+    P1DIR &= ~BIT5;                             // Input DCF77
+
+    //Keep ADC pins as input
+    P1DIR &= ~BIT1;  // Set P1.1 as input: Battery
+    P1DIR &= ~BIT2;  // Set P1.2 as input: Ignition switch
+
+    setupClockIO();
+}
+
+void setupClockIO()
+{
+    //Clock
+    P2SEL  |= BIT6 | BIT7;   // Select XIN and XOUT functionality
+    P2SEL2 &= ~(BIT6 | BIT7); // Ensure secondary function is not selected
 }

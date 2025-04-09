@@ -24,10 +24,16 @@
     #error "Warning: INFOD (0x1000 - 0x0040) is part of FLASH! Do NOT use for data storage."
 #endif
 
-char value;
+//char value;
 
 uint32_t setTime;
-uint32_t test;
+//uint32_t test;
+
+
+//uint32_t timeTest;
+//uint32_t loaded;
+
+uint32_t loaded_value;
 void main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;		// stop watchdog timer
@@ -39,33 +45,37 @@ void main(void)
 	setupGpio();
 	setupAdc();
 	setupClocks();
-    setupTimer0();
-    setupTimer1();
     resetTimeKeeping();
 
     //For testing, setting time of mechanical clock
-    uint32_t setMinute = 6;
-    uint32_t setHour = 17;
+    uint32_t setMinute = 03;
+    uint32_t setHour = 23;
     setTime = setHour * 3600 + setMinute * 60;
-    storeTime(setTime);
+    write_SegC(setTime);                    // Write 32-bit value to segment C, increment value
 
-    //wait time otherwise to quick between writing and reading from flash
-    __delay_cycles(10000);
-
-    mechanicalTimeFloat = loadTime(); // Get the last stored time of the display
+    FCTL2 = FWKEY + FSSEL0 + FN1;             // MCLK/3 for Flash Timing Generator
+    __delay_cycles(100000);
+    loaded_value = load_from_flash(); // Load the value from flash
+    if (loaded_value == 0xFFFFFFFF)
+    {
+        __delay_cycles(100000);
+        __no_operation();
+        while(1)
+        {
+            __no_operation();
+        }
+    }
+    __delay_cycles(100000); //wait time otherwise to quick between writing and reading from flash
+    mechanicalTimeFloat = loaded_value;
     timeOfLastDcfMessage = mechanicalTimeFloat; // Set the time of DCF before any message received the same as mechanical time so the clock does not stand still at startup
-    UART_SendString("\r\n------Starting------\r\n");
-    UART_SendString("mechanicalTime: ");
-    UART_SendTime(mechanicalTimeFloat);
+    #ifdef UART_ENABLED
+        UART_SendString("\r\n------Starting------\r\n");
+        UART_SendString("mechanicalTime: ");
+        UART_SendTime(mechanicalTimeFloat);
+    #endif
 
-    __no_operation();
-
-//    while(1)
-//    {
-//        P1OUT ^= BIT7;
-//        P1OUT ^= BIT0;
-//        __delay_cycles(5000000);
-//    }
+    setupTimer0();
+    setupTimer1();
 
     __bis_SR_register(LPM3_bits | GIE);
 

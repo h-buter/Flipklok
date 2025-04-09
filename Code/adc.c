@@ -6,8 +6,11 @@
 
 #include "adc.h"
 #include "led.h"
+#include "gpio.h"
 
 volatile unsigned int ADCvar;
+volatile unsigned char currentChannel = 0;
+volatile double voltReading;
 
 /// Interrupt routine for ADC
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
@@ -19,9 +22,67 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
 #error Compiler not supported!
 #endif
 {
+    static unsigned int energyTraceTest = 0;
+    static unsigned char energyTraceTestToggle = 0;
+
     ADC10CTL0 &= ~ADC10IFG; // Clear the interrupt flag
-    ADCvar = ADC10MEM; // Read conversion result
-    changeLedBrightness(ADCvar);
+    adcResults[currentChannel] = ADC10MEM; // Read out the result of the current pin
+
+    // Update the ADC input channel (INCH_x)
+    ADC10CTL0 &= ~ENC; // Disable conversion before changing channel
+    switch (currentChannel) {
+        case 0: // P1.4 (LDR):
+            ADC10CTL1 = (ADC10CTL1 & ~INCH_4) | INCH_1;
+            changeLedBrightness(adcResults[0]);
+            break;
+        case 1: // P1.1 (Battery):
+            ADC10CTL1 = (ADC10CTL1 & ~INCH_1) | INCH_2;
+            break;
+        case 2: // P1.2 (Ignition):
+            ADC10CTL1 = (ADC10CTL1 & ~INCH_2); // No more ADC conversions until startAdcConv() is called again
+            voltReading = convertAdc2Voltage(18, 75, adcResults[currentChannel]);
+//            if (voltReading > 12.0) // Switched on
+//            {
+//                wakeUp();
+//                volatile int k = 0;
+//                __no_operation();
+//            }
+//            else
+//            {
+//                sleep();
+//                volatile int k = 0;
+//                __no_operation();
+//            }
+
+            //Enerytrace test
+            energyTraceTest++;
+            if ((energyTraceTest >= 8 && energyTraceTestToggle == 0) || (energyTraceTest >= 2 && energyTraceTestToggle == 1))
+            {
+                energyTraceTest = 0;
+                if (energyTraceTestToggle == 1)
+                {
+                    wakeUp();
+                    energyTraceTestToggle = 0;
+                }
+                else
+                {
+                    sleep();
+                    energyTraceTestToggle = 1;
+                }
+            }
+            break;
+    }
+
+    currentChannel++; // Move to next channel
+    if (currentChannel >= 3)
+    {
+        currentChannel = 0;
+    }
+    else
+    {
+        ADC10CTL0 |= ENC; // Enable conversions
+        ADC10CTL0 |= ADC10SC; // Start next conversion
+    }
 }
 
 /// Setup ADC
@@ -32,11 +93,20 @@ void setupAdc()
 
 #warning ("TO-DO let ADC trigger by clock directly see SHSx on page 601 of manual");
     // Configure ADC10
-    P1DIR &= ~BIT4;  // Set P1.4 as input
+
+
     ADC10CTL0 &= ~ENC;                          // Disable conversions to be able to setup ADC registers
     ADC10CTL0 = SREF_1 | ADC10SHT_0 | REF2_5V | REFON | ADC10ON;              // Reference: VR+ = VREF+ and VR- = AVSS, set sampling time  4 ADC10CLK cycles, reference-generator voltage 2.5V, reference generator on, turn on ADC10.
-    ADC10CTL1 |= INCH_4 | ADC10DF;                    // Channel 4,
-    ADC10AE0 |= INCH_4;
+    ADC10CTL1 |= INCH_4 | ADC10DF; // First select channel 4
+    #ifdef UART_ENABLED
+        P1DIR &= ~BIT4;  // Set P1.4 as input: LDR
+        ADC10AE0 |= INCH_4; // enable as analog inputs
+    #else
+        P1DIR &= ~BIT4;  // Set P1.4 as input: LDR
+        P1DIR &= ~BIT1;  // Set P1.1 as input: Battery
+        P1DIR &= ~BIT2;  // Set P1.2 as input: Ignition switch
+        ADC10AE0 |= INCH_4 | INCH_1 | INCH_2; // enable as analog inputs
+    #endif
     ADC10CTL1 &= ~ADC10DF;  //Straight binary
     ADC10CTL1 |= ADC10DIV_0;                      // Predivider 00b = Predivide by 1
     ADC10CTL1 |= ADC10SSEL1;              // Use sampling timer and set clock source to ACLK
@@ -50,6 +120,15 @@ void setupAdc()
 /// Start a ADC conversion
 void startAdcConv()
 {
+    ADC10CTL0 &= ~ENC; // Disable before editing control registers
+    ADC10CTL1 |= INCH_4; // First select channel 4
     ADC10CTL0 |= ENC;
     ADC10CTL0 |= ADC10SC;                   // Start conversion-software trigger
+}
+
+double convertAdc2Voltage(int R1, int R2, int adcReading)
+{
+    double voltage = referenceVoltage / adcMax * adcReading; //convert ADC reading to voltage on pin, using 2.5V reference
+    voltage = (voltage * (R1 + R2)) / R1; // convert voltage to actual voltage as input on the voltage divider
+    return voltage;
 }

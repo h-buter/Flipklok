@@ -118,6 +118,8 @@ SECTIONS
     .infoB     : {} > INFOB
     .infoC     : {} > INFOC
     .infoD     : {} > INFOD
+    .noinitData : {} > INFOD  /* <- prevent erasing this section on reset */
+
 
     /* MSP430 Interrupt vectors          */
     TRAPINT      : { * ( .int00 ) } > INT00 type = VECT_INIT

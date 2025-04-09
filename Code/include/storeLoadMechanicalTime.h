@@ -9,9 +9,10 @@
 
 #include <stdint.h>  // Include to define uint32_t
 
-void storeTime(uint32_t  data);
-uint32_t  loadTime();
+//void storeTime(uint32_t  data);
+//uint32_t  loadTime();
 
-#define INFO_SEGMENT_ADDRESS 0x1000  // Info Memory segment C, see page 319 of SLAU144K
+void write_SegC(uint32_t value);
+uint32_t load_from_flash(void);
 
 #endif /* STORELOADMECHANICALTIME_H_ */

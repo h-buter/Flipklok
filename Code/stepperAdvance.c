@@ -47,23 +47,28 @@ void stepperAdvance()
                 if(mechanicalTimeFloat > 86400)
                 {
                     mechanicalTimeFloat = 0; //reset after 24:00
-                    UART_SendString("mechTime reset\r\n");
+                    #ifdef UART_ENABLED
+                        UART_SendString("mechTime reset\r\n");
+                    #endif
                 }
 
                 if((stepsRemaining > 999) && (0 == (stepsRemaining % 1000))) //every 1000 steps print steps remaining
                 {
-                    UART_SendString("s: ");
-                    UART_SendUint32(stepsRemaining);
-                    UART_SendString(", MTC: ");
-                    UART_SendTime(mechanicalTimeFloat);
-                    UART_SendString("\r\n");
+                    #ifdef UART_ENABLED
+                        UART_SendString("s: ");
+                        UART_SendUint32(stepsRemaining);
+                        UART_SendString(", MTC: ");
+                        UART_SendTime(mechanicalTimeFloat);
+                        UART_SendString("\r\n");
+                    #endif
                 }
             }
         }
         else
         {
             TA0CCTL2 &= ~CCIE;                          // TACCR2 interrupt stepperAdvance disable
-            storeTime((uint32_t)mechanicalTimeFloat); // Store the current state of the clock in non volatile flash
+//            storeTime((uint32_t)mechanicalTimeFloat); // Store the current state of the clock in non volatile flash
+            write_SegC((uint32_t)mechanicalTimeFloat);
             toggleCalculateTimeDifference = 1;          // enable triggering time difference function in timer interrupt.
             toggleFwdInterruptISR = 1;                     // Enable fwdButton interrupt again (disabled in timekeeping function when it is syncing)
         }
