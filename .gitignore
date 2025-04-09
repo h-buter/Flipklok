@@ -1,5 +1,10 @@
 DCF77 transmitterSimulator/include/secrets.h
 DCF77 stability test/include/secrets.h
+
+~$**.SLDPRT
+~$**.SLDASM
+/Mechanics/export
+
 PCB/Flipklok/Flipklok-backups/*
 PCB/Flipklok/production/backups/*
 *.000
