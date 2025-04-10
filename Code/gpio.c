@@ -3,12 +3,20 @@
  *
  *  Created on: 20 mrt. 2025
  */
+/**
+ * @file gpio.c
+ * @brief Setup of gpio pins on: startup, sleep and wakeup
+ */
 
 #include "gpio.h"
 #include "pinInterrupts.h"
 #include "timer.h"
 
-/// Setup of all GPIO's on startup
+/**
+ * @brief Setup of all GPIO's on startup, gets called from main()
+ *
+ * @return void
+ */
 void setupGpio()
 {
     //Enable pull-up on PCB
@@ -65,6 +73,11 @@ void setupGpio()
     __enable_interrupt();  // Enable global interrupts
 }
 
+/**
+ * @brief Setup of all GPIO's after wakeup, gets called from ADC10_ISR(void)
+ *
+ * @return void
+ */
 void wakeUp()
 {
     setupGpio();
@@ -72,6 +85,11 @@ void wakeUp()
     wakeUpTimer0();
 }
 
+/**
+ * @brief Setup of all GPIO's after sleep, gets called from ADC10_ISR(void)
+ *
+ * @return void
+ */
 void sleep()
 {
     // Configure GPIOs to it's lowest power state
@@ -98,6 +116,11 @@ void sleep()
     setupClockIO();
 }
 
+/**
+ * @brief Setup of the external clock pins, gets called from setupGpio(), wakeup(), sleep()
+ *
+ * @return void
+ */
 void setupClockIO()
 {
     //Clock

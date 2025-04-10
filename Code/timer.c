@@ -3,6 +3,10 @@
  *
  *  Created on: 20 mrt. 2025
  */
+/**
+ * @file timer.c
+ * @brief setup the timers and handle the timer ISR's
+ */
 
 #include "led.h"
 #include "timer.h"

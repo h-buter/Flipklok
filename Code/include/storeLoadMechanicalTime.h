@@ -12,7 +12,7 @@
 //void storeTime(uint32_t  data);
 //uint32_t  loadTime();
 
-void write_SegC(uint32_t value);
+void write_SegD(uint32_t value);
 uint32_t load_from_flash(void);
 
 #endif /* STORELOADMECHANICALTIME_H_ */

@@ -10,7 +10,7 @@
 #include <msp430.h>
 #include <stdint.h>
 
-//#define UART_ENABLED //Enables UART
+#define UART_ENABLED //Enables UART
 
 void UART_Init(void);
 void UART_SendChar(char c);

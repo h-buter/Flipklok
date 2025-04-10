@@ -3,6 +3,10 @@
  *
  *  Created on: 27 mrt. 2025
  */
+/**
+ * @file pinInterrupts.c
+ * @brief Setup and control of pin interrupts and location of the pin interrupt ISR's
+ */
 
 #include "pinInterrupts.h"
 #include "dcfReceive.h"
@@ -11,7 +15,12 @@
 
 volatile unsigned int lastDirection = 0; // 0 = counting up, 1 = counting down
 
-/// Interrupt vector of port2
+/**
+ * @brief Interrupt vector of port1, gets called when a interrupt on this port is reached
+ *
+ * Used for the DCF77 pin where the receiver is connected to
+ * @return void
+ */
 #pragma vector=PORT1_VECTOR
 __interrupt void port1ISR(void)
 {
@@ -61,8 +70,12 @@ __interrupt void port1ISR(void)
 
 }
 
-
-/// Interrupt vector of port1
+/**
+ * @brief Interrupt vector of port2, gets called when a interrupt on this port is reached
+ *
+ * Used for the fwdButton to fast forward the mechanical time
+ * @return void
+ */
 #pragma vector=PORT2_VECTOR
 __interrupt void port2ISR(void)
 {
@@ -101,12 +114,10 @@ __interrupt void port2ISR(void)
         P2IFG &= ~BIT1;  // Clear interrupt flag
         P2IE |= BIT1;                               // enable interrupt
     }
-    if (P2IFG & BIT2)  // P2.2
-    {
-        __no_operation();
-        P1OUT ^= BIT0;  //toggle 5v power
-        P2IFG &= ~BIT2;  // Clear interrupt flag
-    }
+//    if (P2IFG & BIT2)  // P2.2
+//    {
+//        P2IFG &= ~BIT2;  // Clear interrupt flag
+//    }
 //    if (P2IFG & BIT3)  // P2.3
 //    {
 //        P2IFG &= ~BIT3;  // Clear interrupt flag

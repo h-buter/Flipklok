@@ -3,15 +3,23 @@
  *
  *  Created on: 2 apr. 2025
  */
+/**
+ * @file uart.c
+ * @brief Setup and control of UART communication
+ */
 
 #include "uart.h"
 
-
+/**
+ * @brief Setup UART communication, gets called from main()
+ *
+ * @return void
+ */
 void UART_Init(void)
 {
     #ifdef UART_ENABLED
-//        P1SEL |= BIT1 + BIT2;   // Set P1.1 (RX) and P1.2 (TX) for UART function
-//        P1SEL2 |= BIT1 + BIT2;
+        P1SEL |= BIT1 + BIT2;   // Set P1.1 (RX) and P1.2 (TX) for UART function
+        P1SEL2 |= BIT1 + BIT2;
 
         UCA0CTL1 |= UCSSEL_2;   // Use SMCLK
         UCA0BR0 = 13;          // 2400 baud rate
@@ -22,6 +30,11 @@ void UART_Init(void)
     #endif
 }
 
+/**
+ * @brief send a single character via UART to host system
+ * @param c, the character to send
+ * @return void
+ */
 void UART_SendChar(char c)
 {
     #ifdef UART_ENABLED
@@ -30,6 +43,11 @@ void UART_SendChar(char c)
     #endif
 }
 
+/**
+ * @brief send a full string to host system
+ * @param *str, pointer to the string
+ * @return void
+ */
 void UART_SendString(char *str)
 {
     #ifdef UART_ENABLED
@@ -40,6 +58,11 @@ void UART_SendString(char *str)
     #endif
 }
 
+/**
+ * @brief send a 16 bit integer to host system
+ * @param num, the integer to send
+ * @return void
+ */
 void UART_SendInt(int32_t num)
 {
     #ifdef UART_ENABLED
@@ -76,6 +99,11 @@ void UART_SendInt(int32_t num)
     #endif
 }
 
+/**
+ * @brief send a 32 bit integer to host system
+ * @param num, the integer to send
+ * @return void
+ */
 void UART_SendUint32(uint32_t num)
 {
     #ifdef UART_ENABLED
@@ -100,6 +128,11 @@ void UART_SendUint32(uint32_t num)
     #endif
 }
 
+/**
+ * @brief Sends a time formated in hours and minutes to host system
+ * @param seconds, the time in seconds to send
+ * @return void
+ */
 void UART_SendTime(uint32_t seconds)
 {
     #ifdef UART_ENABLED

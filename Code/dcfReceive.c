@@ -3,6 +3,10 @@
  *
  *  Created on: 21 mrt. 2025
  */
+/**
+ * @file dcfReceive.c
+ * @brief DCF77 receiving and decoding implementation
+ */
 
 #include "dcfReceive.h"
 #include "timeKeeping.h"
@@ -12,10 +16,14 @@ unsigned int testbitTimeCyclesStart = bitTimeCyclesSync;
 unsigned int testbitTimeCyclesStartUpper = bitTimeCyclesSyncUpper;
 unsigned int testbitTimeCyclesStartLower = bitTimeCyclesSyncLower;
 
-/// Time the DCF77 pulses.
-/// Wait first for sync pulse than read out each of 59 bits
-/// Determine the value of the bit with: bool bitValue() based on the calculated transmit time with: unsigned int calculateBitTransmitTime()
-/// Store the result via: storeBit(), when all 59 bits are received check with: checkBitStream(), and decode to time: decodeBitStream2Seconds()
+/**
+ * @brief Time the DCF77 pulses gets called from pin interrupt port1ISR(void)
+ *
+ * Wait first for sync pulse than read out each of 59 bits
+ * Determine the value of the bit with: bool bitValue() based on the calculated transmit time with: unsigned int calculateBitTransmitTime()
+ * Store the result via: storeBit(), when all 59 bits are received check with: checkBitStream(), and decode to time: decodeBitStream2Seconds()
+ * @return void
+ */
 void interruptDcf()
 {
     static unsigned int count;
@@ -93,8 +101,18 @@ void interruptDcf()
     }
 }
 
-/// Calculate the time it took between the rising and falling edge of the DCF77 pulse
-/// Take in to account the up and down behavior of the timer
+/**
+ * @brief Calculate the bit time of the DCF77 pulses, gets called from interruptDcf()
+ *
+ * Calculate the time it took between the rising and falling edge of the DCF77 pulse
+ * Take in to account the up and down behavior of the timer
+ * @param checkSyncStatus (unused in this function).
+ * @param start The start point of the transmission on the timer up/down counter.
+ * @param startDir The direction of the start point (1 for up, 0 for down).
+ * @param stop The stop point of the transmission.
+ * @param stopDir The direction of the stop point (1 for up, 0 for down).
+ * @return unsigned int of the time
+ */
 unsigned int calculateBitTransmitTime(bool checkSyncStatus, unsigned int start, bool startDir, unsigned int stop, bool stopDir)
 {
     __no_operation();
@@ -123,7 +141,12 @@ unsigned int calculateBitTransmitTime(bool checkSyncStatus, unsigned int start, 
     return 0;
 }
 
-/// Determine the bit value of the transmitted DCF77 bit and return it
+/**
+ * @brief Determine the bit value of the transmitted DCF77 bit and return it, gets called from interruptDcf()
+ *
+ * @param bitTime Time of the bit signal in timer cycles
+ * @return true (1) if bit is 1, false (0) if bit is 0
+ */
 bool bitValue(unsigned int bitTime)
 {
     if (bitTime > bitTimeCycles1Lower && bitTime < bitTimeCycles1Upper)
@@ -142,13 +165,23 @@ bool bitValue(unsigned int bitTime)
 
 }
 
-/// Store the received DCF77 bit in the array
+/**
+ * @brief Store the received DCF77 bit in the array, gets called from interruptDcf()
+ *
+ * @param bit, the value of the bit
+ * @param location, the location of the array to store the bit
+ * @return void
+ */
 void storeBit(bool bit, unsigned int location)
 {
     bitArray[location] = bit;
 }
 
-/// Checks if certain predetermined bits are 1 or 0 and if parity of minute and hour is correct
+/**
+ * @brief Checks if certain predetermined bits are 1 or 0 and if parity of minute and hour is correct, gets called from interruptDcf()
+ *
+ * @return bool of the transmission fault, 0 is no fault
+ */
 bool checkBitStream()
 {
     __no_operation();
@@ -216,8 +249,11 @@ bool checkBitStream()
 
 }
 
-/// Decode the received DCF77 bitstream to a time
-/// Also ensure that the received time is plausible
+/**
+ * @brief Decode the received DCF77 bitstream to a time, gets called from interruptDcf()
+ * Also ensure that the received time is plausible by a couple of checks
+ * @return void
+ */
 void decodeBitStream2Seconds()
 {
     static const unsigned int bcdValues[] = {1, 2, 4, 8, 10, 20, 40, 80};

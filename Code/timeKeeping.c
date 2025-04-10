@@ -1,8 +1,11 @@
 /*
- * calculateTimeDifference.c
+ * timekeeping.c
  *
  *  Created on: 21 mrt. 2025
-
+ */
+/**
+ * @file timeKeeping.c
+ * @brief handles the keeping and calculating of time of the system
  */
 
 #include "timeKeeping.h"
@@ -12,9 +15,15 @@
 
 bool toggleCalculateTimeDifference = 1;
 
-/// Calculates the difference between the current time or received time from DCF77 and the time the mechanical clock displays.
-/// It then calculates the amount of steps that are needed to advance the clock to display the current time.
-/// The function take in to account which way it is the fastest to fully wrap the clock or to wait until the time synchronizes
+
+/**
+ * @brief calculate the difference between the mechanical time and the current time to have the time difference which the stepper needs to be advanced with, gets called from end interrupt of ISR_TA0(void).
+ *
+ * It then calculates the amount of steps that are needed to advance the clock to display the current time.
+ * The function take in to account which way it is the fastest to fully wrap the clock or to wait until the time synchronizes
+ * @return void
+ */
+
 void calculateTimeDifference()
 {
     if(countDcf77Messages > 0)
@@ -22,7 +31,7 @@ void calculateTimeDifference()
         __no_operation();
         volatile int testing = 0;
     }
-    uint32_t timeDiff;
+    volatile uint32_t timeDiff;
     __no_operation();
     toggleInterruptDcf = 1; // Enable dcfReceive interrupt
     unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
@@ -35,7 +44,6 @@ void calculateTimeDifference()
         }
         else if(countDcf77Messages > 0) // One or more DCF77 messages has been received use the time of DCF to set clock
         {
-            __no_operation();
             if((timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) > mechanicalTimeFloat) // Clock runs behind need to be advanced to current time
             {
                 timeDiff = (timeOfLastDcfMessage + timeSinceLastCompleteDcfMessage) - mechanicalTimeFloat; // Calculate how much the clock runs behind
@@ -88,9 +96,13 @@ void calculateTimeDifference()
                 }
             }
             stepsRemaining = calculateStepsToTake(timeDiff);
+//            #ifdef UART_ENABLED
+//                UART_SendInt(timeDiff);
+//            #endif
 
             if (stepsRemaining >= stepsToggleThreshold && stepsRemaining < stepsInDay) //Check if the needed steps to take is larger than the movement threshold, this prevents excessive use of the motor
             {
+                P1OUT |= BIT0;      //Turn 5v on
                 toggleCalculateTimeDifference = 0;  // Disable triggering time difference function in timer interrupt (this function), will be enabled again in stepperAdvance function
                 TA0CCTL2 |= CCIE;                   // TACCR2 interrupt stepperAdvance enable
             }
@@ -101,24 +113,34 @@ void calculateTimeDifference()
 }
 
 
-/// Calculate the steps to take for a given time difference
-uint32_t calculateStepsToTake(uint32_t timeDiff)
+
+/**
+ * @brief Calculate the steps to take for a given time difference, gets called by calculateTimeDifference()
+ *
+ * @param time the difference between time to advance the stepper with
+ * @return uint32_t amount of steps that the stepper needs to be rotated with
+ */
+uint32_t calculateStepsToTake(uint32_t time)
 {
-    if (timeDiff <= 0) //time difference is negative or 0
+    if (time <= 0) //time difference is negative or 0
     {
         __no_operation();
         return 0;
     }
     else
     {
-        double steps = (double)timeDiff * stepsClockSecond;
+        double steps = (double)time * stepsClockSecond;
         uint32_t stepsRounded = (uint32_t)steps;
         __no_operation();
         return stepsRounded;
     }
 }
 
-/// Reset the time settings on startup
+/**
+ * @brief Reset the time settings on startup, gets called from main()
+ *
+ * @return void
+ */
 void resetTimeKeeping()
 {
     mechanicalTimeFloat = 0.0;

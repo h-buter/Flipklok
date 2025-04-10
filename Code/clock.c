@@ -3,14 +3,19 @@
  *
  *  Created on: 20 mrt. 2025
  */
-
+/**
+ * @file clock.c
+ * @brief Setup of system clocks
+ */
 #include "clock.h"
 
-/// Setup clocks of system, all to LFXTAL input
+/**
+ * @brief Setup clocks of system, all to LFXTAL input, get called from main()
+ *
+ * @return void
+ */
 void setupClocks()
 {
-
-
     BCSCTL1 |= XT2OFF;              // Disable XT2
     BCSCTL1 &= ~XTS;                //LFXT1
     BCSCTL1 |= DIVA_0;              // ACLK Divider 0: /1

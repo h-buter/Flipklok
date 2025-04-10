@@ -1,16 +1,24 @@
+/**
+ * @file stepperAdvance.c
+ * @brief Setup and control of stepper motor
+ */
+
 #include "stepperAdvance.h"
 #include "timeKeeping.h"
 #include "uart.h"
 #include "storeLoadMechanicalTime.h"
 #include "pinInterrupts.h"
 
-/// Advances the stepper each time it gets called by one full step gets triggered by ISR_TA0().
-/// Step sequence:
-///  - 0001
-///  - 0010
-///  - 0100
-///  - 1000
-
+/**
+ * @brief Advances the stepper each time it gets called by one full step gets triggered by ISR_TA0().
+ *
+ * Step sequence:
+ *  - 0001
+ *  - 0010
+ *  - 0100
+ *  - 1000
+ * @return void
+ */
 int stepperArray[] = {BIT0, BIT3, BIT4, BIT5};
 void stepperAdvance()
 {
@@ -68,7 +76,7 @@ void stepperAdvance()
         {
             TA0CCTL2 &= ~CCIE;                          // TACCR2 interrupt stepperAdvance disable
 //            storeTime((uint32_t)mechanicalTimeFloat); // Store the current state of the clock in non volatile flash
-            write_SegC((uint32_t)mechanicalTimeFloat);
+            write_SegD((uint32_t)mechanicalTimeFloat);
             toggleCalculateTimeDifference = 1;          // enable triggering time difference function in timer interrupt.
             toggleFwdInterruptISR = 1;                     // Enable fwdButton interrupt again (disabled in timekeeping function when it is syncing)
         }

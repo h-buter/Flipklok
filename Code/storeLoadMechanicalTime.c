@@ -3,6 +3,10 @@
  *
  *  Created on: 1 apr. 2025
  */
+/**
+ * @file storeLoadMechanicalTime.c
+ * @brief Setup and control of flash memory to store the mechanical time
+ */
 
 #include "storeLoadMechanicalTime.h"
 
@@ -50,8 +54,13 @@
 
 
 
-// Function to write a 32-bit value to Flash segment C
-void write_SegC(uint32_t value)
+/**
+ * @brief Function to write a 32-bit value to Flash segment D for storing the mechanical time, gets called from main() and at the end of stepperAdvance()
+ *
+ * @param value the value to be stored in flash
+ * @return void
+ */
+void write_SegD(uint32_t value)
 {
   uint32_t *Flash_ptr;                          // Flash pointer
   unsigned int i;
@@ -76,7 +85,11 @@ void write_SegC(uint32_t value)
   FCTL3 = FWKEY + LOCK;                        // Set LOCK bit
 }
 
-// Function to load a 32-bit value from Flash memory
+/**
+ * @brief Function to load a 32-bit value from Flash memory segment D used for restoring the mechanical time on startup, gets called from main().
+ *
+ * @return uint32_t the value that is stored in flash
+ */
 uint32_t load_from_flash(void)
 {
   uint32_t *Flash_ptr;                         // Pointer to read from Flash memory
