@@ -12,6 +12,8 @@
 #include "led.h"
 #include "gpio.h"
 #include "uart.h"
+#include "timer.h"
+#include "dcfReceive.h"
 
 volatile unsigned int ADCvar;
 volatile unsigned char currentChannel = 0;
@@ -31,9 +33,6 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
 #error Compiler not supported!
 #endif
 {
-//    static unsigned int energyTraceTest = 0;
-//    static unsigned char energyTraceTestToggle = 0;
-
     ADC10CTL0 &= ~ADC10IFG; // Clear the interrupt flag
     adcResults[currentChannel] = ADC10MEM; // Read out the result of the current pin
     #if !defined(UART_ENABLED)
@@ -60,38 +59,17 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
                 else
                 {
                     sleep();
+                    countDcf77Messages = 0;
                     volatile int k = 0;
                     __no_operation();
                 }
-
-                //Enerytrace test
-    //            energyTraceTest++;
-    //            if ((energyTraceTest >= 8 && energyTraceTestToggle == 0) || (energyTraceTest >= 2 && energyTraceTestToggle == 1))
-    //            {
-    //                energyTraceTest = 0;
-    //                if (energyTraceTestToggle == 1)
-    //                {
-    //                    wakeUp();
-    //                    energyTraceTestToggle = 0;
-    //                }
-    //                else
-    //                {
-    //                    sleep();
-    //                    energyTraceTestToggle = 1;
-    //                }
-    //            }
                 break;
         }
-    #else
-        changeLedBrightness(adcResults[0]);
-    #endif
 
-
-    #if !defined(UART_ENABLED)
         currentChannel++; // Move to next channel
         if (currentChannel >= 3)
         {
-            currentChannel = 0;
+            currentChannel = 0; //stop starting ADC conversions until startAdcConv() is called again
         }
         else
         {
@@ -99,8 +77,7 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
             ADC10CTL0 |= ADC10SC; // Start next conversion
         }
     #else
-        ADC10CTL0 |= ENC; // Enable conversions
-        ADC10CTL0 |= ADC10SC; // Start next conversion
+        changeLedBrightness(adcResults[0]);
     #endif
 }
 

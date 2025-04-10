@@ -34,7 +34,7 @@ void calculateTimeDifference()
     volatile uint32_t timeDiff;
     __no_operation();
     toggleInterruptDcf = 1; // Enable dcfReceive interrupt
-    unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
+//    unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
     if (0 == toggleFwdInterrupt) //fwdButton is not pressed otherwise skip time keeping
     {
         if(0 == countDcf77Messages) // When no DCF77 message has been received work only on internal clock
@@ -109,7 +109,7 @@ void calculateTimeDifference()
         }
     }
 
-    if (state) __enable_interrupt(); // Restore previous interrupt state
+//    if (state) __enable_interrupt(); // Restore previous interrupt state
 }
 
 

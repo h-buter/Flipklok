@@ -54,8 +54,13 @@ void interruptDcf()
            {
                __no_operation();
                syncingStatus = 0; //Sync bit is detected start receiving data bits
-               storeBit(0, 0); // Currently on top of bit 0, this bit is always 0, so store it directly
-               count = 1; // First bit is already stored so start at the second bit, bit 1.
+               #ifdef UART_ENABLED
+                   UART_SendString("SD\r\n");
+               #endif
+                   //This is actually bit 59 not 0
+//               storeBit(0, 0); // Currently on top of bit 0, this bit is always 0, so store it directly
+//               count = 1; // First bit is already stored so start at the second bit, bit 1.
+               count = 0;
                P1IES &= ~BIT5;                  //Toggle edge interrupt low to high
            }
        }
@@ -191,6 +196,7 @@ bool checkBitStream()
         __no_operation();
         #ifdef UART_ENABLED
             UART_SendString("RX bit fault\r\n");
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
         return 1; //transmission fault,
     }
@@ -215,6 +221,7 @@ bool checkBitStream()
         __no_operation();
         #ifdef UART_ENABLED
             UART_SendString("RX fault no parity minute\r\n");
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
         return 1; //transmission fault no even parity minute
     }
@@ -239,6 +246,7 @@ bool checkBitStream()
 
         #ifdef UART_ENABLED
             UART_SendString("RX fault no parity hour\r\n");
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
         return 1; //transmission fault no even parity hour
     }
@@ -315,6 +323,12 @@ void decodeBitStream2Seconds()
             UART_SendString(", Mech:");
             UART_SendTime(mechanicalTimeFloat);
             UART_SendString("\r\n");
+        #endif
+    }
+    else
+    {
+        #ifdef UART_ENABLED
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
     }
     __no_operation();
