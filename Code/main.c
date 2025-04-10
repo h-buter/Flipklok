@@ -51,6 +51,8 @@ uint32_t loaded_value;
  *
  * @note If UART is enabled, a warning will be displayed that the UART will be initialized.
  */
+
+volatile uint32_t setMinute;
 void main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;		// stop watchdog timer
@@ -66,10 +68,18 @@ void main(void)
     resetTimeKeeping();
 
     //For testing, setting time of mechanical clock
-    uint32_t setMinute = 44;
-    uint32_t setHour = 17;
-    setTime = setHour * 3600 + setMinute * 60;
-    write_SegD(setTime);                    // Write 32-bit value to segment C, increment value
+    P2DIR &= ~BIT2;                             // Input
+    P2REN |= BIT2;   // Enable pull-up/down resistor
+    P2OUT |= BIT2;   // Select pull-up
+
+    if ((P2IN & BIT2))
+    {
+        setMinute = 02;
+        volatile uint32_t setHour = 20;
+        setTime = setHour * 3600 + setMinute * 60;
+        write_SegD(setTime);                    // Write 32-bit value to segment C, increment value
+        __no_operation();
+    }
 
     __delay_cycles(100000);
     loaded_value = load_from_flash(); // Load the value from flash

@@ -49,19 +49,19 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
             case 2: // P1.2 (Ignition):
                 ADC10CTL1 = (ADC10CTL1 & ~INCH_2); // No more ADC conversions until startAdcConv() is called again
                 voltReading = convertAdc2Voltage(18, 75, adcResults[currentChannel]);
-                if (voltReading > 12.0) // Switched on
-                {
-                    wakeUp();
-                    volatile int k = 0;
-                    __no_operation();
-                }
-                else
-                {
-                    sleep();
-                    countDcf77Messages = 0;
-                    volatile int k = 0;
-                    __no_operation();
-                }
+//                if (voltReading > 12.0) // Switched on
+//                {
+//                    wakeUp();
+//                    volatile int k = 0;
+//                    __no_operation();
+//                }
+//                else
+//                {
+//                    sleep();
+//                    countDcf77Messages = 0;
+//                    volatile int k = 0;
+//                    __no_operation();
+//                }
                 break;
         }
 

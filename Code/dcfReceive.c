@@ -307,7 +307,7 @@ void decodeBitStream2Seconds()
         minuteDcfLast = minuteTemp;
         hourDcfLast = hourTemp;
         // Convert to seconds passed midnight
-        timeOfLastDcfMessage = minuteDcfLast * 60 + hourDcfLast * 3600;
+        timeOfLastDcfMessage = (uint32_t)minuteDcfLast * 60 + (uint32_t)hourDcfLast * 3600;
 
 
         countDcf77Messages++; // Increment counter, used for checking if there was ever a message received, also for statistics
