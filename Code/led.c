@@ -17,8 +17,7 @@ unsigned int pwmOnCycles = 0;
 /**
  * @brief change the brightness od the LED's based on the LDR ADC reading, gets called from ADC10_ISR(void)
  *
- * @param volatile unsigned int adcReading, the reading from the adc of the LDR
- * @return void
+ * @param[in] adcReading The reading from the adc of the LDR
  */
 void changeLedBrightness(volatile unsigned int adcReading)
 {

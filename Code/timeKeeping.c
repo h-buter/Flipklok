@@ -21,7 +21,6 @@ bool toggleCalculateTimeDifference = 1;
  *
  * It then calculates the amount of steps that are needed to advance the clock to display the current time.
  * The function take in to account which way it is the fastest to fully wrap the clock or to wait until the time synchronizes
- * @return void
  */
 
 void calculateTimeDifference()
@@ -139,7 +138,6 @@ uint32_t calculateStepsToTake(uint32_t time)
 /**
  * @brief Reset the time settings on startup, gets called from main()
  *
- * @return void
  */
 void resetTimeKeeping()
 {

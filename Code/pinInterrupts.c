@@ -21,7 +21,6 @@ volatile int toggle123 = 0;
  * @brief Interrupt vector of port1, gets called when a interrupt on this port is reached
  *
  * Used for the DCF77 pin where the receiver is connected to
- * @return void
  */
 #pragma vector=PORT1_VECTOR
 __interrupt void port1ISR(void)
@@ -86,7 +85,6 @@ __interrupt void port1ISR(void)
  * @brief Interrupt vector of port2, gets called when a interrupt on this port is reached
  *
  * Used for the fwdButton to fast forward the mechanical time
- * @return void
  */
 #pragma vector=PORT2_VECTOR
 __interrupt void port2ISR(void)
