@@ -15,6 +15,11 @@
 
 bool toggleCalculateTimeDifference = 1;
 
+//declare it globally
+uint32_t timeOfLastDcfMessage = 0;
+uint32_t timeSinceLastCompleteDcfMessage = 0;
+double mechanicalTimeFloat = 0;
+
 
 /**
  * @brief calculate the difference between the mechanical time and the current time to have the time difference which the stepper needs to be advanced with, gets called from end interrupt of ISR_TA0(void).

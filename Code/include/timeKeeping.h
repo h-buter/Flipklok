@@ -18,8 +18,8 @@ uint32_t calculateStepsToTake();
 void storeTimeLastCompleteDcfMessage();
 void resetTimeKeeping();
 
-uint32_t timeOfLastDcfMessage;
-uint32_t timeSinceLastCompleteDcfMessage;
+extern uint32_t timeOfLastDcfMessage;
+extern uint32_t timeSinceLastCompleteDcfMessage;
 #define timerCountsInDay 60 * 60 * 24 / (capacityTimer / clockFreq)
 
 #define toothGearStepper 15.0
@@ -37,7 +37,7 @@ uint32_t timeSinceLastCompleteDcfMessage;
 #define stepsInDay (stepsClockSecond * secondsInDay)
 
 //Needs to be stored in non volatile storage (FRAM), to be persistent across boot
-double mechanicalTimeFloat; //time of mechanical clock mechanism should be in double/floating point
+extern double mechanicalTimeFloat; //time of mechanical clock mechanism should be in double/floating point
 //uint32_t mechanicalTimeInt; //Integer display of floatingpoint timeMechanical
 
 uint32_t stepsRemaining;
