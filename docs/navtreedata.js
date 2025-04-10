@@ -27,6 +27,7 @@ var NAVTREE =
   [ "Flipklok", "index.html", [
     [ "Flipklok in 1970s Style with DCF77 Time Synchronization", "index.html", "index" ],
     [ "Bill of materials", "md_extra-docs_2bom.html", null ],
+    [ "Planned state diagram", "md_extra-docs_2_state_diagram.html", null ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
