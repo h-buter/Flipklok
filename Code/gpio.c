@@ -119,7 +119,6 @@ void sleep()
 /**
  * @brief Setup of the external clock pins, gets called from setupGpio(), wakeup(), sleep()
  *
- * @return void
  */
 void setupClockIO()
 {

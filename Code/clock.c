@@ -12,7 +12,6 @@
 /**
  * @brief Setup clocks of system, all to LFXTAL input, get called from main()
  *
- * @return void
  */
 void setupClocks()
 {

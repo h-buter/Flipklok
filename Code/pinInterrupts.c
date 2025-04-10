@@ -15,6 +15,8 @@
 
 volatile unsigned int lastDirection = 0; // 0 = counting up, 1 = counting down
 
+volatile int toggle123 = 0;
+
 /**
  * @brief Interrupt vector of port1, gets called when a interrupt on this port is reached
  *
@@ -46,18 +48,28 @@ __interrupt void port1ISR(void)
 //    }
     if (P1IFG & BIT5)  // P1.5 DCF pin
     {
-        P1IE &= ~BIT5;                              // Disable interrupt
-        P1IFG &= ~BIT5;                             // Clear flag
+        P1IFG &= ~BIT5;  // Clear interrupt flag
+        P1IE |= BIT5;    // Re-enable interrupt for P1.5
         __no_operation();
-
+        if (0 == countDcf77Messages)
+        {
+            if (toggle123 == 1)
+            {
+                P1OUT |= BIT7; //Toggle indicator LED
+                toggle123 = 0;
+            }
+            else
+            {
+                P1OUT &= ~BIT7; //Toggle indicator LED
+                toggle123 = 1;
+            }
+        }
         if(1 == toggleInterruptDcf)
         {
             interruptDcf();
         }
 
         __no_operation();
-        P1IFG &= ~BIT5;  // Clear interrupt flag
-        P1IE |= BIT5;                               // Enable interrupt
     }
 //    if (P1IFG & BIT6)  // P1.6
 //    {

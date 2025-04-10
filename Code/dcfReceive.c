@@ -22,7 +22,6 @@ unsigned int testbitTimeCyclesStartLower = bitTimeCyclesSyncLower;
  * Wait first for sync pulse than read out each of 59 bits
  * Determine the value of the bit with: bool bitValue() based on the calculated transmit time with: unsigned int calculateBitTransmitTime()
  * Store the result via: storeBit(), when all 59 bits are received check with: checkBitStream(), and decode to time: decodeBitStream2Seconds()
- * @return void
  */
 void interruptDcf()
 {
@@ -54,8 +53,13 @@ void interruptDcf()
            {
                __no_operation();
                syncingStatus = 0; //Sync bit is detected start receiving data bits
-               storeBit(0, 0); // Currently on top of bit 0, this bit is always 0, so store it directly
-               count = 1; // First bit is already stored so start at the second bit, bit 1.
+               #ifdef UART_ENABLED
+                   UART_SendString("SD\r\n");
+               #endif
+                   //This is actually bit 59 not 0
+//               storeBit(0, 0); // Currently on top of bit 0, this bit is always 0, so store it directly
+//               count = 1; // First bit is already stored so start at the second bit, bit 1.
+               count = 0;
                P1IES &= ~BIT5;                  //Toggle edge interrupt low to high
            }
        }
@@ -168,9 +172,8 @@ bool bitValue(unsigned int bitTime)
 /**
  * @brief Store the received DCF77 bit in the array, gets called from interruptDcf()
  *
- * @param bit, the value of the bit
- * @param location, the location of the array to store the bit
- * @return void
+ * @param[in] bit The value of the bit
+ * @param[in] location The location of the array to store the bit
  */
 void storeBit(bool bit, unsigned int location)
 {
@@ -191,6 +194,7 @@ bool checkBitStream()
         __no_operation();
         #ifdef UART_ENABLED
             UART_SendString("RX bit fault\r\n");
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
         return 1; //transmission fault,
     }
@@ -215,6 +219,7 @@ bool checkBitStream()
         __no_operation();
         #ifdef UART_ENABLED
             UART_SendString("RX fault no parity minute\r\n");
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
         return 1; //transmission fault no even parity minute
     }
@@ -239,6 +244,7 @@ bool checkBitStream()
 
         #ifdef UART_ENABLED
             UART_SendString("RX fault no parity hour\r\n");
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
         return 1; //transmission fault no even parity hour
     }
@@ -252,7 +258,6 @@ bool checkBitStream()
 /**
  * @brief Decode the received DCF77 bitstream to a time, gets called from interruptDcf()
  * Also ensure that the received time is plausible by a couple of checks
- * @return void
  */
 void decodeBitStream2Seconds()
 {
@@ -315,6 +320,12 @@ void decodeBitStream2Seconds()
             UART_SendString(", Mech:");
             UART_SendTime(mechanicalTimeFloat);
             UART_SendString("\r\n");
+        #endif
+    }
+    else
+    {
+        #ifdef UART_ENABLED
+            UART_Bitstream(bitArray, sizeof(bitArray));
         #endif
     }
     __no_operation();

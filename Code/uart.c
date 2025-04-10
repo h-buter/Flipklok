@@ -9,6 +9,7 @@
  */
 
 #include "uart.h"
+#include "dcfReceive.h"
 
 /**
  * @brief Setup UART communication, gets called from main()
@@ -142,7 +143,31 @@ void UART_SendTime(uint32_t seconds)
     //    UART_SendString("time: ");
         UART_SendInt(hours);
         UART_SendString(":");
+        if (minutes <= 9)
+        {
+            UART_SendString("0"); // send a zero first other wise it prints xx:y instead of xx:yy
+        }
         UART_SendInt(minutes);
         UART_SendString("\r\n");
     #endif
 }
+
+/**
+ * @brief Sends a the received DCF bitstream to host system
+ * @param arr, pointer to the bitstream array
+ * @param lenght, the length of the array
+ * @return void
+ */
+void UART_Bitstream(const bool* arr, unsigned int length)
+{
+    #ifdef UART_ENABLED
+        unsigned int i;
+        for (i = 0; i < length; i++)
+        {
+            char c = arr[i] ? '1' : '0';  // convert to ASCII
+            UART_SendChar(c);
+        }
+        UART_SendString("\r\n");
+    #endif
+}
+

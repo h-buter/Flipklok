@@ -69,14 +69,14 @@ __interrupt void ISR_TA0(void)
             {
                 TA0CCR1 = TA0R + pwmOnCycles;
                 P1OUT |= BIT6; //turn on
-                P1OUT |= BIT7;
+//                P1OUT |= BIT7;
                 togglePwm = 1;
             }
             else
             {
                 TA0CCR1 = TA0R + pwmPeriod_cycles;
                 P1OUT &= ~BIT6; //turn off
-                P1OUT &= ~BIT7;
+//                P1OUT &= ~BIT7;
                 togglePwm = 0;
 
             }

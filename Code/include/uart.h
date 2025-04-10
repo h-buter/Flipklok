@@ -9,6 +9,7 @@
 
 #include <msp430.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define UART_ENABLED //Enables UART
 
@@ -20,6 +21,8 @@ void UART_SendUint32(uint32_t num);
 void UART_SendInt(int32_t num);
 
 void UART_SendTime(uint32_t seconds);
+
+void UART_Bitstream(const bool* arr, unsigned int length);
 
 
 
