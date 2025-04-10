@@ -32,7 +32,7 @@ void UART_Init(void)
 
 /**
  * @brief send a single character via UART to host system
- * @param c, the character to send
+ * @param[in] c The character to send
  */
 void UART_SendChar(char c)
 {
@@ -44,7 +44,7 @@ void UART_SendChar(char c)
 
 /**
  * @brief send a full string to host system
- * @param *str, pointer to the string
+ * @param[out]] *str Pointer to the string
  */
 void UART_SendString(char *str)
 {
@@ -58,7 +58,7 @@ void UART_SendString(char *str)
 
 /**
  * @brief send a 16 bit integer to host system
- * @param num, the integer to send
+ * @param[in] num The integer to send
  */
 void UART_SendInt(int32_t num)
 {
@@ -98,7 +98,7 @@ void UART_SendInt(int32_t num)
 
 /**
  * @brief send a 32 bit integer to host system
- * @param num, the integer to send
+ * @param[in] num The integer to send
  */
 void UART_SendUint32(uint32_t num)
 {
@@ -126,7 +126,7 @@ void UART_SendUint32(uint32_t num)
 
 /**
  * @brief Sends a time formated in hours and minutes to host system
- * @param seconds, the time in seconds to send
+ * @param[in] seconds The time in seconds to send
  */
 void UART_SendTime(uint32_t seconds)
 {
@@ -149,7 +149,7 @@ void UART_SendTime(uint32_t seconds)
 /**
  * @brief Sends a the received DCF bitstream to host system
  * @param[out] arr Pointer to the bitstream array
- * @param[in] lenght The length of the array
+ * @param[in] length The length of the array
  */
 void UART_Bitstream(const bool* arr, unsigned int length)
 {
