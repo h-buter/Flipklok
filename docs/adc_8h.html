@@ -154,7 +154,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="adc_8h_source.html#l00017">17</a> of file <a class="el" href="adc_8h_source.html">adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00159">convertAdc2Voltage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00132">convertAdc2Voltage()</a>.</p>
 
 </div>
 </div>
@@ -188,7 +188,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="adc_8h_source.html#l00016">16</a> of file <a class="el" href="adc_8h_source.html">adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00159">convertAdc2Voltage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00132">convertAdc2Voltage()</a>.</p>
 
 </div>
 </div>
@@ -220,18 +220,18 @@ Variables</h2></td></tr>
 <p>Convert the adc reading to a voltage before voltage divider. </p>
 <dl class="section return"><dt>Returns</dt><dd>double voltage </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="adc_8c_source.html#l00159">159</a> of file <a class="el" href="adc_8c_source.html">adc.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  160</span>{</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordtype">double</span> voltage = <a class="code hl_define" href="#afd19e9fdcc4d4fd6adad7f9cf73337bb">referenceVoltage</a> / <a class="code hl_define" href="#ac34efdb27a007c5c83f45964e6d5129c">adcMax</a> * adcReading; <span class="comment">//convert ADC reading to voltage on pin, using 2.5V reference</span></div>
-<div class="line"><span class="lineno">  162</span>    voltage = (voltage * (R1 + R2)) / R1; <span class="comment">// convert voltage to actual voltage as input on the voltage divider</span></div>
-<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">return</span> voltage;</div>
-<div class="line"><span class="lineno">  164</span>}</div>
+<p class="definition">Definition at line <a class="el" href="adc_8c_source.html#l00132">132</a> of file <a class="el" href="adc_8c_source.html">adc.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
+<div class="line"><span class="lineno">  134</span>    <span class="keywordtype">double</span> voltage = <a class="code hl_define" href="#afd19e9fdcc4d4fd6adad7f9cf73337bb">referenceVoltage</a> / <a class="code hl_define" href="#ac34efdb27a007c5c83f45964e6d5129c">adcMax</a> * adcReading; <span class="comment">//convert ADC reading to voltage on pin, using 2.5V reference</span></div>
+<div class="line"><span class="lineno">  135</span>    voltage = (voltage * (R1 + R2)) / R1; <span class="comment">// convert voltage to actual voltage as input on the voltage divider</span></div>
+<div class="line"><span class="lineno">  136</span>    <span class="keywordflow">return</span> voltage;</div>
+<div class="line"><span class="lineno">  137</span>}</div>
 <div class="ttc" id="aadc_8h_html_ac34efdb27a007c5c83f45964e6d5129c"><div class="ttname"><a href="#ac34efdb27a007c5c83f45964e6d5129c">adcMax</a></div><div class="ttdeci">#define adcMax</div><div class="ttdef"><b>Definition</b> <a href="adc_8h_source.html#l00017">adc.h:17</a></div></div>
 <div class="ttc" id="aadc_8h_html_afd19e9fdcc4d4fd6adad7f9cf73337bb"><div class="ttname"><a href="#afd19e9fdcc4d4fd6adad7f9cf73337bb">referenceVoltage</a></div><div class="ttdeci">#define referenceVoltage</div><div class="ttdef"><b>Definition</b> <a href="adc_8h_source.html#l00016">adc.h:16</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="adc_8h_source.html#l00017">adcMax</a>, and <a class="el" href="adc_8h_source.html#l00016">referenceVoltage</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00027">ADC10_ISR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00028">ADC10_ISR()</a>.</p>
 
 </div>
 </div>
@@ -251,37 +251,36 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Setup ADC, get called in startup from <a class="el" href="main_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title="Main function that initializes system components and enters low-power mode.">main()</a>, Shortest samling rate, with 2.5V reference, no prdivider, setup channels and enable conversion interrupts. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="adc_8c_source.html#l00111">111</a> of file <a class="el" href="adc_8c_source.html">adc.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  112</span>{</div>
-<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">while</span> (ADC10CTL1 &amp; ADC10BUSY);  <span class="comment">// Wait if ADC is busy</span></div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span><span class="preprocessor">#warning (&quot;TO-DO let ADC trigger by clock directly see SHSx on page 601 of manual&quot;);</span></div>
-<div class="line"><span class="lineno">  116</span>    <span class="comment">// Configure ADC10</span></div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>    ADC10CTL0 &amp;= ~ENC;                          <span class="comment">// Disable conversions to be able to setup ADC registers</span></div>
-<div class="line"><span class="lineno">  120</span>    ADC10CTL0 = SREF_1 | ADC10SHT_0 | REF2_5V | REFON | ADC10ON;              <span class="comment">// Reference: VR+ = VREF+ and VR- = AVSS, set sampling time  4 ADC10CLK cycles, reference-generator voltage 2.5V, reference generator on, turn on ADC10.</span></div>
-<div class="line"><span class="lineno">  121</span>    ADC10CTL1 |= INCH_4 | ADC10DF; <span class="comment">// First select channel 4</span></div>
-<div class="line"><span class="lineno">  122</span><span class="preprocessor">    #ifdef UART_ENABLED</span></div>
-<div class="line"><span class="lineno">  123</span>        P1DIR &amp;= ~BIT4;  <span class="comment">// Set P1.4 as input: LDR</span></div>
-<div class="line"><span class="lineno">  124</span>        ADC10AE0 |= INCH_4; <span class="comment">// enable as analog inputs</span></div>
-<div class="line"><span class="lineno">  125</span><span class="preprocessor">    #else</span></div>
-<div class="line"><span class="lineno">  126</span>        P1DIR &amp;= ~BIT4;  <span class="comment">// Set P1.4 as input: LDR</span></div>
-<div class="line"><span class="lineno">  127</span>        P1DIR &amp;= ~BIT1;  <span class="comment">// Set P1.1 as input: Battery</span></div>
-<div class="line"><span class="lineno">  128</span>        P1DIR &amp;= ~BIT2;  <span class="comment">// Set P1.2 as input: Ignition switch</span></div>
-<div class="line"><span class="lineno">  129</span>        ADC10AE0 |= INCH_4 | INCH_1 | INCH_2; <span class="comment">// enable as analog inputs</span></div>
-<div class="line"><span class="lineno">  130</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><span class="lineno">  131</span>    ADC10CTL1 &amp;= ~ADC10DF;  <span class="comment">//Straight binary</span></div>
-<div class="line"><span class="lineno">  132</span>    ADC10CTL1 |= ADC10DIV_0;                      <span class="comment">// Predivider 00b = Predivide by 1</span></div>
-<div class="line"><span class="lineno">  133</span>    ADC10CTL1 |= ADC10SSEL1;              <span class="comment">// Use sampling timer and set clock source to ACLK</span></div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span><span class="comment">//    ADC10CTL0 |= ENC;                          // Enable conversions</span></div>
-<div class="line"><span class="lineno">  136</span>    ADC10CTL0 |= ADC10IE;                          <span class="comment">// Enable ADC conv complete interrupt</span></div>
-<div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">while</span> ((ADC10CTL1 &amp; ADC10BUSY));  <span class="comment">// Wait if ADC is busy</span></div>
-<div class="line"><span class="lineno">  139</span>}</div>
+<p class="definition">Definition at line <a class="el" href="adc_8c_source.html#l00086">86</a> of file <a class="el" href="adc_8c_source.html">adc.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>{</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">while</span> (ADC10CTL1 &amp; ADC10BUSY);  <span class="comment">// Wait if ADC is busy</span></div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span><span class="preprocessor">#warning (&quot;TO-DO let ADC trigger by clock directly see SHSx on page 601 of manual&quot;);</span></div>
+<div class="line"><span class="lineno">   91</span>    <span class="comment">// Configure ADC10</span></div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    ADC10CTL0 &amp;= ~ENC;                          <span class="comment">// Disable conversions to be able to setup ADC registers</span></div>
+<div class="line"><span class="lineno">   95</span>    ADC10CTL0 = SREF_1 | ADC10SHT_0 | REF2_5V | REFON | ADC10ON;              <span class="comment">// Reference: VR+ = VREF+ and VR- = AVSS, set sampling time  4 ADC10CLK cycles, reference-generator voltage 2.5V, reference generator on, turn on ADC10.</span></div>
+<div class="line"><span class="lineno">   96</span>    ADC10CTL1 |= INCH_4 | ADC10DF; <span class="comment">// First select channel 4</span></div>
+<div class="line"><span class="lineno">   97</span><span class="preprocessor">    #ifdef UART_ENABLED</span></div>
+<div class="line"><span class="lineno">   98</span>        P1DIR &amp;= ~BIT4;  <span class="comment">// Set P1.4 as input: LDR</span></div>
+<div class="line"><span class="lineno">   99</span>        ADC10AE0 |= INCH_4; <span class="comment">// enable as analog inputs</span></div>
+<div class="line"><span class="lineno">  100</span><span class="preprocessor">    #else</span></div>
+<div class="line"><span class="lineno">  101</span>        P1DIR &amp;= ~BIT4;  <span class="comment">// Set P1.4 as input: LDR</span></div>
+<div class="line"><span class="lineno">  102</span>        P1DIR &amp;= ~BIT1;  <span class="comment">// Set P1.1 as input: Battery</span></div>
+<div class="line"><span class="lineno">  103</span>        P1DIR &amp;= ~BIT2;  <span class="comment">// Set P1.2 as input: Ignition switch</span></div>
+<div class="line"><span class="lineno">  104</span>        ADC10AE0 |= INCH_4 | INCH_1 | INCH_2; <span class="comment">// enable as analog inputs</span></div>
+<div class="line"><span class="lineno">  105</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><span class="lineno">  106</span>    ADC10CTL1 &amp;= ~ADC10DF;  <span class="comment">//Straight binary</span></div>
+<div class="line"><span class="lineno">  107</span>    ADC10CTL1 |= ADC10DIV_0;                      <span class="comment">// Predivider 00b = Predivide by 1</span></div>
+<div class="line"><span class="lineno">  108</span>    ADC10CTL1 |= ADC10SSEL1;              <span class="comment">// Use sampling timer and set clock source to ACLK</span></div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span><span class="comment">//    ADC10CTL0 |= ENC;                          // Enable conversions</span></div>
+<div class="line"><span class="lineno">  111</span>    ADC10CTL0 |= ADC10IE;                          <span class="comment">// Enable ADC conv complete interrupt</span></div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">while</span> ((ADC10CTL1 &amp; ADC10BUSY));  <span class="comment">// Wait if ADC is busy</span></div>
+<div class="line"><span class="lineno">  114</span>}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00054">main()</a>.</p>
 
@@ -303,15 +302,14 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Start the ADC conversion'(s), gets called when end interrupt of <a class="el" href="timer_8c.html#a3932b1c16ad3692fa3f29df5266488e0" title="Interrupt vector of timer0 CCR1 till CCR2 and TA0IFG.">ISR_TA0(void)</a> is reached. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="adc_8c_source.html#l00146">146</a> of file <a class="el" href="adc_8c_source.html">adc.c</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  147</span>{</div>
-<div class="line"><span class="lineno">  148</span>    ADC10CTL0 &amp;= ~ENC; <span class="comment">// Disable before editing control registers</span></div>
-<div class="line"><span class="lineno">  149</span>    ADC10CTL1 |= INCH_4; <span class="comment">// First select channel 4</span></div>
-<div class="line"><span class="lineno">  150</span>    ADC10CTL0 |= ENC;</div>
-<div class="line"><span class="lineno">  151</span>    ADC10CTL0 |= ADC10SC;                   <span class="comment">// Start conversion-software trigger</span></div>
-<div class="line"><span class="lineno">  152</span>}</div>
+<p class="definition">Definition at line <a class="el" href="adc_8c_source.html#l00119">119</a> of file <a class="el" href="adc_8c_source.html">adc.c</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  120</span>{</div>
+<div class="line"><span class="lineno">  121</span>    ADC10CTL0 &amp;= ~ENC; <span class="comment">// Disable before editing control registers</span></div>
+<div class="line"><span class="lineno">  122</span>    ADC10CTL1 |= INCH_4; <span class="comment">// First select channel 4</span></div>
+<div class="line"><span class="lineno">  123</span>    ADC10CTL0 |= ENC;</div>
+<div class="line"><span class="lineno">  124</span>    ADC10CTL0 |= ADC10SC;                   <span class="comment">// Start conversion-software trigger</span></div>
+<div class="line"><span class="lineno">  125</span>}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="timer_8c_source.html#l00060">ISR_TA0()</a>.</p>
 
@@ -332,7 +330,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="adc_8h_source.html#l00019">19</a> of file <a class="el" href="adc_8h_source.html">adc.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00027">ADC10_ISR()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="adc_8c_source.html#l00028">ADC10_ISR()</a>.</p>
 
 </div>
 </div>
