@@ -15,7 +15,6 @@
 /**
  * @brief Setup of all GPIO's on startup, gets called from main()
  *
- * @return void
  */
 void setupGpio()
 {
@@ -76,7 +75,6 @@ void setupGpio()
 /**
  * @brief Setup of all GPIO's after wakeup, gets called from ADC10_ISR(void)
  *
- * @return void
  */
 void wakeUp()
 {
@@ -88,7 +86,6 @@ void wakeUp()
 /**
  * @brief Setup of all GPIO's after sleep, gets called from ADC10_ISR(void)
  *
- * @return void
  */
 void sleep()
 {
