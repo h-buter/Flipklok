@@ -44,7 +44,7 @@ void UART_SendChar(char c)
 
 /**
  * @brief send a full string to host system
- * @param[out]] *str Pointer to the string
+ * @param[out] *str Pointer to the string
  */
 void UART_SendString(char *str)
 {
