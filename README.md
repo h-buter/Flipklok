@@ -8,6 +8,11 @@ device operates efficiently within a low power environment.
 At time of writing I am still deciding on if the clock will be used a desk clock or if I build it in to my 1977 Relaint Robin MK1
 This is why some design decisions, like low power, are not always directly clear in the scope of a normal clock project.
 
+For the complete documentation see the doxygen documentation hosted on GitHub pages:
+- Index: https://h-buter.github.io/Flipklok/index.html
+- Start of code: https://h-buter.github.io/Flipklok/main_8c.html 
+- Interactive Bill of materials: https://h-buter.github.io/Flipklok/md_extra-docs_2bom.html
+
 ## Project Overview
 
 This flip clock project integrates both mechanical components and electronics to display the current time
@@ -48,6 +53,25 @@ The hardware component involves:
 ## Getting Started
 
 To get started with this project, you need to:
+
+- Code: 
+    - If you want to view the code use the doxygen documentation (see intoduction) or view the source files on GitHub.
+    - If you want to run the code, install TI code composer studio and clone this repository.
+        - This repo should contain every file to be able to compile the code for the MSP430G2553
+- PCB:
+    - View the PCB files use the exported pdf: [exported pdf's](https://github.com/h-buter/Flipklok/tree/main/PCB/Flipklok/export)
+    - Edit the PCB files, Kicad and clone the repo.
+    - Run a production:
+        - Download the gerber ZIP and give this to you're favorite PCB manufacturer, it may be possible the etch the board you're self but be warned this is not easy because of the multilayer construction.
+        - Order the bom
+        - Wait for everything to arrive 
+        - Assemble
+        - Test, don't let the make smoke out (not optional)
+            - First power up test
+            - Flash the code, i used a launchpad devboard see page 8 till 10 [link to datasheet of launchpad](https://www.ti.com/lit/ug/slau772a/slau772a.pdf?ts=1743585388312&ref_url=https%253A%252F%252Fwww.ti.com%252Ftool%252FMSP-EXP430G2ET%253FkeyMatch%253Dmsp-exp430g2et%2526tisearch%253Duniversal_search)
+- Mechanics:
+    - To view the 3d files you can use the free viewing program [Edrawings](https://www.edrawingsviewer.com/download-edrawings)
+    - To edit the files you will need Solidworks
 
 
 ## Contribution
