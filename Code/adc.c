@@ -12,6 +12,8 @@
 #include "led.h"
 #include "gpio.h"
 #include "uart.h"
+#include "timer.h"
+#include "dcfReceive.h"
 
 volatile unsigned int ADCvar;
 volatile unsigned char currentChannel = 0;
@@ -20,7 +22,6 @@ volatile double voltReading;
 /**
  * @brief ADC interrupt routine, gets called when end interrupt of ISR_TA0(void) is reached via startAdcConv().
  *
- * @return void
  */
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector = ADC10_VECTOR
@@ -31,9 +32,6 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
 #error Compiler not supported!
 #endif
 {
-//    static unsigned int energyTraceTest = 0;
-//    static unsigned char energyTraceTestToggle = 0;
-
     ADC10CTL0 &= ~ADC10IFG; // Clear the interrupt flag
     adcResults[currentChannel] = ADC10MEM; // Read out the result of the current pin
     #if !defined(UART_ENABLED)
@@ -60,38 +58,17 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
                 else
                 {
                     sleep();
+                    countDcf77Messages = 0;
                     volatile int k = 0;
                     __no_operation();
                 }
-
-                //Enerytrace test
-    //            energyTraceTest++;
-    //            if ((energyTraceTest >= 8 && energyTraceTestToggle == 0) || (energyTraceTest >= 2 && energyTraceTestToggle == 1))
-    //            {
-    //                energyTraceTest = 0;
-    //                if (energyTraceTestToggle == 1)
-    //                {
-    //                    wakeUp();
-    //                    energyTraceTestToggle = 0;
-    //                }
-    //                else
-    //                {
-    //                    sleep();
-    //                    energyTraceTestToggle = 1;
-    //                }
-    //            }
                 break;
         }
-    #else
-        changeLedBrightness(adcResults[0]);
-    #endif
 
-
-    #if !defined(UART_ENABLED)
         currentChannel++; // Move to next channel
         if (currentChannel >= 3)
         {
-            currentChannel = 0;
+            currentChannel = 0; //stop starting ADC conversions until startAdcConv() is called again
         }
         else
         {
@@ -99,14 +76,12 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
             ADC10CTL0 |= ADC10SC; // Start next conversion
         }
     #else
-        ADC10CTL0 |= ENC; // Enable conversions
-        ADC10CTL0 |= ADC10SC; // Start next conversion
+        changeLedBrightness(adcResults[0]);
     #endif
 }
 
 /**
  * @brief Setup ADC, get called in startup from main(), Shortest samling rate, with 2.5V reference, no prdivider, setup channels and enable conversion interrupts
- * @return void
  */
 void setupAdc()
 {
@@ -140,8 +115,6 @@ void setupAdc()
 
 /**
  * @brief Start the ADC conversion'(s), gets called when end interrupt of ISR_TA0(void) is reached
- *
- * @return void
  */
 void startAdcConv()
 {

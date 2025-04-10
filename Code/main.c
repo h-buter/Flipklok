@@ -54,6 +54,7 @@ uint32_t loaded_value;
 void main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;		// stop watchdog timer
+	FCTL2 = FWKEY + FSSEL0 + FN1;             // MCLK/3 for Flash Timing Generator
     #ifdef UART_ENABLED
         #warning("Warning: UART is enabled! disable define of UART_ENABLED to disable it.")
 	    UART_Init();  // Initialize UART
@@ -65,12 +66,11 @@ void main(void)
     resetTimeKeeping();
 
     //For testing, setting time of mechanical clock
-    uint32_t setMinute = 10;
-    uint32_t setHour = 11;
+    uint32_t setMinute = 44;
+    uint32_t setHour = 17;
     setTime = setHour * 3600 + setMinute * 60;
     write_SegD(setTime);                    // Write 32-bit value to segment C, increment value
 
-    FCTL2 = FWKEY + FSSEL0 + FN1;             // MCLK/3 for Flash Timing Generator
     __delay_cycles(100000);
     loaded_value = load_from_flash(); // Load the value from flash
     if (loaded_value == 0xFFFFFFFF)

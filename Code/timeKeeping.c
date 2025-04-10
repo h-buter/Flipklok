@@ -21,7 +21,6 @@ bool toggleCalculateTimeDifference = 1;
  *
  * It then calculates the amount of steps that are needed to advance the clock to display the current time.
  * The function take in to account which way it is the fastest to fully wrap the clock or to wait until the time synchronizes
- * @return void
  */
 
 void calculateTimeDifference()
@@ -34,7 +33,7 @@ void calculateTimeDifference()
     volatile uint32_t timeDiff;
     __no_operation();
     toggleInterruptDcf = 1; // Enable dcfReceive interrupt
-    unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
+//    unsigned int state = __get_SR_register() & GIE; __disable_interrupt();  // Save current interrupt state and disable interrupts
     if (0 == toggleFwdInterrupt) //fwdButton is not pressed otherwise skip time keeping
     {
         if(0 == countDcf77Messages) // When no DCF77 message has been received work only on internal clock
@@ -109,7 +108,7 @@ void calculateTimeDifference()
         }
     }
 
-    if (state) __enable_interrupt(); // Restore previous interrupt state
+//    if (state) __enable_interrupt(); // Restore previous interrupt state
 }
 
 
@@ -139,7 +138,6 @@ uint32_t calculateStepsToTake(uint32_t time)
 /**
  * @brief Reset the time settings on startup, gets called from main()
  *
- * @return void
  */
 void resetTimeKeeping()
 {

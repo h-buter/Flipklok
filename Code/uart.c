@@ -9,11 +9,11 @@
  */
 
 #include "uart.h"
+#include "dcfReceive.h"
 
 /**
  * @brief Setup UART communication, gets called from main()
  *
- * @return void
  */
 void UART_Init(void)
 {
@@ -32,8 +32,7 @@ void UART_Init(void)
 
 /**
  * @brief send a single character via UART to host system
- * @param c, the character to send
- * @return void
+ * @param[in] c The character to send
  */
 void UART_SendChar(char c)
 {
@@ -45,8 +44,7 @@ void UART_SendChar(char c)
 
 /**
  * @brief send a full string to host system
- * @param *str, pointer to the string
- * @return void
+ * @param[out] *str Pointer to the string
  */
 void UART_SendString(char *str)
 {
@@ -60,8 +58,7 @@ void UART_SendString(char *str)
 
 /**
  * @brief send a 16 bit integer to host system
- * @param num, the integer to send
- * @return void
+ * @param[in] num The integer to send
  */
 void UART_SendInt(int32_t num)
 {
@@ -101,8 +98,7 @@ void UART_SendInt(int32_t num)
 
 /**
  * @brief send a 32 bit integer to host system
- * @param num, the integer to send
- * @return void
+ * @param[in] num The integer to send
  */
 void UART_SendUint32(uint32_t num)
 {
@@ -130,8 +126,7 @@ void UART_SendUint32(uint32_t num)
 
 /**
  * @brief Sends a time formated in hours and minutes to host system
- * @param seconds, the time in seconds to send
- * @return void
+ * @param[in] seconds The time in seconds to send
  */
 void UART_SendTime(uint32_t seconds)
 {
@@ -142,7 +137,30 @@ void UART_SendTime(uint32_t seconds)
     //    UART_SendString("time: ");
         UART_SendInt(hours);
         UART_SendString(":");
+        if (minutes <= 9)
+        {
+            UART_SendString("0"); // send a zero first other wise it prints xx:y instead of xx:yy
+        }
         UART_SendInt(minutes);
         UART_SendString("\r\n");
     #endif
 }
+
+/**
+ * @brief Sends a the received DCF bitstream to host system
+ * @param[out] arr Pointer to the bitstream array
+ * @param[in] length The length of the array
+ */
+void UART_Bitstream(const bool* arr, unsigned int length)
+{
+    #ifdef UART_ENABLED
+        unsigned int i;
+        for (i = 0; i < length; i++)
+        {
+            char c = arr[i] ? '1' : '0';  // convert to ASCII
+            UART_SendChar(c);
+        }
+        UART_SendString("\r\n");
+    #endif
+}
+

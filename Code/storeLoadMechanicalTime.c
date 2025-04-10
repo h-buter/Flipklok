@@ -57,8 +57,7 @@
 /**
  * @brief Function to write a 32-bit value to Flash segment D for storing the mechanical time, gets called from main() and at the end of stepperAdvance()
  *
- * @param value the value to be stored in flash
- * @return void
+ * @param[in] value The value to be stored in flash
  */
 void write_SegD(uint32_t value)
 {
