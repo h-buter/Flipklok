@@ -24,8 +24,8 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 60000);
 
 // DCF77 Output pin
-const int DCF77_PIN = 4; //D4
-const int selectPin = 19; //D2
+const int DCF77_PIN = 4; //D2
+// const int selectPin = 19; //D2
 
 bool fastTiming = false;
 
@@ -51,7 +51,7 @@ void setup() {
     pinMode(DCF77_PIN, OUTPUT);
     digitalWrite(DCF77_PIN, LOW);
 
-    pinMode(selectPin, INPUT_PULLUP);
+    // pinMode(selectPin, INPUT_PULLUP);
     
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
@@ -103,16 +103,16 @@ void loop()
     
     uint8_t dcfBits[60]; // DCF77 transmits 60 bits per minute
 
-    if (HIGH == digitalRead(selectPin))
-    {
-        Serial.println("epoch");
-        encodeDCF77UnixEpoch(dcfBits);
-    }
-    else
-    {   
+    // if (HIGH == digitalRead(selectPin))
+    // {
+    //     Serial.println("epoch");
+    //     encodeDCF77UnixEpoch(dcfBits);
+    // }
+    // else
+    // {   
         Serial.println("NTP");
         encodeDCF77(dcfBits, minute, hour, day, month, year);
-    }
+    // }
 
     
     
