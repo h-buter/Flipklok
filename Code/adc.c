@@ -22,7 +22,6 @@ volatile double voltReading;
 /**
  * @brief ADC interrupt routine, gets called when end interrupt of ISR_TA0(void) is reached via startAdcConv().
  *
- * @return void
  */
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector = ADC10_VECTOR
@@ -83,7 +82,6 @@ void __attribute__ ((interrupt(ADC10_VECTOR))) ADC10_ISR (void)
 
 /**
  * @brief Setup ADC, get called in startup from main(), Shortest samling rate, with 2.5V reference, no prdivider, setup channels and enable conversion interrupts
- * @return void
  */
 void setupAdc()
 {
@@ -117,8 +115,6 @@ void setupAdc()
 
 /**
  * @brief Start the ADC conversion'(s), gets called when end interrupt of ISR_TA0(void) is reached
- *
- * @return void
  */
 void startAdcConv()
 {

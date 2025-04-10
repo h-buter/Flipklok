@@ -22,7 +22,6 @@ unsigned int testbitTimeCyclesStartLower = bitTimeCyclesSyncLower;
  * Wait first for sync pulse than read out each of 59 bits
  * Determine the value of the bit with: bool bitValue() based on the calculated transmit time with: unsigned int calculateBitTransmitTime()
  * Store the result via: storeBit(), when all 59 bits are received check with: checkBitStream(), and decode to time: decodeBitStream2Seconds()
- * @return void
  */
 void interruptDcf()
 {
@@ -173,9 +172,8 @@ bool bitValue(unsigned int bitTime)
 /**
  * @brief Store the received DCF77 bit in the array, gets called from interruptDcf()
  *
- * @param bit, the value of the bit
- * @param location, the location of the array to store the bit
- * @return void
+ * @param[in] bit The value of the bit
+ * @param[in] location The location of the array to store the bit
  */
 void storeBit(bool bit, unsigned int location)
 {
@@ -260,7 +258,6 @@ bool checkBitStream()
 /**
  * @brief Decode the received DCF77 bitstream to a time, gets called from interruptDcf()
  * Also ensure that the received time is plausible by a couple of checks
- * @return void
  */
 void decodeBitStream2Seconds()
 {
