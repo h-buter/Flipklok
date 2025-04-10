@@ -106,8 +106,14 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
+<p>| <img src="Flipklok-back.png" alt="back" class="inline"/> | <img src="Flipklok-front.png" alt="front" class="inline"/> | |&mdash;|&mdash;|</p>
 <p>Welcome to the repository for my project as part of my Bachelor's degree in Electronics at Windesheim. This project involves creating a flip clock inspired by the design from the 1970s, which is synchronized using time information from the DCF77 long-wave time signal. The goal is to ensure that this electronic and electromechanical device operates efficiently within a low power environment.</p>
 <p>At time of writing I am still deciding on if the clock will be used a desk clock or if I build it in to my 1977 Relaint Robin MK1 This is why some design decisions, like low power, are not always directly clear in the scope of a normal clock project.</p>
+<p>For the complete documentation see the doxygen documentation hosted on GitHub pages:</p><ul>
+<li>Index: <a href="https://h-buter.github.io/Flipklok/index.html">https://h-buter.github.io/Flipklok/index.html</a></li>
+<li>Start of code: <a href="https://h-buter.github.io/Flipklok/main_8c.html">https://h-buter.github.io/Flipklok/main_8c.html</a></li>
+<li>Interactive Bill of materials: <a href="https://h-buter.github.io/Flipklok/md_extra-docs_2bom.html">https://h-buter.github.io/Flipklok/md_extra-docs_2bom.html</a></li>
+</ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Project Overview</h1>
 <p>This flip clock project integrates both mechanical components and electronics to display the current time accurately based on data received from the DCF77 transmitter located in Germany. Designed with energy efficiency in mind, the clock maintains continuous time tracking to compensate for any potential reception limitations of the DCF77 signal while minimizing power consumption.</p>
@@ -137,6 +143,38 @@ Hardware</h2>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Getting Started</h1>
 <p>To get started with this project, you need to:</p>
+<ul>
+<li>Code:<ul>
+<li>If you want to view the code use the doxygen documentation (see intoduction) or view the source files on GitHub.</li>
+<li>If you want to run the code, install TI code composer studio and clone this repository.<ul>
+<li>This repo should contain every file to be able to compile the code for the MSP430G2553</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PCB:<ul>
+<li>View the PCB files use the exported pdf: <a href="https://github.com/h-buter/Flipklok/tree/main/PCB/Flipklok/export">exported pdf's</a></li>
+<li>Edit the PCB files, Kicad and clone the repo.</li>
+<li>Run a production:<ul>
+<li>Download the gerber ZIP and give this to you're favorite PCB manufacturer, it may be possible the etch the board you're self but be warned this is not easy because of the multilayer construction.</li>
+<li>Order the bom</li>
+<li>Wait for everything to arrive</li>
+<li>Assemble</li>
+<li>Test, don't let the make smoke out (not optional)<ul>
+<li>First power up test</li>
+<li>Flash the code, i used a launchpad devboard see page 8 till 10 <a href="https://www.ti.com/lit/ug/slau772a/slau772a.pdf?ts=1743585388312&amp;ref_url=https%253A%252F%252Fwww.ti.com%252Ftool%252FMSP-EXP430G2ET%253FkeyMatch%253Dmsp-exp430g2et%2526tisearch%253Duniversal_search">link to datasheet of launchpad</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Mechanics:<ul>
+<li>To view the 3d files you can use the free viewing program <a href="https://www.edrawingsviewer.com/download-edrawings">Edrawings</a></li>
+<li>To edit the files you will need Solidworks</li>
+</ul>
+</li>
+</ul>
 <h1><a class="anchor" id="autotoc_md8"></a>
 Contribution</h1>
 <p>Contributions are welcome! Whether it's optimizing the code for better performance or suggesting improvements in hardware integration, your input is valuable.</p>
