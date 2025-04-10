@@ -15,5 +15,7 @@ var searchData=
   ['bittimecyclessyncupper_12',['bitTimeCyclesSyncUpper',['../dcf_receive_8h.html#afd8b17f81d26517ee52105ce2c2f014e',1,'dcfReceive.h']]],
   ['bittimecyclestresh_13',['bitTimeCyclesTresh',['../dcf_receive_8h.html#a986a9df701ba5bfce2964c830b3f274b',1,'dcfReceive.h']]],
   ['bittimesyncsec_14',['bitTimeSyncSec',['../dcf_receive_8h.html#aec586785ef6022b5d75413a1056e6d02',1,'dcfReceive.h']]],
-  ['bitvalue_15',['bitValue',['../dcf_receive_8c.html#a4249faef1a8ac10c6aab2d7145c4c2ec',1,'bitValue(unsigned int bitTime):&#160;dcfReceive.c'],['../dcf_receive_8h.html#a4249faef1a8ac10c6aab2d7145c4c2ec',1,'bitValue(unsigned int bitTime):&#160;dcfReceive.c']]]
+  ['bitvalue_15',['bitValue',['../dcf_receive_8c.html#a4249faef1a8ac10c6aab2d7145c4c2ec',1,'bitValue(unsigned int bitTime):&#160;dcfReceive.c'],['../dcf_receive_8h.html#a4249faef1a8ac10c6aab2d7145c4c2ec',1,'bitValue(unsigned int bitTime):&#160;dcfReceive.c']]],
+  ['bom_16',['bom',['../md_extra-docs_2bom.html',1,'']]],
+  ['bom_2emd_17',['bom.md',['../bom_8md.html',1,'']]]
 ];

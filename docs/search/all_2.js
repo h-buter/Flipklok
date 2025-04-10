@@ -15,5 +15,6 @@ var searchData=
   ['countingdirectionend_12',['countingDirectionEnd',['../dcf_receive_8h.html#a2ff79343076c00900e0f630a8f516293',1,'dcfReceive.h']]],
   ['countingdirectionstart_13',['countingDirectionStart',['../dcf_receive_8h.html#a4f62a3d366e2f124312a48c97f4f6096',1,'dcfReceive.h']]],
   ['currentbit_14',['currentBit',['../dcf_receive_8h.html#a90561f7ef4cb7277dfa8b04d9d0bd305',1,'dcfReceive.h']]],
-  ['currentchannel_15',['currentChannel',['../adc_8c.html#a50def448e27eaa093bef9cefa8916cae',1,'adc.c']]]
+  ['currentchannel_15',['currentChannel',['../adc_8c.html#a50def448e27eaa093bef9cefa8916cae',1,'adc.c']]],
+  ['custom_20html_20page_16',['Custom HTML Page',['../my_custom_page.html',1,'']]]
 ];
