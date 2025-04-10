@@ -1,4 +1,5 @@
-/*! \page my_custom_page Custom HTML Page
- *
- * <a href="../Flipklok-1.0.html">link text</a> 
- */
+# Bill of materials
+
+See link for an interactive BOM of the PCB:  
+[Interactive BOM](https://h-buter.github.io/Flipklok/bom/Flipklok-1.0)
+

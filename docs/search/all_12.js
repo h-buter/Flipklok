@@ -1,6 +1,25 @@
 var searchData=
 [
-  ['wakeup_0',['wakeUp',['../gpio_8c.html#a079d49a5302222debfe4dc54cf7a5c7a',1,'wakeUp():&#160;gpio.c'],['../gpio_8h.html#a079d49a5302222debfe4dc54cf7a5c7a',1,'wakeUp():&#160;gpio.c']]],
-  ['wakeuptimer0_1',['wakeUpTimer0',['../timer_8h.html#aeb49307d52dfa0d1c134df2fef66b8d2',1,'wakeUpTimer0():&#160;timer.c'],['../timer_8c.html#aeb49307d52dfa0d1c134df2fef66b8d2',1,'wakeUpTimer0():&#160;timer.c']]],
-  ['write_5fsegd_2',['write_SegD',['../store_load_mechanical_time_8h.html#a98e753945a15b7083a018fb05df25171',1,'write_SegD(uint32_t value):&#160;storeLoadMechanicalTime.c'],['../store_load_mechanical_time_8c.html#a98e753945a15b7083a018fb05df25171',1,'write_SegD(uint32_t value):&#160;storeLoadMechanicalTime.c']]]
+  ['testbittimecyclesstart_0',['testbitTimeCyclesStart',['../dcf_receive_8c.html#a16640633bcf745ed2cacd2a121939be5',1,'dcfReceive.c']]],
+  ['testbittimecyclesstartlower_1',['testbitTimeCyclesStartLower',['../dcf_receive_8c.html#ad5388ec24de6bde017af56c13d53a601',1,'dcfReceive.c']]],
+  ['testbittimecyclesstartupper_2',['testbitTimeCyclesStartUpper',['../dcf_receive_8c.html#aff068806ff08dcfc09b551e21b3161b4',1,'dcfReceive.c']]],
+  ['time_20synchronization_3',['Flipklok in 1970s Style with DCF77 Time Synchronization',['../index.html',1,'']]],
+  ['timekeeping_2ec_4',['timeKeeping.c',['../time_keeping_8c.html',1,'']]],
+  ['timekeeping_2eh_5',['timeKeeping.h',['../time_keeping_8h.html',1,'']]],
+  ['timeoflastdcfmessage_6',['timeOfLastDcfMessage',['../time_keeping_8h.html#a0b5f2255718e387332c129faffbc6287',1,'timeKeeping.h']]],
+  ['timeperstep_7',['timePerStep',['../time_keeping_8h.html#ab6dee789237f5d947cd917cd5b1a7b7c',1,'timeKeeping.h']]],
+  ['timer_2ec_8',['timer.c',['../timer_8c.html',1,'']]],
+  ['timer_2eh_9',['timer.h',['../timer_8h.html',1,'']]],
+  ['timercomparestepperspeedtoggle_10',['timerCompareStepperSpeedToggle',['../stepper_advance_8h.html#a4ba7699af83c7cde29945fe93c2c6666',1,'stepperAdvance.h']]],
+  ['timercountsinday_11',['timerCountsInDay',['../time_keeping_8h.html#af64a2663d122240fa22760b84b74df59',1,'timeKeeping.h']]],
+  ['timerdiv_12',['timerDiv',['../timer_8h.html#a9e7a1e0dcac8b6411f9090d46949dff9',1,'timer.h']]],
+  ['timerlength_5fms_13',['timerLength_ms',['../timer_8h.html#a7f69304c4bce83791bc386e268152d98',1,'timer.h']]],
+  ['timesincelastcompletedcfmessage_14',['timeSinceLastCompleteDcfMessage',['../time_keeping_8h.html#a0f08c3d1034808ba2b074e526476d23b',1,'timeKeeping.h']]],
+  ['togglecalculatetimedifference_15',['toggleCalculateTimeDifference',['../time_keeping_8h.html#a6f46f3eac7facdb1783cf2d0992be454',1,'toggleCalculateTimeDifference:&#160;timeKeeping.c'],['../time_keeping_8c.html#a6f46f3eac7facdb1783cf2d0992be454',1,'toggleCalculateTimeDifference:&#160;timeKeeping.c']]],
+  ['togglefwdinterrupt_16',['toggleFwdInterrupt',['../pin_interrupts_8h.html#ab5491185939441dc1d12d58ac2a8ccc2',1,'pinInterrupts.h']]],
+  ['togglefwdinterruptisr_17',['toggleFwdInterruptISR',['../pin_interrupts_8h.html#a59e3f78f88819165fbb4ceaf21415e23',1,'pinInterrupts.h']]],
+  ['toggleinterruptdcf_18',['toggleInterruptDcf',['../dcf_receive_8h.html#a909b02a38b5db7138462f28eb808d048',1,'dcfReceive.h']]],
+  ['toggletimer1direction_19',['toggleTimer1Direction',['../time_keeping_8h.html#a9b90d3e8a9bacbd25eb3065bda70e82e',1,'timeKeeping.h']]],
+  ['toothgearclock_20',['toothGearClock',['../time_keeping_8h.html#a7fd87115e7b869ee2fc729a7a555ff28',1,'timeKeeping.h']]],
+  ['toothgearstepper_21',['toothGearStepper',['../time_keeping_8h.html#a45b25bf2fb6812f1e8e610a140ec2c3e',1,'timeKeeping.h']]]
 ];

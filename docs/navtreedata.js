@@ -25,8 +25,8 @@
 var NAVTREE =
 [
   [ "Flipklok", "index.html", [
-    [ "bom", "md_extra-docs_2bom.html", null ],
-    [ "Custom HTML Page", "my_custom_page.html", null ],
+    [ "Flipklok in 1970s Style with DCF77 Time Synchronization", "index.html", "index" ],
+    [ "Bill of materials", "md_extra-docs_2bom.html", null ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
