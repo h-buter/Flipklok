@@ -175,14 +175,14 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   69</span>            {</div>
 <div class="line"><span class="lineno">   70</span>                TA0CCR1 = TA0R + <a class="code hl_variable" href="led_8h.html#a02391804daaa826c77c581bc591a77e9">pwmOnCycles</a>;</div>
 <div class="line"><span class="lineno">   71</span>                P1OUT |= BIT6; <span class="comment">//turn on</span></div>
-<div class="line"><span class="lineno">   72</span>                P1OUT |= BIT7;</div>
+<div class="line"><span class="lineno">   72</span><span class="comment">//                P1OUT |= BIT7;</span></div>
 <div class="line"><span class="lineno">   73</span>                togglePwm = 1;</div>
 <div class="line"><span class="lineno">   74</span>            }</div>
 <div class="line"><span class="lineno">   75</span>            <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">   76</span>            {</div>
 <div class="line"><span class="lineno">   77</span>                TA0CCR1 = TA0R + <a class="code hl_define" href="timer_8h.html#a5e677db92ece649e9f4e3aaeae841110">pwmPeriod_cycles</a>;</div>
 <div class="line"><span class="lineno">   78</span>                P1OUT &amp;= ~BIT6; <span class="comment">//turn off</span></div>
-<div class="line"><span class="lineno">   79</span>                P1OUT &amp;= ~BIT7;</div>
+<div class="line"><span class="lineno">   79</span><span class="comment">//                P1OUT &amp;= ~BIT7;</span></div>
 <div class="line"><span class="lineno">   80</span>                togglePwm = 0;</div>
 <div class="line"><span class="lineno">   81</span> </div>
 <div class="line"><span class="lineno">   82</span>            }</div>
@@ -208,7 +208,7 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">  102</span>        <span class="keywordflow">default</span>: _never_executed();</div>
 <div class="line"><span class="lineno">  103</span>    }</div>
 <div class="line"><span class="lineno">  104</span>}</div>
-<div class="ttc" id="aadc_8c_html_a5f3ba0684c3ff4507b1605340260289d"><div class="ttname"><a href="adc_8c.html#a5f3ba0684c3ff4507b1605340260289d">startAdcConv</a></div><div class="ttdeci">void startAdcConv()</div><div class="ttdoc">Start the ADC conversion&#39;(s), gets called when end interrupt of ISR_TA0(void) is reached.</div><div class="ttdef"><b>Definition</b> <a href="adc_8c_source.html#l00146">adc.c:146</a></div></div>
+<div class="ttc" id="aadc_8c_html_a5f3ba0684c3ff4507b1605340260289d"><div class="ttname"><a href="adc_8c.html#a5f3ba0684c3ff4507b1605340260289d">startAdcConv</a></div><div class="ttdeci">void startAdcConv()</div><div class="ttdoc">Start the ADC conversion&#39;(s), gets called when end interrupt of ISR_TA0(void) is reached.</div><div class="ttdef"><b>Definition</b> <a href="adc_8c_source.html#l00119">adc.c:119</a></div></div>
 <div class="ttc" id="aled_8h_html_a02391804daaa826c77c581bc591a77e9"><div class="ttname"><a href="led_8h.html#a02391804daaa826c77c581bc591a77e9">pwmOnCycles</a></div><div class="ttdeci">unsigned int pwmOnCycles</div><div class="ttdef"><b>Definition</b> <a href="led_8c_source.html#l00015">led.c:15</a></div></div>
 <div class="ttc" id="apin_interrupts_8h_html_ab5491185939441dc1d12d58ac2a8ccc2"><div class="ttname"><a href="pin_interrupts_8h.html#ab5491185939441dc1d12d58ac2a8ccc2">toggleFwdInterrupt</a></div><div class="ttdeci">bool toggleFwdInterrupt</div><div class="ttdef"><b>Definition</b> <a href="pin_interrupts_8h_source.html#l00013">pinInterrupts.h:13</a></div></div>
 <div class="ttc" id="astepper_advance_8h_html_a4ba7699af83c7cde29945fe93c2c6666"><div class="ttname"><a href="stepper_advance_8h.html#a4ba7699af83c7cde29945fe93c2c6666">timerCompareStepperSpeedToggle</a></div><div class="ttdeci">bool timerCompareStepperSpeedToggle</div><div class="ttdef"><b>Definition</b> <a href="stepper_advance_8h_source.html#l00017">stepperAdvance.h:17</a></div></div>
@@ -216,10 +216,10 @@ Functions</h2></td></tr>
 <div class="ttc" id="astepper_advance_8h_html_adb08fd8f2e5c60c4d4409f9c5973c68a"><div class="ttname"><a href="stepper_advance_8h.html#adb08fd8f2e5c60c4d4409f9c5973c68a">stepperAdvance</a></div><div class="ttdeci">void stepperAdvance()</div><div class="ttdef"><b>Definition</b> <a href="stepper_advance_8c_source.html#l00023">stepperAdvance.c:23</a></div></div>
 <div class="ttc" id="astepper_advance_8h_html_ae6900e96b0e27a3982e89aa412e77400"><div class="ttname"><a href="stepper_advance_8h.html#ae6900e96b0e27a3982e89aa412e77400">stepperTimeOffsetFast</a></div><div class="ttdeci">#define stepperTimeOffsetFast</div><div class="ttdef"><b>Definition</b> <a href="stepper_advance_8h_source.html#l00015">stepperAdvance.h:15</a></div></div>
 <div class="ttc" id="atime_keeping_8h_html_a6f46f3eac7facdb1783cf2d0992be454"><div class="ttname"><a href="time_keeping_8h.html#a6f46f3eac7facdb1783cf2d0992be454">toggleCalculateTimeDifference</a></div><div class="ttdeci">bool toggleCalculateTimeDifference</div><div class="ttdef"><b>Definition</b> <a href="time_keeping_8c_source.html#l00016">timeKeeping.c:16</a></div></div>
-<div class="ttc" id="atime_keeping_8h_html_a7abf628b1be576ba88bfc3c94f0bb2c9"><div class="ttname"><a href="time_keeping_8h.html#a7abf628b1be576ba88bfc3c94f0bb2c9">calculateTimeDifference</a></div><div class="ttdeci">void calculateTimeDifference()</div><div class="ttdoc">calculate the difference between the mechanical time and the current time to have the time difference...</div><div class="ttdef"><b>Definition</b> <a href="time_keeping_8c_source.html#l00027">timeKeeping.c:27</a></div></div>
+<div class="ttc" id="atime_keeping_8h_html_a7abf628b1be576ba88bfc3c94f0bb2c9"><div class="ttname"><a href="time_keeping_8h.html#a7abf628b1be576ba88bfc3c94f0bb2c9">calculateTimeDifference</a></div><div class="ttdeci">void calculateTimeDifference()</div><div class="ttdoc">calculate the difference between the mechanical time and the current time to have the time difference...</div><div class="ttdef"><b>Definition</b> <a href="time_keeping_8c_source.html#l00026">timeKeeping.c:26</a></div></div>
 <div class="ttc" id="atimer_8h_html_a5e677db92ece649e9f4e3aaeae841110"><div class="ttname"><a href="timer_8h.html#a5e677db92ece649e9f4e3aaeae841110">pwmPeriod_cycles</a></div><div class="ttdeci">#define pwmPeriod_cycles</div><div class="ttdef"><b>Definition</b> <a href="timer_8h_source.html#l00017">timer.h:17</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="time_keeping_8c_source.html#l00027">calculateTimeDifference()</a>, <a class="el" href="led_8c_source.html#l00015">pwmOnCycles</a>, <a class="el" href="timer_8h_source.html#l00017">pwmPeriod_cycles</a>, <a class="el" href="adc_8c_source.html#l00146">startAdcConv()</a>, <a class="el" href="stepper_advance_8c_source.html#l00023">stepperAdvance()</a>, <a class="el" href="stepper_advance_8h_source.html#l00015">stepperTimeOffsetFast</a>, <a class="el" href="stepper_advance_8h_source.html#l00014">stepperTimeOffsetSlow</a>, <a class="el" href="stepper_advance_8h_source.html#l00017">timerCompareStepperSpeedToggle</a>, <a class="el" href="time_keeping_8c_source.html#l00016">toggleCalculateTimeDifference</a>, and <a class="el" href="pin_interrupts_8h_source.html#l00013">toggleFwdInterrupt</a>.</p>
+<p class="reference">References <a class="el" href="time_keeping_8c_source.html#l00026">calculateTimeDifference()</a>, <a class="el" href="led_8c_source.html#l00015">pwmOnCycles</a>, <a class="el" href="timer_8h_source.html#l00017">pwmPeriod_cycles</a>, <a class="el" href="adc_8c_source.html#l00119">startAdcConv()</a>, <a class="el" href="stepper_advance_8c_source.html#l00023">stepperAdvance()</a>, <a class="el" href="stepper_advance_8h_source.html#l00015">stepperTimeOffsetFast</a>, <a class="el" href="stepper_advance_8h_source.html#l00014">stepperTimeOffsetSlow</a>, <a class="el" href="stepper_advance_8h_source.html#l00017">timerCompareStepperSpeedToggle</a>, <a class="el" href="time_keeping_8c_source.html#l00016">toggleCalculateTimeDifference</a>, and <a class="el" href="pin_interrupts_8h_source.html#l00013">toggleFwdInterrupt</a>.</p>
 
 </div>
 </div>
@@ -426,7 +426,7 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   40</span>    TA0CCTL2 &amp;= ~CCIE;                <span class="comment">// TACCR2 interrupt disable</span></div>
 <div class="line"><span class="lineno">   41</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="gpio_8c_source.html#l00093">sleep()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="gpio_8c_source.html#l00090">sleep()</a>.</p>
 
 </div>
 </div>
@@ -451,7 +451,7 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   46</span>    TA0CCTL1 |= CCIE;                <span class="comment">// TACCR1 interrupt enable</span></div>
 <div class="line"><span class="lineno">   47</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="gpio_8c_source.html#l00081">wakeUp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="gpio_8c_source.html#l00079">wakeUp()</a>.</p>
 
 </div>
 </div>

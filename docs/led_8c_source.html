@@ -117,14 +117,13 @@ $(function(){initNavTree('led_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="led_8h.html#a02391804daaa826c77c581bc591a77e9">   15</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="led_8h.html#a02391804daaa826c77c581bc591a77e9">pwmOnCycles</a> = 0;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span></div>
-<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="led_8c.html#aab563d8affaef4379122e3be6b926ee2">   23</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="led_8h.html#a707762c1a3e5f6a1e880fba075c01be7">changeLedBrightness</a>(<span class="keyword">volatile</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> adcReading)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    adcReading = adcReading / 32; <span class="comment">// scale from 0-1023 to 0-31</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    adcReading = 33 - adcReading; <span class="comment">// Invert so 32 = 0 and 0 = 32, added one to avoid pwmOnCycles = 0</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">//    pwmOnCycles = (int)((float)adcReading / 255 * pwmPeriod_cycles);</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_variable" href="led_8h.html#a02391804daaa826c77c581bc591a77e9">pwmOnCycles</a> = adcReading;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="led_8c.html#aab563d8affaef4379122e3be6b926ee2">   22</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="led_8h.html#a707762c1a3e5f6a1e880fba075c01be7">changeLedBrightness</a>(<span class="keyword">volatile</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> adcReading)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    adcReading = adcReading / 32; <span class="comment">// scale from 0-1023 to 0-31</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    adcReading = 33 - adcReading; <span class="comment">// Invert so 32 = 0 and 0 = 32, added one to avoid pwmOnCycles = 0</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_variable" href="led_8h.html#a02391804daaa826c77c581bc591a77e9">pwmOnCycles</a> = adcReading;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
 </div>
 <div class="ttc" id="aled_8h_html"><div class="ttname"><a href="led_8h.html">led.h</a></div></div>
 <div class="ttc" id="aled_8h_html_a02391804daaa826c77c581bc591a77e9"><div class="ttname"><a href="led_8h.html#a02391804daaa826c77c581bc591a77e9">pwmOnCycles</a></div><div class="ttdeci">unsigned int pwmOnCycles</div><div class="ttdef"><b>Definition</b> <a href="#l00015">led.c:15</a></div></div>

@@ -157,49 +157,49 @@ $(function(){initNavTree('store_load_mechanical_time_8c_source.html',''); initRe
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span></div>
-<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="store_load_mechanical_time_8h.html#a98e753945a15b7083a018fb05df25171">   63</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="store_load_mechanical_time_8c.html#a98e753945a15b7083a018fb05df25171">write_SegD</a>(uint32_t value)</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  uint32_t *Flash_ptr;                          <span class="comment">// Flash pointer</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  Flash_ptr = (uint32_t *) 0x1000;             <span class="comment">// Initialize Flash pointer (for 32-bit writes)</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  FCTL1 = FWKEY + ERASE;                       <span class="comment">// Set Erase bit</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  FCTL3 = FWKEY;                               <span class="comment">// Clear Lock bit</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  *Flash_ptr = 0;                              <span class="comment">// Dummy write to erase Flash segment</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  FCTL1 = FWKEY + WRT;                         <span class="comment">// Set WRT bit for write operation</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  *Flash_ptr--;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordflow">for</span> (i = 0; i &lt; 8; i++)                     <span class="comment">// Write 32-bit value to flash (16 writes per 64 bytes)</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    *Flash_ptr = value;                      <span class="comment">// Write 32-bit value to flash</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    *Flash_ptr++;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  }</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">//  *Flash_ptr = value;                      // Write 32-bit value to flash</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  FCTL1 = FWKEY;                               <span class="comment">// Clear WRT bit</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  FCTL3 = FWKEY + LOCK;                        <span class="comment">// Set LOCK bit</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="store_load_mechanical_time_8h.html#a98e753945a15b7083a018fb05df25171">   62</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="store_load_mechanical_time_8c.html#a98e753945a15b7083a018fb05df25171">write_SegD</a>(uint32_t value)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  uint32_t *Flash_ptr;                          <span class="comment">// Flash pointer</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  Flash_ptr = (uint32_t *) 0x1000;             <span class="comment">// Initialize Flash pointer (for 32-bit writes)</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  FCTL1 = FWKEY + ERASE;                       <span class="comment">// Set Erase bit</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  FCTL3 = FWKEY;                               <span class="comment">// Clear Lock bit</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  *Flash_ptr = 0;                              <span class="comment">// Dummy write to erase Flash segment</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  FCTL1 = FWKEY + WRT;                         <span class="comment">// Set WRT bit for write operation</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  *Flash_ptr--;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keywordflow">for</span> (i = 0; i &lt; 8; i++)                     <span class="comment">// Write 32-bit value to flash (16 writes per 64 bytes)</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    *Flash_ptr = value;                      <span class="comment">// Write 32-bit value to flash</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    *Flash_ptr++;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="comment">//  *Flash_ptr = value;                      // Write 32-bit value to flash</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  FCTL1 = FWKEY;                               <span class="comment">// Clear WRT bit</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  FCTL3 = FWKEY + LOCK;                        <span class="comment">// Set LOCK bit</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
 </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span></div>
-<div class="foldopen" id="foldopen00093" data-start="{" data-end="}">
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="store_load_mechanical_time_8h.html#a6996c684064f1ed026586e7befaab6b0">   93</a></span>uint32_t <a class="code hl_function" href="store_load_mechanical_time_8c.html#a6996c684064f1ed026586e7befaab6b0">load_from_flash</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>{</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  uint32_t *Flash_ptr;                         <span class="comment">// Pointer to read from Flash memory</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  uint32_t <a class="code hl_variable" href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a>;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  Flash_ptr = (uint32_t *) 0x1000;             <span class="comment">// Point to the start of Flash segment D</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  <a class="code hl_variable" href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a> = *Flash_ptr;                   <span class="comment">// Read the 32-bit value from Flash</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a>;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span></div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="store_load_mechanical_time_8h.html#a6996c684064f1ed026586e7befaab6b0">   92</a></span>uint32_t <a class="code hl_function" href="store_load_mechanical_time_8c.html#a6996c684064f1ed026586e7befaab6b0">load_from_flash</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>{</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  uint32_t *Flash_ptr;                         <span class="comment">// Pointer to read from Flash memory</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  uint32_t <a class="code hl_variable" href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  Flash_ptr = (uint32_t *) 0x1000;             <span class="comment">// Point to the start of Flash segment D</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  <a class="code hl_variable" href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a> = *Flash_ptr;                   <span class="comment">// Read the 32-bit value from Flash</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
 </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
 <div class="ttc" id="amain_8c_html_af199b13f97d1bb916ffb7b6d41f64bf4"><div class="ttname"><a href="main_8c.html#af199b13f97d1bb916ffb7b6d41f64bf4">loaded_value</a></div><div class="ttdeci">uint32_t loaded_value</div><div class="ttdef"><b>Definition</b> <a href="main_8c_source.html#l00033">main.c:33</a></div></div>
-<div class="ttc" id="astore_load_mechanical_time_8c_html_a6996c684064f1ed026586e7befaab6b0"><div class="ttname"><a href="store_load_mechanical_time_8c.html#a6996c684064f1ed026586e7befaab6b0">load_from_flash</a></div><div class="ttdeci">uint32_t load_from_flash(void)</div><div class="ttdoc">Function to load a 32-bit value from Flash memory segment D used for restoring the mechanical time on...</div><div class="ttdef"><b>Definition</b> <a href="#l00093">storeLoadMechanicalTime.c:93</a></div></div>
-<div class="ttc" id="astore_load_mechanical_time_8c_html_a98e753945a15b7083a018fb05df25171"><div class="ttname"><a href="store_load_mechanical_time_8c.html#a98e753945a15b7083a018fb05df25171">write_SegD</a></div><div class="ttdeci">void write_SegD(uint32_t value)</div><div class="ttdoc">Function to write a 32-bit value to Flash segment D for storing the mechanical time,...</div><div class="ttdef"><b>Definition</b> <a href="#l00063">storeLoadMechanicalTime.c:63</a></div></div>
+<div class="ttc" id="astore_load_mechanical_time_8c_html_a6996c684064f1ed026586e7befaab6b0"><div class="ttname"><a href="store_load_mechanical_time_8c.html#a6996c684064f1ed026586e7befaab6b0">load_from_flash</a></div><div class="ttdeci">uint32_t load_from_flash(void)</div><div class="ttdoc">Function to load a 32-bit value from Flash memory segment D used for restoring the mechanical time on...</div><div class="ttdef"><b>Definition</b> <a href="#l00092">storeLoadMechanicalTime.c:92</a></div></div>
+<div class="ttc" id="astore_load_mechanical_time_8c_html_a98e753945a15b7083a018fb05df25171"><div class="ttname"><a href="store_load_mechanical_time_8c.html#a98e753945a15b7083a018fb05df25171">write_SegD</a></div><div class="ttdeci">void write_SegD(uint32_t value)</div><div class="ttdoc">Function to write a 32-bit value to Flash segment D for storing the mechanical time,...</div><div class="ttdef"><b>Definition</b> <a href="#l00062">storeLoadMechanicalTime.c:62</a></div></div>
 <div class="ttc" id="astore_load_mechanical_time_8h_html"><div class="ttname"><a href="store_load_mechanical_time_8h.html">storeLoadMechanicalTime.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

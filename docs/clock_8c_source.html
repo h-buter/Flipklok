@@ -112,35 +112,35 @@ $(function(){initNavTree('clock_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> */</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="clock_8h.html">clock.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span></div>
-<div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="clock_8c.html#a82e04318b61fb70de7f4a228ad36f43c">   17</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="clock_8c.html#a82e04318b61fb70de7f4a228ad36f43c">setupClocks</a>()</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    BCSCTL1 |= XT2OFF;              <span class="comment">// Disable XT2</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    BCSCTL1 &amp;= ~XTS;                <span class="comment">//LFXT1</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    BCSCTL1 |= DIVA_0;              <span class="comment">// ACLK Divider 0: /1</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">//    BCSCTL2 |= SELM_3;                    // LFXT1CLK,</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">//    BCSCTL2 |= DIVM_0;                    // MCLK Divider 0: /1, LFXT1CLK,  SMCLK Divider 0: /1</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    BCSCTL2 |= SELS;                        <span class="comment">// LFXT1CLK,  SMCLK Divider 0: /1</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    BCSCTL2 |= DIVS_0;                      <span class="comment">// SMCLK Divider 0: /1</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    BCSCTL3 |=  LFXT1S_0;                   <span class="comment">// Mode 0 for LFXT1</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    BCSCTL3 |=  XCAP_2;                     <span class="comment">// Approximately 10 pF</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">//Enable when running cpu on 1 MHz instead of LFXTAL</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    BCSCTL1 |= CALBC1_1MHZ;  <span class="comment">// Load calibrated DCO setting for 1 MHz</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    DCOCTL |= CALDCO_1MHZ;   <span class="comment">// Load fine-tuned DCO setting</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    BCSCTL2 |= SELM_0;  <span class="comment">// MCLK = DCO</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    BCSCTL2 |= DIVM_0;  <span class="comment">// No division</span></div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="}">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="clock_8c.html#a82e04318b61fb70de7f4a228ad36f43c">   16</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="clock_8c.html#a82e04318b61fb70de7f4a228ad36f43c">setupClocks</a>()</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>{</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    BCSCTL1 |= XT2OFF;              <span class="comment">// Disable XT2</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    BCSCTL1 &amp;= ~XTS;                <span class="comment">//LFXT1</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    BCSCTL1 |= DIVA_0;              <span class="comment">// ACLK Divider 0: /1</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">//    BCSCTL2 |= SELM_3;                    // LFXT1CLK,</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">//    BCSCTL2 |= DIVM_0;                    // MCLK Divider 0: /1, LFXT1CLK,  SMCLK Divider 0: /1</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    BCSCTL2 |= SELS;                        <span class="comment">// LFXT1CLK,  SMCLK Divider 0: /1</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    BCSCTL2 |= DIVS_0;                      <span class="comment">// SMCLK Divider 0: /1</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    BCSCTL3 |=  LFXT1S_0;                   <span class="comment">// Mode 0 for LFXT1</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    BCSCTL3 |=  XCAP_2;                     <span class="comment">// Approximately 10 pF</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">//Enable when running cpu on 1 MHz instead of LFXTAL</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    BCSCTL1 |= CALBC1_1MHZ;  <span class="comment">// Load calibrated DCO setting for 1 MHz</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    DCOCTL |= CALDCO_1MHZ;   <span class="comment">// Load fine-tuned DCO setting</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    BCSCTL2 |= SELM_0;  <span class="comment">// MCLK = DCO</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    BCSCTL2 |= DIVM_0;  <span class="comment">// No division</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 3. Wait for the crystal to stabilize</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">while</span> (IFG1 &amp; OFIFG) {       <span class="comment">// Check oscillator fault flag</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        IFG1 &amp;= ~OFIFG;          <span class="comment">// Clear oscillator fault flag</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        __delay_cycles(1000);   <span class="comment">// Wait for the crystal to stabilize</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// 3. Wait for the crystal to stabilize</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">while</span> (IFG1 &amp; OFIFG) {       <span class="comment">// Check oscillator fault flag</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        IFG1 &amp;= ~OFIFG;          <span class="comment">// Clear oscillator fault flag</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        __delay_cycles(1000);   <span class="comment">// Wait for the crystal to stabilize</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
 </div>
-<div class="ttc" id="aclock_8c_html_a82e04318b61fb70de7f4a228ad36f43c"><div class="ttname"><a href="clock_8c.html#a82e04318b61fb70de7f4a228ad36f43c">setupClocks</a></div><div class="ttdeci">void setupClocks()</div><div class="ttdoc">Setup clocks of system, all to LFXTAL input, get called from main()</div><div class="ttdef"><b>Definition</b> <a href="#l00017">clock.c:17</a></div></div>
+<div class="ttc" id="aclock_8c_html_a82e04318b61fb70de7f4a228ad36f43c"><div class="ttname"><a href="clock_8c.html#a82e04318b61fb70de7f4a228ad36f43c">setupClocks</a></div><div class="ttdeci">void setupClocks()</div><div class="ttdoc">Setup clocks of system, all to LFXTAL input, get called from main()</div><div class="ttdef"><b>Definition</b> <a href="#l00016">clock.c:16</a></div></div>
 <div class="ttc" id="aclock_8h_html"><div class="ttname"><a href="clock_8h.html">clock.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
