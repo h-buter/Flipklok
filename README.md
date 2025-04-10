@@ -3,8 +3,9 @@
 
 
 
-| ![back](Flipklok-back.png) | ![front](Flipklok-front.png) |
-|---|---|
+| ![back](extra-docs/Flipklok-back.png) | ![front](extra-docs/Flipklok-front.png) |
+|----------------------------|-----------------------------|
+|                        |                        |
 
 Welcome to the repository for my project as part of my Bachelor's degree in Electronics at Windesheim. This
 project involves creating a flip clock inspired by the design from the 1970s, which is synchronized using time
