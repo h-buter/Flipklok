@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['calculatebittransmittime_0',['calculateBitTransmitTime',['../dcf_receive_8c.html#a8e5e17c42eb6113dfcb9368400d66863',1,'calculateBitTransmitTime(bool checkSyncStatus, unsigned int start, bool startDir, unsigned int stop, bool stopDir):&#160;dcfReceive.c'],['../dcf_receive_8h.html#a8e5e17c42eb6113dfcb9368400d66863',1,'calculateBitTransmitTime(bool checkSyncStatus, unsigned int start, bool startDir, unsigned int stop, bool stopDir):&#160;dcfReceive.c']]],
+  ['calculatestepstotake_1',['calculateStepsToTake',['../time_keeping_8h.html#ab81c9ea79bf461d7596a1a89a59e3622',1,'calculateStepsToTake():&#160;timeKeeping.h'],['../time_keeping_8c.html#ab26d0d9b0b8a543f7ddbe92d7672f016',1,'calculateStepsToTake(uint32_t time):&#160;timeKeeping.c']]],
+  ['calculatetimedifference_2',['calculateTimeDifference',['../time_keeping_8h.html#a7abf628b1be576ba88bfc3c94f0bb2c9',1,'calculateTimeDifference():&#160;timeKeeping.c'],['../time_keeping_8c.html#a7abf628b1be576ba88bfc3c94f0bb2c9',1,'calculateTimeDifference():&#160;timeKeeping.c']]],
+  ['changeledbrightness_3',['changeLedBrightness',['../led_8h.html#a707762c1a3e5f6a1e880fba075c01be7',1,'changeLedBrightness():&#160;led.h'],['../led_8c.html#aab563d8affaef4379122e3be6b926ee2',1,'changeLedBrightness(volatile unsigned int adcReading):&#160;led.c']]],
+  ['checkbitstream_4',['checkBitStream',['../dcf_receive_8c.html#a763ef9b47ba9af9eaa1dbe438ec4999e',1,'checkBitStream():&#160;dcfReceive.c'],['../dcf_receive_8h.html#a763ef9b47ba9af9eaa1dbe438ec4999e',1,'checkBitStream():&#160;dcfReceive.c']]],
+  ['convertadc2voltage_5',['convertAdc2Voltage',['../adc_8c.html#a68bcd2a39f7bc053fac9cd6debd9acd3',1,'convertAdc2Voltage(int R1, int R2, int adcReading):&#160;adc.c'],['../adc_8h.html#a68bcd2a39f7bc053fac9cd6debd9acd3',1,'convertAdc2Voltage(int R1, int R2, int adcReading):&#160;adc.c']]]
+];

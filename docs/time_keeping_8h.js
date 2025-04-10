@@ -1,0 +1,27 @@
+var time_keeping_8h =
+[
+    [ "clockWraparoundThresholdSec", "time_keeping_8h.html#a4e1a1e01c2322782d15bb918cf6e5900", null ],
+    [ "gearRatio", "time_keeping_8h.html#ae781f648341e73f63d470844e689e905", null ],
+    [ "secondsInDay", "time_keeping_8h.html#a4cda1dd3d8c6b4023200e6a20abea16b", null ],
+    [ "stepsClockHour", "time_keeping_8h.html#ad3a012d231ca309a2621a6cbdd6bed77", null ],
+    [ "stepsClockMinute", "time_keeping_8h.html#a33ecacff1b7df6bc1dd0a042e2b488cb", null ],
+    [ "stepsClockSecond", "time_keeping_8h.html#a43e78fee456e5d6c2f3afd78dcb4f548", null ],
+    [ "stepsFullRotationStepper", "time_keeping_8h.html#a8f24eeb6e72e1315b7090f835abece72", null ],
+    [ "stepsInDay", "time_keeping_8h.html#aac1d439b36ec7656d3c5682583cc11f7", null ],
+    [ "stepsToggleThreshold", "time_keeping_8h.html#ae4f1bd0342086297682a9ea56aab419c", null ],
+    [ "stepsWrap", "time_keeping_8h.html#a025a5a3648a7601bb220e3a478843df5", null ],
+    [ "timePerStep", "time_keeping_8h.html#ab6dee789237f5d947cd917cd5b1a7b7c", null ],
+    [ "timerCountsInDay", "time_keeping_8h.html#af64a2663d122240fa22760b84b74df59", null ],
+    [ "toothGearClock", "time_keeping_8h.html#a7fd87115e7b869ee2fc729a7a555ff28", null ],
+    [ "toothGearStepper", "time_keeping_8h.html#a45b25bf2fb6812f1e8e610a140ec2c3e", null ],
+    [ "calculateStepsToTake", "time_keeping_8h.html#ab81c9ea79bf461d7596a1a89a59e3622", null ],
+    [ "calculateTimeDifference", "time_keeping_8h.html#a7abf628b1be576ba88bfc3c94f0bb2c9", null ],
+    [ "resetTimeKeeping", "time_keeping_8h.html#a9e802ca49d23153a19ded7154d8d6895", null ],
+    [ "storeTimeLastCompleteDcfMessage", "time_keeping_8h.html#a2efe0bd066eb2988ed4a3be84fe52e8d", null ],
+    [ "mechanicalTimeFloat", "time_keeping_8h.html#a4ca498fffd9c7fc95a918d2c25a23764", null ],
+    [ "stepsRemaining", "time_keeping_8h.html#a091b76aa72022c5ce648aa66021eb914", null ],
+    [ "timeOfLastDcfMessage", "time_keeping_8h.html#a0b5f2255718e387332c129faffbc6287", null ],
+    [ "timeSinceLastCompleteDcfMessage", "time_keeping_8h.html#a0f08c3d1034808ba2b074e526476d23b", null ],
+    [ "toggleCalculateTimeDifference", "time_keeping_8h.html#a6f46f3eac7facdb1783cf2d0992be454", null ],
+    [ "toggleTimer1Direction", "time_keeping_8h.html#a9b90d3e8a9bacbd25eb3065bda70e82e", null ]
+];

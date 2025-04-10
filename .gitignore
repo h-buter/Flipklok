@@ -1,10 +1,9 @@
+#Test code
+DCF77 stability test/include/secrets.h
 DCF77 transmitterSimulator/include/secrets.h
 DCF77 stability test/include/secrets.h
 
-~$**.SLDPRT
-~$**.SLDASM
-/Mechanics/export
-
+#Kicad
 PCB/Flipklok/Flipklok-backups/*
 PCB/Flipklok/production/backups/*
 *.000
@@ -22,3 +21,16 @@ _autosave-*
 fp-info-cache
 ~*.lck
 \#auto_saved_files#
+
+#Code compose studio
+/Code/Debug/
+/Code/Release/
+/Code/.xdchelp
+/Code/.config/
+/Code/.launches/
+/Code/DEVBOARD
+
+#Solidworks
+~$**.SLDPRT
+~$**.SLDASM
+/Mechanics/export
