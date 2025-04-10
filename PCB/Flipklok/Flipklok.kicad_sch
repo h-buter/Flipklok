@@ -6745,7 +6745,7 @@
 	)
 	(rectangle
 		(start 12.7 77.47)
-		(end 54.61 113.03)
+		(end 67.31 113.03)
 		(stroke
 			(width 0)
 			(type default)
@@ -6805,7 +6805,7 @@
 	)
 	(text "Power status\n"
 		(exclude_from_sim no)
-		(at 54.61 78.74 0)
+		(at 67.31 78.74 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6827,13 +6827,14 @@
 		)
 		(uuid "2767e4ce-038d-4e48-a8f3-7a3241871752")
 	)
-	(text "LDF\nf_c = \n"
+	(text "LPF\nf_c = 2 * pi * 10k * 100n = 159 Hz\n"
 		(exclude_from_sim no)
-		(at 80.01 259.08 0)
+		(at 73.66 261.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
+			(justify left)
 		)
 		(uuid "278b4646-86ce-44c8-a4ed-94c927a16b81")
 	)
@@ -6924,6 +6925,17 @@
 			(justify right)
 		)
 		(uuid "b6bd50c9-19a4-4b60-abbf-4df5c4ed5fb7")
+	)
+	(text "U_max = 16V\nUo = 18/(18+75)*16=3.1V"
+		(exclude_from_sim no)
+		(at 39.37 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cb214d2e-d44c-420e-bc6d-30aa98383085")
 	)
 	(text "V_{o} = (R1/(R2+R3)+1)*0.81=  (${/02bf3ab9-1c95-4b58-ba06-e652d38e350a/d6bb5f7a-a4dc-4308-b162-b9847f2d8f0e:value}/(${/02bf3ab9-1c95-4b58-ba06-e652d38e350a/5491f8df-bb1c-4095-bf22-26e5e74846ff:value}+${/02bf3ab9-1c95-4b58-ba06-e652d38e350a/69f8bb98-a694-47f6-9a6b-2e9b63e3355e:value}) + 1) * 0.81 = 5.0952V"
 		(exclude_from_sim no)
@@ -11222,36 +11234,6 @@
 	(rule_area
 		(polyline
 			(pts
-				(xy 142.24 83.82) (xy 184.15 83.82) (xy 184.15 107.95) (xy 142.24 107.95)
-			)
-			(stroke
-				(width 0)
-				(type dash)
-			)
-			(fill
-				(type none)
-			)
-			(uuid 12267c11-9516-42aa-8b4f-f37f36e917eb)
-		)
-	)
-	(rule_area
-		(polyline
-			(pts
-				(xy 402.59 16.51) (xy 339.09 16.51) (xy 339.09 71.12) (xy 402.59 71.12)
-			)
-			(stroke
-				(width 0)
-				(type dash)
-			)
-			(fill
-				(type none)
-			)
-			(uuid 97cdd09e-4f60-407f-9611-fc7e4a2dc3b1)
-		)
-	)
-	(rule_area
-		(polyline
-			(pts
 				(xy 13.97 13.97) (xy 62.23 13.97) (xy 62.23 71.12) (xy 13.97 71.12) (xy 13.97 15.24)
 			)
 			(stroke
@@ -11261,7 +11243,7 @@
 			(fill
 				(type none)
 			)
-			(uuid a40a1b72-8a24-4209-b73d-536c089f40ec)
+			(uuid 0b1c5ee8-107f-46fa-900d-26243910acf5)
 		)
 	)
 	(rule_area
@@ -11276,7 +11258,7 @@
 			(fill
 				(type none)
 			)
-			(uuid a60ae01b-e29d-4771-98f1-f84ecd949ade)
+			(uuid 1dadc3c9-07b8-428b-9a2a-dccd2d10a419)
 		)
 	)
 	(rule_area
@@ -11291,7 +11273,37 @@
 			(fill
 				(type none)
 			)
-			(uuid ddde79af-6cb0-480a-9312-5695a83afd09)
+			(uuid 57394db6-4ffa-473c-b6bb-5c68a6086907)
+		)
+	)
+	(rule_area
+		(polyline
+			(pts
+				(xy 142.24 83.82) (xy 184.15 83.82) (xy 184.15 107.95) (xy 142.24 107.95)
+			)
+			(stroke
+				(width 0)
+				(type dash)
+			)
+			(fill
+				(type none)
+			)
+			(uuid d60aaae0-805c-4900-9c73-bb37777dc95f)
+		)
+	)
+	(rule_area
+		(polyline
+			(pts
+				(xy 402.59 16.51) (xy 339.09 16.51) (xy 339.09 71.12) (xy 402.59 71.12)
+			)
+			(stroke
+				(width 0)
+				(type dash)
+			)
+			(fill
+				(type none)
+			)
+			(uuid dad5d7e0-dd6c-4814-89ee-0ede621035ec)
 		)
 	)
 	(netclass_flag ""
@@ -12055,7 +12067,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "18k"
 			(at 38.1 102.8699 0)
 			(effects
 				(font
@@ -12324,7 +12336,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "75k"
 			(at 38.1 92.7099 0)
 			(effects
 				(font
@@ -14561,7 +14573,7 @@
 				)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "10k"
 			(at 59.69 252.73 90)
 			(effects
 				(font
@@ -15500,7 +15512,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "C"
+		(property "Value" "100n"
 			(at 73.66 256.5399 0)
 			(effects
 				(font
@@ -18155,7 +18167,7 @@
 		(at 363.22 45.72 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp yes)
 		(uuid "be26f96d-2cde-4883-9c33-701600776f80")
@@ -18383,7 +18395,7 @@
 		(at 130.81 170.18 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp yes)
 		(uuid "c0608d19-984d-473d-af01-4b8cc09912db")
@@ -18789,7 +18801,7 @@
 		(at 144.78 170.18 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp yes)
 		(uuid "c752fa5a-793f-498f-b1d4-fe9a181ed0dd")
@@ -19263,7 +19275,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "18k"
 			(at 20.32 102.8699 0)
 			(effects
 				(font
@@ -19799,8 +19811,8 @@
 				)
 			)
 		)
-		(property "Value" "R"
-			(at 361.95 41.91 90)
+		(property "Value" "470"
+			(at 363.22 41.91 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20450,7 +20462,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
+		(property "Value" "75k"
 			(at 20.32 92.7099 0)
 			(effects
 				(font
