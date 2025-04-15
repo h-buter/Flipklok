@@ -27,7 +27,12 @@ var NAVTREE =
   [ "Flipklok", "index.html", [
     [ "Flipklok in 1970s Style with DCF77 Time Synchronization", "index.html", "index" ],
     [ "Bill of materials", "md_extra-docs_2bom.html", null ],
+    [ "Graph DCF77 data", "md_extra-docs_2_d_c_f77-plot.html", [
+      [ "Error rate of DCF77", "md_extra-docs_2_d_c_f77-plot.html#autotoc_md2", null ],
+      [ "Error rate of DCF77 compared to state sun", "md_extra-docs_2_d_c_f77-plot.html#autotoc_md3", null ]
+    ] ],
     [ "Planned state diagram", "md_extra-docs_2_state_diagram.html", null ],
+    [ "System overview", "md_extra-docs_2_system_overview.html", null ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [

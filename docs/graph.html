@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Error Rate Graph</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h2>Error Rate Over Time (Device: Flipklok)</h2>
+  <div id="chart" style="width: 100%; height: 500px;"></div>
+
+  <script>
+    function parseCSV(text) {
+      const lines = text.trim().split("\n");
+      const headers = lines[0].split(",");
+      const timeIndex = headers.indexOf("_time");
+      const valueIndex = headers.indexOf("_value");
+
+      const times = [];
+      const values = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].split(",");
+        times.push(row[timeIndex]);
+        values.push(parseFloat(row[valueIndex]));
+      }
+
+      return { times, values };
+    }
+
+    fetch("error-data.csv")
+      .then((response) => response.text())
+      .then((csv) => {
+        const { times, values } = parseCSV(csv);
+        const data = [
+          {
+            x: times,
+            y: values,
+            type: "scatter",
+            mode: "lines+markers",
+            name: "errorRate",
+            line: { color: "red" }
+          }
+        ];
+        const layout = {
+          xaxis: { title: "Time" },
+          yaxis: { title: "Error Rate" },
+          hovermode: "closest"
+        };
+        Plotly.newPlot("chart", data, layout);
+      })
+      .catch((error) => console.error("Failed to load CSV:", error));
+  </script>
+</body>
+</html>
